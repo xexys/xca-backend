@@ -9,7 +9,7 @@ return array(
 
 
     // Путь к папке временных файлов
-    'runtimePath'   => __DIR__ . '/../../runtime',
+//    'runtimePath'   => __DIR__ . '/../../runtime',
 
     'controllerMap' => array(
         'site' => 'BackendSiteController'

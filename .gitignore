@@ -1,5 +1,7 @@
 .idea
 .svn
+composer.lock
 
 vendor
+runtime/*
 

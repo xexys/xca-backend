@@ -11,11 +11,14 @@ class BackendSiteController extends BackendController
 {
     public function actionIndex()
     {
+        var_dump(Yii::getVersion());
 
         $game = GameList::model()->findByPk(1);
         var_dump($game->title);
 
         var_dump(Yii::getPathOfAlias('ext'));
+
+        echo date(DateTime::ATOM);
 
         $this->render('/dummy');
     }

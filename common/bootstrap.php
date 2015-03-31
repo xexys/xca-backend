@@ -13,10 +13,8 @@ if (!PROD_MODE) require(__DIR__ . '/dev_mode.php');
 //session_start();
 //session_write_close();
 
-//require 'vendor/autoload.php';
-
-$yiiDir = realpath('/var/phplib/yii-1.1.14/framework');
-
+//require_once ROOT_DIR . '/vendor/autoload.php';
+$yiiDir = realpath(ROOT_DIR . '/vendor/yiisoft/yii/framework');
 
 // Подключаем базовый класс фреймворка
 if (YII_DEBUG) {

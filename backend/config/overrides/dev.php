@@ -39,10 +39,10 @@ return array(
             'class'  => 'CLogRouter',
             'routes' => array(
 
-                array(
-                    'class'     => 'common.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
-                    'ipFilters' => array('127.0.0.1', '192.168.*'),
-                ),
+//                array(
+//                    'class'     => 'common.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
+//                    'ipFilters' => array('127.0.0.1', '192.168.*'),
+//                ),
 
                 // Направляем вывод ошибок в файл если не включен режим отладки
                 array(

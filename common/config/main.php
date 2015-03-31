@@ -20,8 +20,10 @@ return array(
     'language'=>"ru",
     'charset'=>"utf-8",
 
+
     // Путь к папке временных файлов
-//    'runtimePath'=>dirname(__FILE__).'/../../runtime',
+    'runtimePath'=>ROOT_DIR . '/runtime',
+
 
     // Автозагрузка классов
     'import'=>array(
