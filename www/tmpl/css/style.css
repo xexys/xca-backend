@@ -1,0 +1,181 @@
+/* Разметка блоков страницы */
+
+html, body {
+    height: 100%;
+}
+
+#wrapper {
+    min-height: 100%;
+}
+#wrapper .inner, #footer .inner {
+    width: 1100px;
+    margin: 0 auto;
+}
+#sidebar {
+    width: 300px;
+    float: left;
+}
+#content {
+    margin-left: 300px;
+}
+
+#footer {
+    height: 100px;
+    margin-top: -100px;
+}
+#footer-padding {
+    height: 100px;
+}
+
+.clear {
+    clear:both
+}
+
+.clearfix:after {
+    content: " "; /* Older browser do not support empty content */
+    visibility: hidden;
+    display: block;
+    height: 0;
+    zoom: 1;
+    clear: both;
+}
+/* IE7 */
+*:first-child + html .clearfix {
+    min-height: 1%;
+}
+
+/* Стилевое оформление */
+#logo h1 {
+    height: 88px;
+    padding: 20px 90px 0 0;
+    font-size: 52px;
+    font-weight: bold;
+}
+#logo h1 a:hover {
+    color: #FFFFFF;
+}
+
+html, body {
+    font: 13px "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background: #151515;
+    /*color: #7F7772;*/
+    color: #BABABA;
+}
+a {
+    color: white;
+    text-decoration: none;
+}
+a:hover {
+    color: #FF5134;
+}
+#header {
+    height: 170px;
+    color: #FFFFFF;
+    background: linear-gradient(to top, #930000, #1A0001);
+}
+#top-movies {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+#top-movies img {
+    width: 140px;
+    border-radius: 7px;
+    margin-left: 10px;
+}
+#top-movies img:first-child {
+    margin-left: 0;
+}
+#footer .inner {
+    width: 1050px;
+    padding: 30px 0;
+    border-top: 2px solid #2B2B2B;
+}
+
+/* Левая колонка */
+#sidebar > ul {
+    width: 210px;
+    padding: 0 20px 30px 20px;
+}
+#sidebar .item h2 {
+    height: 30px;
+    padding: 5px 0 0 30px;
+    background: url("../img/img05.gif") no-repeat left 60%;
+    border-bottom: 1px #A90000 dashed;
+    font-size: 1.6em;
+    color: white;
+}
+#sidebar .item ul {
+    padding: 15px 20px;
+}
+#sidebar .item ul.fleft li {
+    float: left;
+}
+
+#sidebar .item li {
+    margin-bottom: 5px;
+    padding: 5px 10px;
+    border-bottom: 1px #460000 dotted;
+}
+
+/* Правая колонка */
+.breadcrumbs {
+    height: 30px;
+    padding: 5px 0 0 30px;
+    background: url("../img/img05.gif") no-repeat left 60%;
+    border-bottom: 1px #A90000 dashed;
+    font-size: 1.6em;
+    color: white;
+    margin-bottom: 20px;
+}
+.movie {
+    border-bottom: 1px #A90000 dashed;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.movie:last-child {
+    border: 0;
+}
+.movie .game-info {
+    margin-bottom: 20px;
+    margin-top: -5px;
+    /*color: #BABABA;*/
+}
+
+.movie .left {
+    float: left;
+    width: 300px;
+}
+.movie .rating-stars {
+    height: 28px;
+}
+.movie .rating-digits {
+    font-size: 22px;
+    color: #00FF85;
+    vertical-align: top;
+    float: right;
+}
+
+.movie .right {
+    margin-left: 330px;
+}
+.movie h2 {
+    font-size: 26px;
+}
+.movie h2 a {
+    color: #CF3822;
+}
+.movie .group-title {
+    color: white;
+}
+.movie .group-data {
+    width: 420px;
+    margin-bottom: 7px;
+}
+.movie .group-data td:first-child {
+    width: 120px;
+}
+.movie .group-data td {
+    border-bottom: 1px #460000 dotted;
+    min-width: 100px;
+}

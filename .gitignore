@@ -1,6 +1,10 @@
 .idea
 .svn
 
-vendor
-runtime/*
+app/vendor
+static/dev
+static/prod
+runtime
+www/assets
+
 
