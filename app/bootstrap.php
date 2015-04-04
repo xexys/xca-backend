@@ -26,9 +26,8 @@ if (YII_DEBUG) {
 }
 
 // Определяем псевдонимы
-//Yii::setPathOfAlias('root', ROOT_DIR);
+Yii::setPathOfAlias('static', realpath(ROOT_DIR . '/static'));
 Yii::setPathOfAlias('common', realpath(APP_DIR . '/common'));
-
 Yii::setPathOfAlias('vendor', realpath(APP_DIR . '/vendor'));
 
 // Базовый класс для web-приложений

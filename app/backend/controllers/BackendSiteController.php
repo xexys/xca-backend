@@ -20,6 +20,8 @@ class BackendSiteController extends BackendController
 
         echo date(DateTime::ATOM);
 
+        echo '<hr>';
+
         $this->render('/dummy');
     }
 

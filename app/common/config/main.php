@@ -83,10 +83,10 @@ return array(
             'class'=>'system.caching.CFileCache',
         ),
 
-//        'clientScript'=>array(
+        'clientScript'=>array(
 //            'behaviors'=>array('ClientScriptBehavior'), // Дополнительные методы
-//            'packages'=>require dirname(__FILE__).'/packages.php'
-//        ),
+            'packages'=>require __DIR__ . '/packages.php'
+        ),
 
         // POstgreSQL
         'db'=>array(

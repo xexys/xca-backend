@@ -41,7 +41,6 @@ return array(
 
                 array(
                     'class'     => 'common.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
-//                    'class'     => 'vendor.malyshev.yii-debug-toolbar.YiiDebugToolbarRoute',
                     'ipFilters' => array('127.0.0.1', '192.168.*'),
                 ),
 

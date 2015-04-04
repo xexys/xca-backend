@@ -6,6 +6,7 @@ app/vendor
 static/dev
 static/prod
 static/node_modules
+static/bower_components
 
 runtime
 !runtime/dummy
