@@ -30,10 +30,6 @@ Yii::setPathOfAlias('static', realpath(ROOT_DIR . '/static'));
 Yii::setPathOfAlias('common', realpath(APP_DIR . '/common'));
 Yii::setPathOfAlias('vendor', realpath(APP_DIR . '/vendor'));
 
-// Базовый класс для web-приложений
-Yii::import('common.components.WebApplication');
-
-
 // Выставляем кодировку для многобойтовых строк
 mb_internal_encoding("UTF-8");
 //ini_set('mbstring.internal_encoding', 'utf-8');

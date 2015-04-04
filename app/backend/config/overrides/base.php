@@ -5,29 +5,20 @@
 
 return array(
 
-    'basePath'      => __DIR__ . '/../..', // Псевдоним application
+    'basePath' => __DIR__ . '/../..', // Псевдоним application
 
 
-//    'controllerMap' => array(
-//        'site' => 'SiteController'
-//    ),
+    //    'controllerMap' => array(
+    //        'site' => 'SiteController'
+    //    ),
 
-//    'defaultController'=>'site/index',
+    //    'defaultController'=>'site/index',
 
     'controllerNamespace' => '\backend\controllers',
 
-    'import'        => array(
-//        'backend.components.BackendController',
-//        'backend.controllers.*',
-//            'frontend.components.widgets.*',
-//            'frontend.components.*',
-//            'frontend.components.widgets.grid.*',
-//            'frontend.components.widgets.grid.abstract.*',
-//            'frontend.models.*',
-//            'frontend.models.abstract.*',
-    ),
+    'import' => array(),
 
-    'components'    => array(
+    'components' => array(
 
 //            'user'=>array(
 //                'allowAutoLogin'=>true, // Разрешаем авторизацию на основе cookie
@@ -48,8 +39,8 @@ return array(
 //            ),
 
         // Включаем логирование параметров (Нужно для работы yii-debug-toolbar)
-        'db'  => array(
-            'enableProfiling'    => true,
+        'db' => array(
+            'enableProfiling' => true,
             'enableParamLogging' => true,
         ),
 
