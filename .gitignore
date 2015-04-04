@@ -5,6 +5,7 @@ app/vendor
 
 static/dev
 static/prod
+static/node_modules
 
 runtime
 !runtime/dummy
