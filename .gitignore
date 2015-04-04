@@ -2,11 +2,14 @@
 .svn
 
 app/vendor
+
 static/dev
 static/prod
-runtime/*
+
+runtime
 !runtime/dummy
-www/assets/*
+
+www/assets
 !www/assets/dummy
 
 
