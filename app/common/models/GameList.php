@@ -10,7 +10,11 @@
  * The followings are the available model relations:
  * @property MovieList[] $movieLists
  */
-class GameList extends ActiveRecord
+
+namespace common\models;
+
+
+class GameList extends \common\components\ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

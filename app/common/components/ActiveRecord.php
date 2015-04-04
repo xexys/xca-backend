@@ -7,12 +7,14 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class ActiveRecord extends CActiveRecord
+namespace common\components;
+
+class ActiveRecord extends \CActiveRecord
 {
     /**
      * PHP 5.3 or above only
      * @param null $className
-     * @return CActiveRecord
+     * @return \CActiveRecord
      */
     public static function model($className = null)
     {

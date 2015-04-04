@@ -1,5 +1,5 @@
 # Запрет выдачи листинга пустого каталога
-#Options -Indexes
+Options -Indexes
 
 # Включаем преобразователь URL
 RewriteEngine On
@@ -7,11 +7,15 @@ RewriteEngine On
 # gzip сжатие javascript и css (для обычных запросов)
 #RewriteRule ^(.*).(js|css)$ sys/js_css_compressor.php?file=$0
 
-# Включаем поддержку хаков для Internet explorer
-#RewriteRule ^(.*).htc$ sys/htc_iehacks_support.php?file=$0
+Redirect /index.php /
 
+# Все запросы к admin.*** отправляем на backend.php, если они не являются реальными файлами
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{HTTP_HOST} ^(www.)?admin.
+RewriteRule .* backend.php
 
-# Отправляем все URL, не являющимися реальным файлом или директорией на сервере, на index.php в каталоге web-приложения
-RewriteRule .* index.php
+# Все запросы отправляем на frontend.php, если они не являются реальными файлами
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* frontend.php
+
+

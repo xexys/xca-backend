@@ -7,7 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class BackendController extends CController
+namespace backend\components;
+
+class Controller extends \CController
 {
 
 }

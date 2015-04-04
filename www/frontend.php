@@ -1,7 +1,7 @@
 <?php
 
-echo 'Привет я фронтенд!';
-
+header('location: /tmpl/index.php');
+die;
 
 //require __DIR__ . '/../../common/bootstrap.php';
 //

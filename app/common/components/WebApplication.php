@@ -4,7 +4,11 @@
  *
  * @author Васильев-Люлин А.В.
  */
-class WebApplication extends CWebApplication
+
+namespace common\components;
+
+
+class WebApplication extends \CWebApplication
 {
 //    private $_jsUrl;
 //    private $_cssUrl;

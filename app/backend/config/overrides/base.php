@@ -8,18 +8,17 @@ return array(
     'basePath'      => __DIR__ . '/../..', // Псевдоним application
 
 
-    // Путь к папке временных файлов
-//    'runtimePath'   => __DIR__ . '/../../runtime',
-
-    'controllerMap' => array(
-        'site' => 'BackendSiteController'
-    ),
+//    'controllerMap' => array(
+//        'site' => 'SiteController'
+//    ),
 
 //    'defaultController'=>'site/index',
 
+    'controllerNamespace' => '\backend\controllers',
+
     'import'        => array(
-        'backend.components.BackendController',
-        'backend.controllers.*',
+//        'backend.components.BackendController',
+//        'backend.controllers.*',
 //            'frontend.components.widgets.*',
 //            'frontend.components.*',
 //            'frontend.components.widgets.grid.*',

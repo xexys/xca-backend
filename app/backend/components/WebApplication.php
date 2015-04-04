@@ -7,7 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class BackendWebApplication extends WebApplication
+namespace backend\components;
+
+class WebApplication extends \common\components\WebApplication
 {
 
 }

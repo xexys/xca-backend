@@ -7,7 +7,13 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class BackendSiteController extends BackendController
+namespace backend\controllers;
+use \Yii;
+use \DateTime;
+use \common\models\GameList;
+
+
+class SiteController extends \backend\components\Controller
 {
     public function actionIndex()
     {
