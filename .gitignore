@@ -4,7 +4,9 @@
 app/vendor
 static/dev
 static/prod
-runtime
-www/assets
+runtime/*
+!runtime/dummy
+www/assets/*
+!www/assets/dummy
 
 
