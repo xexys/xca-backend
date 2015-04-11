@@ -24,10 +24,9 @@ return array(
     // Путь к папке временных файлов
     'runtimePath'=>ROOT_DIR . '/runtime',
 
-
     // Автозагрузка классов
     'import'=>array(
-        'common.models.*',
+//        'vendor.twig.twig.lib.Twig.*'
 //        'common.components.base.*',
 //        'common.components.db.*',
 //        'common.components.web.*',
@@ -88,12 +87,7 @@ return array(
             'packages'=>require __DIR__ . '/packages.php'
         ),
 
-        // POstgreSQL
         'db'=>array(
-            //'class'=>'common.extensions.PHPPDO.CPdoDbConnection',
-            //'pdoClass' => 'PHPPDO',
-
-            //'connectionString' => 'pgsql:host=127.0.0.1;dbname=bruma-portal-huge',
             'connectionString' => 'mysql:host=127.0.0.1;dbname=xca',
             'emulatePrepare' => true,
             'username' => 'alex',
@@ -105,7 +99,7 @@ return array(
 //                "SET timezone='$postgreTimezone'",  // fix +04 для Postgre 8.4
 //            ),
             // Включить кэширование схем для улучшения производительности
-            'schemaCachingDuration'=>3600*24,
+            'schemaCachingDuration'=>3600*24*365,
         ),
 
         /*
@@ -127,13 +121,6 @@ return array(
             'urlFormat'=>'path',
         ),
         
-//        'bootstrap' => array(
-//            'class' => 'common.extensions.yiibooster.components.Bootstrap',
-//            //'responsiveCss' => true,
-//        ),
-
-        //'bootstrap',
-
     ),
 
     'params'=>require __DIR__ . '/params.php',

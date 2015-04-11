@@ -1,27 +1,16 @@
 <?php
 
-/**
- * This is the model class for table "game_list".
- *
- * The followings are the available columns in table 'game_list':
- * @property integer $id
- * @property string $title
- *
- * The followings are the available model relations:
- * @property MovieList[] $movieLists
- */
-
-namespace common\models;
+namespace common\models\Movie;
 
 
-class GameList extends \common\components\ActiveRecord
+class Image extends \common\components\ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{game_list}}';
+		return '{{movie_images}}';
 	}
 
 	/**
@@ -32,11 +21,12 @@ class GameList extends \common\components\ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title', 'required'),
-			array('title', 'length', 'max'=>50),
+			array('movie_id, name', 'required'),
+			array('movie_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>36),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title', 'safe', 'on'=>'search'),
+			array('id, movie_id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +38,7 @@ class GameList extends \common\components\ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'movieLists' => array(self::HAS_MANY, 'MovieList', 'game_id'),
+			'movie' => array(self::BELONGS_TO, '\common\models\Movie', 'movie_id'),
 		);
 	}
 
@@ -59,7 +49,8 @@ class GameList extends \common\components\ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
+			'movie_id' => 'Movie',
+			'name' => 'Name',
 		);
 	}
 
@@ -82,10 +73,22 @@ class GameList extends \common\components\ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('movie_id',$this->movie_id);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Images the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

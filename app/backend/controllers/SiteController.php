@@ -10,7 +10,8 @@
 namespace backend\controllers;
 use \Yii;
 use \DateTime;
-use \common\models\GameList;
+use \common\models\Game;
+use \common\models\Movie;
 
 
 class SiteController extends \backend\components\Controller
@@ -19,8 +20,13 @@ class SiteController extends \backend\components\Controller
     {
         var_dump(Yii::getVersion());
 
-        $game = GameList::model()->findByPk(1);
-        var_dump($game->title);
+        $game = Game::model()->with('movies')->findByTextId('wow');
+        var_dump($game);
+
+        $movie = Movie::model()->with('game')->findByPk(1);
+        var_dump($movie->images);
+
+        var_dump(new Movie\Image);
 
         var_dump(Yii::getPathOfAlias('ext'));
 
@@ -29,6 +35,6 @@ class SiteController extends \backend\components\Controller
         echo '<hr>';
 
         $this->render('/dummy');
-    }
+     }
 
-}
+ }

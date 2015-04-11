@@ -3,6 +3,8 @@
 // Конфигурационный файл для релиза
 // Наследуемся от common/config/main.php
 
+Yii::setPathOfAlias('booster', Yii::getPathOfAlias('vendor.clevertech.yii-booster.src'));
+
 return array(
 
     'basePath' => __DIR__ . '/../..', // Псевдоним application
@@ -18,7 +20,15 @@ return array(
 
     'import' => array(),
 
+    'preload' => array('booster'),
+
+
     'components' => array(
+
+        // http://yiibooster.clevertech.biz
+        'booster' => array(
+            'class' => 'booster.components.Booster',
+        ),
 
 //            'user'=>array(
 //                'allowAutoLogin'=>true, // Разрешаем авторизацию на основе cookie
