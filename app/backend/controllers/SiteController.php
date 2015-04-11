@@ -12,6 +12,7 @@ use \Yii;
 use \DateTime;
 use \common\models\Game;
 use \common\models\Movie;
+use \common\models\Reference;
 
 
 class SiteController extends \backend\components\Controller
@@ -23,14 +24,25 @@ class SiteController extends \backend\components\Controller
         $game = Game::model()->with('movies')->findByTextId('wow');
         var_dump($game);
 
+        echo '<hr>';
         $movie = Movie::model()->with('game')->findByPk(1);
-        var_dump($movie->images);
+        var_dump($movie->video);
 
+        echo '<hr>';
         var_dump(new Movie\Image);
+
+        echo '<hr>';
+        var_dump(new Movie\Storage);
+
+        echo '<hr>';
 
         var_dump(Yii::getPathOfAlias('ext'));
 
+        echo '<hr>';
+
         echo date(DateTime::ATOM);
+
+        echo '<hr>';
 
         echo '<hr>';
 
