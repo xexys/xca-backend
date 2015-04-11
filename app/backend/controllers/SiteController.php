@@ -26,7 +26,8 @@ class SiteController extends \backend\components\Controller
 
         echo '<hr>';
         $movie = Movie::model()->with('game')->findByPk(1);
-        var_dump($movie->video);
+
+        var_dump(simplexml_load_string(gzinflate($movie->mediaInfo->data)));
 
         echo '<hr>';
         var_dump(new Movie\Image);

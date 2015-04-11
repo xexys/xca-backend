@@ -2,14 +2,14 @@
 
 namespace common\models\Movie;
 
-class Video extends \common\components\ActiveRecord
+class MediaInfo extends \common\components\ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movie_video_params}}';
+		return '{{movie_media_info}}';
 	}
 
 	/**
@@ -20,25 +20,12 @@ class Video extends \common\components\ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, width, height, bit_rate, frame_rate', 'required'),
-			array('movie_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
-			array('frame_rate, frame_quality', 'numerical'),
+			array('id', 'required'),
+			array('id, movie_id', 'numerical', 'integerOnly'=>true),
+			array('data', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode, frame_quality', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'format' => array(self::BELONGS_TO, '\common\models\Reference\VideoFormat', 'format_id'),
-			'movie' => array(self::BELONGS_TO, '\common\models\Movie', 'movie_id'),
+			array('id, movie_id, data', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,13 +37,7 @@ class Video extends \common\components\ActiveRecord
 		return array(
 			'id' => 'ID',
 			'movie_id' => 'Movie',
-			'format_id' => 'Format',
-			'width' => 'Width',
-			'height' => 'Height',
-			'bit_rate' => 'Bit Rate',
-			'frame_rate' => 'Frame Rate',
-			'frame_rate_mode' => 'Frame Rate Mode',
-			'frame_quality' => 'Frame Quality',
+			'data' => 'Data',
 		);
 	}
 
@@ -80,13 +61,7 @@ class Video extends \common\components\ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('movie_id',$this->movie_id);
-		$criteria->compare('format_id',$this->format_id);
-		$criteria->compare('width',$this->width);
-		$criteria->compare('height',$this->height);
-		$criteria->compare('bit_rate',$this->bit_rate);
-		$criteria->compare('frame_rate',$this->frame_rate);
-		$criteria->compare('frame_rate_mode',$this->frame_rate_mode);
-		$criteria->compare('frame_quality',$this->frame_quality);
+		$criteria->compare('data',$this->data,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,7 +72,7 @@ class Video extends \common\components\ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return VideoParams the static model class
+	 * @return MediaInfo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
