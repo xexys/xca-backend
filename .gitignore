@@ -9,9 +9,11 @@ static/node_modules
 static/bower_components
 
 runtime
-!runtime/dummy
+!runtime/readme.md
 
-www/assets
-!www/assets/dummy
+www/frontend/assets
+!www/frontend/assets/readme.md
+www/backend/assets
+!www/backend/assets/readme.md
 
 
