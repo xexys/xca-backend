@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+
     pkg: grunt.file.readJSON('package.json'),
 
     watch: {
@@ -19,7 +20,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: false,
           cwd: 'src',
-          src: ['**/style.less'],
+          src: ['*/pages/**/style.less'],
           rename: function() {
             return 'dev/' + arguments[1].replace('/style.less', '.css');
           }
