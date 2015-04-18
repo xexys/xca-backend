@@ -1,29 +1,10 @@
 <?php
 
-/**
- * This is the model class for table "movies".
- *
- * The followings are the available columns in table 'movies':
- * @property integer $id
- * @property integer $game_id
- * @property string $title
- * @property string $filename
- * @property integer $filesize
- * @property integer $duration
- * @property integer $format_id
- *
- * The followings are the available model relations:
- * @property AudioParams[] $audioParams
- * @property Images[] $images
- * @property Game $game
- * @property Storage[] $storages
- * @property VideoParams[] $videoParams
- */
-
 namespace common\models;
+use \common\components\ActiveRecord;
 
 
-class Movie extends \common\components\ActiveRecord
+class Movie extends ActiveRecord
 {
     /**
      * @return string the associated database table name

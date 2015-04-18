@@ -7,7 +7,7 @@
 /**
  * This is the shortcut to DIRECTORY_SEPARATOR
  */
-defined('DS') or define('DS',DIRECTORY_SEPARATOR);
+defined('DS') or define('DS', DIRECTORY_SEPARATOR);
 
 /**
  * This is the shortcut to Yii::app()
@@ -40,9 +40,9 @@ function user()
 /**
  * This is the shortcut to Yii::app()->createUrl()
  */
-function url($route,$params=array(),$ampersand='&')
+function url($route, $params = array(), $ampersand = '&')
 {
-    return Yii::app()->createUrl($route,$params,$ampersand);
+    return Yii::app()->createUrl($route, $params, $ampersand);
 }
 
 /**
@@ -73,12 +73,12 @@ function t($message, $category = 'stay', $params = array(), $source = null, $lan
  * This is the shortcut to Yii::app()->request->baseUrl
  * If the parameter is given, it will be returned and prefixed with the app baseUrl.
  */
-function bu($url=null)
+function bu($url = null)
 {
     static $baseUrl;
-    if ($baseUrl===null)
-        $baseUrl=Yii::app()->getRequest()->getBaseUrl();
-    return $url===null ? $baseUrl : $baseUrl.'/'.ltrim($url,'/');
+    if ($baseUrl === null)
+        $baseUrl = Yii::app()->getRequest()->getBaseUrl();
+    return $url === null ? $baseUrl : $baseUrl . '/' . ltrim($url, '/');
 }
 
 /**
@@ -89,6 +89,7 @@ function param($name)
 {
     return Yii::app()->params[$name];
 }
+
 /**
  * This is the shortcut to Yii::app()->userAgent
  */
@@ -96,6 +97,7 @@ function userAgent()
 {
     return Yii::app()->userAgent;
 }
+
 /**
  * This is the shortcut to Yii::app()->request
  */
@@ -120,17 +122,7 @@ function cache()
     return Yii::app()->getCache();
 }
 
-function createCommand($query=null)
+function createCommand($query = null)
 {
     return Yii::app()->getDb()->createCommand($query);
-}
-
-/**
- * Функция для отладки, печатает переменную с подсветкой синтаксиса
- * @param mixed $var
- */
-function dd($var)
-{
-    CVarDumper::dump($var, 10, true);
-    die;
 }

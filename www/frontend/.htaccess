@@ -1,0 +1,13 @@
+# Запрет выдачи листинга пустого каталога
+#Options -Indexes
+
+# Включаем преобразователь URL
+RewriteEngine On
+
+# gzip сжатие javascript и css (для обычных запросов)
+#RewriteRule ^(.*).(js|css)$ sys/js_css_compressor.php?file=$0
+
+# Все запросы отправляем на frontend.php, если они не являются реальными файлами
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php

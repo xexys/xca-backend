@@ -1,8 +1,9 @@
 <?php
 
 namespace common\models\Reference;
+use \common\components\ActiveRecord;
 
-class AudioFormat extends \common\components\ActiveRecord
+class AudioFormat extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

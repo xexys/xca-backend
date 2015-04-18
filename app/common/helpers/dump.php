@@ -44,6 +44,19 @@ function dump($var, $_level=1, $_first=true) {
 
 function ddump($var)
 {
-    dump($var);
-    die;
+    dump($var); die;
+}
+
+/**
+ * Функция для отладки, печатает переменную с подсветкой синтаксиса
+ * @param mixed $var
+ */
+function d($var)
+{
+    CVarDumper::dump($var, 10, true);
+}
+
+function dd($var)
+{
+    d($var); die;
 }

@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models\Reference;
+use \common\components\ActiveRecord;
 
 
-class VideoFormat extends \common\components\ActiveRecord
+class VideoFormat extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

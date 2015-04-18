@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models\Movie;
+use \common\components\ActiveRecord;
 
 
-class Storage extends \common\components\ActiveRecord
+class Storage extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

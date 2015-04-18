@@ -8,6 +8,7 @@
  */
 
 namespace backend\controllers;
+use \backend\components\Controller;
 use \Yii;
 use \DateTime;
 use \common\models\Game;
@@ -15,36 +16,29 @@ use \common\models\Movie;
 use \common\models\Reference;
 
 
-class SiteController extends \backend\components\Controller
+class SiteController extends Controller
 {
     public function actionIndex()
     {
-        var_dump(Yii::getVersion());
-
         $game = Game::model()->with('movies')->findByTextId('wow');
-        var_dump($game);
+        dump($game);
 
         echo '<hr>';
+
         $movie = Movie::model()->with('game')->findByPk(1);
-
-        var_dump(simplexml_load_string(gzinflate($movie->mediaInfo->data)));
-
-        echo '<hr>';
-        var_dump(new Movie\Image);
-
-        echo '<hr>';
-        var_dump(new Movie\Storage);
-
+        d(simplexml_load_string(gzinflate($movie->mediaInfo->data)));
         echo '<hr>';
 
-        var_dump(Yii::getPathOfAlias('ext'));
+        d($movie->images);
+        echo '<hr>';
 
+        dump($movie->storage);
+        echo '<hr>';
+
+        dump(Yii::getPathOfAlias('ext'));
         echo '<hr>';
 
         echo date(DateTime::ATOM);
-
-        echo '<hr>';
-
         echo '<hr>';
 
         $this->render('/dummy');

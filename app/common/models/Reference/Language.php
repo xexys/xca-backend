@@ -1,9 +1,10 @@
 <?php
 
 namespace common\models\Reference;
+use \common\components\ActiveRecord;
 
 
-class Language extends \common\components\ActiveRecord
+class Language extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

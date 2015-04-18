@@ -1,8 +1,10 @@
 <?php
 
 namespace common\models\Reference;
+use \common\components\ActiveRecord;
 
-class FileFormat extends \common\components\ActiveRecord
+
+class FileFormat extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

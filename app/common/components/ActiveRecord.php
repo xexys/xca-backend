@@ -9,6 +9,7 @@
 
 namespace common\components;
 
+
 class ActiveRecord extends \CActiveRecord
 {
     /**

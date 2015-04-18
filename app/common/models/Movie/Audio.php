@@ -1,8 +1,10 @@
 <?php
 
 namespace common\models\Movie;
+use \common\components\ActiveRecord;
 
-class Audio extends \common\components\ActiveRecord
+
+class Audio extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name

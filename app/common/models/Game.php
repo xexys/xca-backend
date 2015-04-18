@@ -10,9 +10,10 @@
  */
 
 namespace common\models;
+use \common\components\ActiveRecord;
 
 
-class Game extends \common\components\ActiveRecord
+class Game extends ActiveRecord
 {
     public function findByTextId($textId)
     {
