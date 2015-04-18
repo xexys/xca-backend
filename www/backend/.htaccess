@@ -1,5 +1,5 @@
 # Запрет выдачи листинга пустого каталога
-#Options -Indexes
+Options -Indexes
 
 # Включаем преобразователь URL
 RewriteEngine On

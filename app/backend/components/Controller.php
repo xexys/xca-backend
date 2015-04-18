@@ -11,5 +11,6 @@ namespace backend\components;
 
 class Controller extends \CController
 {
+    public $layout = '/layout/main';
 
 }

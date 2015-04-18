@@ -20,28 +20,30 @@ class SiteController extends Controller
 {
     public function actionIndex()
     {
-        $game = Game::model()->with('movies')->findByTextId('wow');
-        dump($game);
+//        $game = Game::model()->with('movies')->findByTextId('wow');
+//        dump($game);
+//
+//        echo '<hr>';
+//
+//        $movie = Movie::model()->with('game')->findByPk(1);
+//        d(simplexml_load_string(gzinflate($movie->mediaInfo->data)));
+//        echo '<hr>';
+//
+//        d($movie->images);
+//        echo '<hr>';
+//
+//        dump($movie->storage);
+//        echo '<hr>';
+//
+//        dump(Yii::getPathOfAlias('ext'));
+//        echo '<hr>';
+//
+//        echo date(DateTime::ATOM);
+//        echo '<hr>';
+//
+//        $this->render('/dummy');
 
-        echo '<hr>';
-
-        $movie = Movie::model()->with('game')->findByPk(1);
-        d(simplexml_load_string(gzinflate($movie->mediaInfo->data)));
-        echo '<hr>';
-
-        d($movie->images);
-        echo '<hr>';
-
-        dump($movie->storage);
-        echo '<hr>';
-
-        dump(Yii::getPathOfAlias('ext'));
-        echo '<hr>';
-
-        echo date(DateTime::ATOM);
-        echo '<hr>';
-
-        $this->render('/dummy');
+        $this->render('index');
      }
 
  }
