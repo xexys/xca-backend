@@ -8,13 +8,13 @@ static/prod
 static/node_modules
 static/bower_components
 
-runtime
+runtime/*
 !runtime/readme.md
 
-www/frontend/assets
+www/frontend/assets/*
 !www/frontend/assets/readme.md
 
-www/backend/assets
+www/backend/assets/*
 !www/backend/assets/readme.md
 
 
