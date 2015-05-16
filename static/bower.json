@@ -3,6 +3,7 @@
   "devDependencies": {
     "jquery"       : "1.8.x",
     "jquery.cookie": "*",
-    "marionette"   : "2.4.1"
+    "marionette"   : "2.4.1",
+    "normalize-css": "3.0.3"
   }
 }

@@ -16,6 +16,9 @@ module.exports = function(grunt) {
 
     less: {
       development: {
+        options: {
+          inlineCSS: false
+        },
         files: [{
           expand: true,
           flatten: false,
