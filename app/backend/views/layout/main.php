@@ -3,18 +3,20 @@
 $controllerId = strtolower($this->id);
 $actionId = strtolower($this->action->id);
 
-$cssBasePath = Yii::getPathOfAlias('static.dev.backend.pages');
-$assetBaseUrl = Yii::app()->getAssetManager()->publish($cssBasePath, false, -1, YII_DEBUG);
+$scriptBasePath = Yii::getPathOfAlias('static.dev.backend.pages');
 
-$cssFileName = 'style.css';
-$cssFile = $assetBaseUrl . '/' . $controllerId . '/' . $actionId . '/' . $cssFileName;
-if (!is_file($cssFile)) {
-    $cssFile = $assetBaseUrl . '/' . $controllerId . '/' . $cssFileName;
-    if (!is_file($cssFile)) {
-        $cssFile = $assetBaseUrl . '/' . $cssFileName;
-    }
+// Публикация стилей
+$cssUrl = $this->publishPageScript($scriptBasePath, 'style.css');
+if ($cssUrl) {
+    Yii::app()->clientScript->registerCssFile($cssUrl);
 }
-Yii::app()->clientScript->registerCssFile($cssFile);
+
+// Публикация скриптов
+$jsUrl = $this->publishPageScript($scriptBasePath, 'script.js');
+if ($jsUrl) {
+    Yii::app()->clientScript->registerScriptFile($jsUrl);
+}
+
 
 ?>
 <!DOCTYPE html>

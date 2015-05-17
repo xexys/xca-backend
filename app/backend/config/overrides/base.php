@@ -7,7 +7,7 @@ Yii::setPathOfAlias('booster', Yii::getPathOfAlias('vendor.clevertech.yii-booste
 
 return array(
 
-    'basePath' => __DIR__ . '/../..', // Псевдоним application
+    'basePath' => realpath(__DIR__ . '/../..'), // Псевдоним application
 
 
     //    'controllerMap' => array(

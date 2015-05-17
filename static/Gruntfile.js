@@ -7,7 +7,14 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: ['src/**/*.less'],
-        tasks: ['less:development'],
+        tasks: ['less:dev'],
+        options: {
+          spawn: false
+        }
+      },
+      coffee: {
+        files: ['src/**/*.coffee'],
+        tasks: ['coffee:dev'],
         options: {
           spawn: false
         }
@@ -15,10 +22,7 @@ module.exports = function(grunt) {
     },
 
     less: {
-      development: {
-        options: {
-          inlineCSS: false
-        },
+      dev: {
         files: [{
           expand: true,
           flatten: false,
@@ -28,14 +32,27 @@ module.exports = function(grunt) {
           ext: '.css'
         }]
       }
+    },
+
+    coffee: {
+      dev: {
+        files: [{
+          expand: true,
+          flatten: false,
+          cwd: 'src',
+          src: ['*/pages/**/script.coffee'],
+          dest: 'dev',
+          ext: '.js'
+        }]
+      }
     }
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-coffee')
 
-//  grunt.loadNpmTasks('grunt-contrib-coffee')
 //  grunt.loadNpmTasks('grunt-contrib-requirejs')
 //  grunt.loadNpmTasks('grunt-contrib-jst')
 
@@ -49,7 +66,7 @@ module.exports = function(grunt) {
 
 
 //  grunt.registerTask('default', ['less', 'coffee'])
-  grunt.registerTask('default', ['less:development'])
+  grunt.registerTask('default', ['less:dev', 'coffee:dev'])
 
 
 };

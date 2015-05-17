@@ -58,5 +58,9 @@ function d($var)
 
 function dd($var)
 {
-    d($var); die;
+    foreach (func_get_args() as $arg) {
+        d($arg);
+        echo '<hr>';
+    }
+    die;
 }
