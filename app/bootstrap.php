@@ -1,14 +1,16 @@
 <?php
 
 # Корневой каталог со всеми файлами проекта
-define('ROOT_DIR', realpath(__DIR__ . '/../'));
+define('ROOT_DIR', __DIR__ . '/..');
 
 # Корневой каталог с серверной частью проекта
 define('APP_DIR', __DIR__);
 
 # Определяем режим работы - разработка/продакшн
 define('PROD_MODE', require(__DIR__ . '/check_prod_mode.php'));
-if (!PROD_MODE) require(__DIR__ . '/dev_mode.php');
+if (!PROD_MODE) {
+    require(__DIR__ . '/dev_mode.php');
+}
 
 
 // Читаем переменные сессии (обязательно закрываем сессию)
@@ -16,7 +18,7 @@ if (!PROD_MODE) require(__DIR__ . '/dev_mode.php');
 //session_write_close();
 
 //require_once ROOT_DIR . '/vendor/autoload.php';
-$yiiDir = realpath(APP_DIR . '/vendor/yiisoft/yii/framework');
+$yiiDir = APP_DIR . '/vendor/yiisoft/yii/framework';
 
 // Подключаем базовый класс фреймворка
 if (YII_DEBUG) {
@@ -26,9 +28,9 @@ if (YII_DEBUG) {
 }
 
 // Определяем псевдонимы
-Yii::setPathOfAlias('static', realpath(ROOT_DIR . '/static'));
-Yii::setPathOfAlias('common', realpath(APP_DIR . '/common'));
-Yii::setPathOfAlias('vendor', realpath(APP_DIR . '/vendor'));
+Yii::setPathOfAlias('static', ROOT_DIR . '/static');
+Yii::setPathOfAlias('common', APP_DIR . '/common');
+Yii::setPathOfAlias('vendor', APP_DIR . '/vendor');
 
 // Выставляем кодировку для многобойтовых строк
 mb_internal_encoding("UTF-8");
