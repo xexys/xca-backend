@@ -26,10 +26,10 @@ class Controller extends \CController
         $pubUrl = $assetManager->getPublishedUrl($scriptBasePath);
         $pubPath = $assetManager->getPublishedPath($scriptBasePath);
 
-        $parts = array($this->id, $this->action->id);
+        $parts = array('', $this->id, $this->action->id);
 
-        do {
-            $path = '/' . implode('/', $parts) . '/' . $scriptName;
+        while($parts) {
+            $path = implode('/', $parts) . '/' . $scriptName;
             $scriptPath = $pubPath . $path;
             $scriptUrl = $pubUrl . $path;
             if (is_file($scriptPath)) {
@@ -37,7 +37,7 @@ class Controller extends \CController
             } else {
                 array_pop($parts);
             }
-        } while($parts);
+        };
 
     }
 
