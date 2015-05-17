@@ -44,6 +44,11 @@ class SiteController extends Controller
 //        $this->render('/dummy');
 
         $this->render('index');
-     }
+    }
+
+    function actionTest() {
+
+        $this->render('test-css');
+    }
 
  }

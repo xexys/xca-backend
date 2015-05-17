@@ -24,11 +24,8 @@ module.exports = function(grunt) {
           flatten: false,
           cwd: 'src',
           src: ['*/pages/**/style.less'],
-//          dest: 'dev',
-//          ext: '.css'
-          rename: function() {
-            return 'dev/' + arguments[1].replace('/style.less', '.css');
-          }
+          dest: 'dev',
+          ext: '.css'
         }]
       }
     }
