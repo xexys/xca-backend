@@ -14,16 +14,16 @@ class Controller extends \CController
 {
 
     /**
-     * Публикует каталог со скриптами страницы.
+     * Возвращает url по имени скрипта страницы
      *
-     * @param $scriptBasePath string - базовый путь к скриптам страницы
-     * @param $scriptName string - имя скрипта который публикуем
-     * @return string | null - ulr к опубликованному скрипту
+     * @param $scriptBasePath string - базовый путь к скриптам страницы, который уже были опубликован
+     * @param $scriptName string - имя скрипта
+     * @return string | null
      */
-    public function publishPageScript($scriptBasePath, $scriptName) {
+    public function getPageScriptUrl($scriptBasePath, $scriptName) {
 
         $assetManager = Yii::app()->getAssetManager();
-        $pubUrl = $assetManager->publish($scriptBasePath, false, -1, YII_DEBUG);
+        $pubUrl = $assetManager->getPublishedUrl($scriptBasePath);
         $pubPath = $assetManager->getPublishedPath($scriptBasePath);
 
         $scriptPath = $pubPath . '/' . $this->id . '/' . $this->action->id . '/' . $scriptName;
