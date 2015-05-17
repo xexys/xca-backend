@@ -16,7 +16,7 @@ class Controller extends \CController
     /**
      * Возвращает url по имени скрипта страницы
      *
-     * @param $scriptBasePath string - базовый путь к скриптам страницы, который уже были опубликован
+     * @param $scriptBasePath string - базовый путь к скриптам страницы, который уже был опубликован
      * @param $scriptName string - имя скрипта
      * @return string | null
      */
@@ -26,23 +26,19 @@ class Controller extends \CController
         $pubUrl = $assetManager->getPublishedUrl($scriptBasePath);
         $pubPath = $assetManager->getPublishedPath($scriptBasePath);
 
-        $scriptPath = $pubPath . '/' . $this->id . '/' . $this->action->id . '/' . $scriptName;
-        $scriptUrl = $pubUrl . '/' . $this->id . '/' . $this->action->id . '/' . $scriptName;
+        $parts = array($this->id, $this->action->id);
 
-        if (!is_file($scriptPath)) {
-            $scriptPath = $pubPath . '/' . $this->id . '/' . $scriptName;
-            $scriptUrl = $pubUrl . '/' . $this->id . '/' . $scriptName;
-            if (!is_file($scriptPath)) {
-                $scriptPath = $pubPath . '/' . $scriptName;
-                $scriptUrl = $pubUrl . '/' . $scriptName;
-                if (!is_file($scriptPath)) {
-                    $scriptUrl = null;
-                }
+        do {
+            $path = '/' . implode('/', $parts) . '/' . $scriptName;
+            $scriptPath = $pubPath . $path;
+            $scriptUrl = $pubUrl . $path;
+            if (is_file($scriptPath)) {
+                return $scriptUrl;
+            } else {
+                array_pop($parts);
             }
-        }
+        } while($parts);
 
-        return $scriptUrl;
     }
-
 
 } 
