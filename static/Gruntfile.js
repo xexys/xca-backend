@@ -27,7 +27,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: false,
           cwd: 'src',
-          src: ['*/pages/**/style.less'],
+          src: ['*/app/pages/**/style.less'],
           dest: 'dev',
           ext: '.css'
         }]
@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           expand: true,
           flatten: false,
           cwd: 'src',
-          src: ['*/pages/**/script.coffee'],
+          src: ['*/app/pages/**/script.coffee'],
           dest: 'dev',
           ext: '.js'
         }]
