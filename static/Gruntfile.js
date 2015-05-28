@@ -1,3 +1,10 @@
+/**
+ * Путь для сборки страничных скриптов
+ */
+function preparePath() {
+  return 'dev/' + arguments[1].replace('/app/pages', '/pages');
+}
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -28,8 +35,9 @@ module.exports = function(grunt) {
           flatten: false,
           cwd: 'src',
           src: ['*/app/pages/**/style.less'],
-          dest: 'dev',
-          ext: '.css'
+//          dest: 'dev',
+          ext: '.css',
+          rename: preparePath
         }]
       }
     },
@@ -41,8 +49,9 @@ module.exports = function(grunt) {
           flatten: false,
           cwd: 'src',
           src: ['*/app/pages/**/script.coffee'],
-          dest: 'dev',
-          ext: '.js'
+//          dest: 'dev',
+          ext: '.js',
+          rename: preparePath
         }]
       }
     }
