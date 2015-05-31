@@ -23,11 +23,11 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $game = Game::model()->with('movies')->findByTextId('wow');
-        dump($game);
+//        dump($game);
 
-        dump(User\Role::model()->findByPk(1)->users);
+//        dump(User\Role::model()->findByPk(1)->users);
 
-        dump($_SESSION);
+//        dump($_SESSION);
 
 //        echo '<hr>';
 //

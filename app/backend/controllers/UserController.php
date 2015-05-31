@@ -14,8 +14,6 @@ use \common\models\User;
 
 class UserController extends \backend\components\Controller
 {
-
-
     public function accessRules()
     {
         return array(
@@ -34,8 +32,6 @@ class UserController extends \backend\components\Controller
     // Авторизация пользователя
     public function actionLogin()
     {
-        //sleep(3);
-
         $webUser = Yii::app()->getUser();
 
         if ($webUser->getIsGuest()) {

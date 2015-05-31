@@ -1,0 +1,44 @@
+@layoutFooterHeight: 70px;
+@layoutContentWidth: 1280px;
+//@layoutContentWidth: auto;
+
+html, body {
+  height: 100%;
+}
+
+#layout {
+  height: 100%;
+  margin: auto;
+  width: @layoutContentWidth;
+}
+
+// Блок с контентом и хидером
+#layout_hc-block {
+  min-height: 100%;
+}
+
+#layout_header {
+  height: 60px;
+  > .navbar {
+    .navbar-brand {
+      font-size: 26px;
+    }
+    > .container {
+      width: @layoutContentWidth;
+    }
+  }
+}
+
+#layout_content {
+  padding-bottom: @layoutFooterHeight;
+}
+
+#layout_footer {
+  height: @layoutFooterHeight;
+  margin-top: -@layoutFooterHeight;
+  position: relative;
+  .alert {
+    margin: 0;
+  }
+}
+
