@@ -30,12 +30,6 @@ return array(
             'class' => 'booster.components.Booster',
         ),
 
-//            'user'=>array(
-//                'allowAutoLogin'=>true, // Разрешаем авторизацию на основе cookie
-//                //'autoRenewCookie'=>true,
-//                'loginUrl'=>array('/user/login') // Страница с авторизацией
-//            ),
-
 //            'errorHandler'=>array(
 //                'errorAction'=>'/site/error',
 //            ),
@@ -53,6 +47,17 @@ return array(
             'enableProfiling' => true,
             'enableParamLogging' => true,
         ),
+
+        // Пользователь системы
+        'user' => array(
+            'allowAutoLogin'=>true, // Разрешаем авторизацию на основе cookie
+//            'autoRenewCookie'=>true,
+            'loginUrl' => array('/user/login') // Страница с авторизацией
+        ),
+
+        'authManager'=> array(
+            'authFile' => Yii::getPathOfAlias('backend.config.rbac') . '.php'
+        )
 
 //        // Лог
 //        'log' => array(

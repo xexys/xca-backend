@@ -13,4 +13,23 @@ class Controller extends \common\components\Controller
 {
     public $layout = '/layout/main';
 
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                  'roles'=>array('admin'),
+            ),
+            array('deny',
+                  'users'=>array('*'),
+            ),
+        );
+    }
+
 }

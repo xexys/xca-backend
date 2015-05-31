@@ -42,6 +42,19 @@ return array(
     // Компоненты приложения
     'components'=>array(
 
+        // Пользователь системы
+        'user'=>array(
+            'class'=>'\common\components\auth\WebUser',
+            'guestName'=>'guest'
+        ),
+
+        // Менеджер авторизации
+        'authManager'=>array(
+            'class'=>'\common\components\auth\PhpAuthManager',
+            'defaultRoles'=>array('guest') // По умолчанию все гости
+        ),
+
+
         // Используем другой рендер
         /*
         'viewRenderer'=>array(

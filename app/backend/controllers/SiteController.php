@@ -15,14 +15,20 @@ use \common\models\Game;
 use \common\models\Movie;
 use \common\models\Reference;
 
+use \common\models\User;
+
 
 class SiteController extends Controller
 {
     public function actionIndex()
     {
-//        $game = Game::model()->with('movies')->findByTextId('wow');
-//        dump($game);
-//
+        $game = Game::model()->with('movies')->findByTextId('wow');
+        dump($game);
+
+        dump(User\Role::model()->findByPk(1)->users);
+
+        dump($_SESSION);
+
 //        echo '<hr>';
 //
 //        $movie = Movie::model()->with('game')->findByPk(1);
