@@ -11,7 +11,8 @@ namespace backend\components;
 
 class Controller extends \common\components\Controller
 {
-    public $layout = '/layout/main';
+    public $layout = '/layouts/main';
+    public $breadcrumbs;
 
     public function filters()
     {

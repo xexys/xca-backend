@@ -1,6 +1,7 @@
 @layoutFooterHeight: 70px;
-@layoutContentWidth: 1280px;
-//@layoutContentWidth: auto;
+@layoutHeaderHeight: 50px;
+//@layoutContentWidth: 1280px;
+@layoutContentWidth: auto;
 
 html, body {
   height: 100%;
@@ -18,19 +19,25 @@ html, body {
 }
 
 #layout_header {
-  height: 60px;
-  > .navbar {
+  height: @layoutHeaderHeight;
+  .navbar {
     .navbar-brand {
       font-size: 26px;
     }
-    > .container {
+    .container {
       width: @layoutContentWidth;
     }
+  }
+  .nav {
+    margin-right: 30px;
   }
 }
 
 #layout_content {
   padding-bottom: @layoutFooterHeight;
+}
+#layout_content-inner {
+  margin: 10px;
 }
 
 #layout_footer {
@@ -38,7 +45,7 @@ html, body {
   margin-top: -@layoutFooterHeight;
   position: relative;
   .alert {
-    margin: 0;
+    margin-top: 0;
   }
 }
 
