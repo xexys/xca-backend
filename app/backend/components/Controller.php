@@ -9,10 +9,14 @@
 
 namespace backend\components;
 
+use \Yii;
+
 class Controller extends \common\components\Controller
 {
     public $layout = '/layouts/main';
     public $breadcrumbs;
+
+    private $_viewHelpers = array();
 
     public function filters()
     {
@@ -31,6 +35,23 @@ class Controller extends \common\components\Controller
                   'users'=>array('*'),
             ),
         );
+    }
+
+    public function getViewHelper($name)
+    {
+        if (strpos($name, '.') !== false) {
+            $className = Yii::import($name, true);
+        } elseif (strpos($name, '\\') !== false) {
+            $className = $name;
+        } else {
+            $className = '\backend\helpers\view\\' . $name;
+        }
+
+        if (!isset($this->_viewHelpers[$className])) {
+            $this->_viewHelpers[$className] = new $className($this);
+        }
+
+        return $this->_viewHelpers[$className];
     }
 
 }

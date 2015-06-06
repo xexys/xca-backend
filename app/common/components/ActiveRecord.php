@@ -22,4 +22,10 @@ class ActiveRecord extends \CActiveRecord
         return parent::model($className ?: get_called_class());
     }
 
+    public function getAttributeLabel($attribute)
+    {
+        // TODO: Реализовать нормально в каждой модели
+        return $attribute;
+    }
+
 }

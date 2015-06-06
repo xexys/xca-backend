@@ -2,10 +2,10 @@
 <div class="well">
     <ul class="menu">
         <li>
-            <a href="<?=Yii::app()->createUrl('game/index'); ?>">Игры</a>
+            <?= CHtml::link('Игры', Yii::app()->createUrl('game')); ?>
         </li>
         <li>
-            <a href="<?=Yii::app()->createUrl('movie/index'); ?>">Ролики</a>
+            <?= CHtml::link('Ролики', Yii::app()->createUrl('movie')); ?>
         </li>
     </ul>
 </div>

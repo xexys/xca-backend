@@ -15,7 +15,5 @@ class Widget extends \CWidget
         $ref = new \ReflectionClass($this);
         $viewFile = lcfirst($ref->getShortName());
         $this->render($viewFile);
-//        parent::run();
     }
-
 }

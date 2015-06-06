@@ -10,14 +10,18 @@ namespace backend\controllers;
 
 use \backend\components\Controller;
 use \Yii;
-use \CActiveDataProvider;
+use \common\models\Movie;
+use \common\components\DataProvider;
 
 
 class MovieController extends Controller
 {
     function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('\common\models\Movie', array(
+        $dataProvider = new DataProvider\Movie(array(
+            'criteria'=>array(
+                'with'=>array('game')
+            ),
             'pagination' => array(
                 'pageSize' => 1,
             ),
@@ -27,6 +31,13 @@ class MovieController extends Controller
         ));
 
     }
+
+    public function actionView($id)
+    {
+        $movie = Movie::model()->findByPk($id);
+        $this->render('view', array('movie' => $movie));
+    }
+
 
     function actionCreate()
     {

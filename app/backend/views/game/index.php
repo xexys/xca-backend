@@ -1,12 +1,13 @@
 <?php
 
+/**
+ * @var $this \CController
+ */
+
 $this->pageTitle = 'Список игр';
-$this->breadcrumbs = array(
-    'Игры'=> $this->createUrl('index')
-);
 
 $this->widget(
-    '\backend\components\grids\GridView',
+    '\backend\components\GridView',
     array(
 //        'fixedHeader' => true,
 //        'headerOffset' => 40,
@@ -14,6 +15,19 @@ $this->widget(
 //        'type' => 'bordered hover',
         'dataProvider' => $gameDataProvider,
 //        'responsiveTable' => true,
-//        'columns' => $gridColumns,
+        'templateWidget' => true,
+        'columns' => array(
+            array(
+                'name'=>'id',
+            ),
+            array(
+                'class'=> '\backend\components\DataColumn\Game',
+                'name'=>'title',
+                'value'=> '$this->title($data)',
+            ),
+            array(
+                'name'=>'text_id',
+            ),
+        ),
     )
 );
