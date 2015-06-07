@@ -13,4 +13,4 @@ class GameLink extends ABaseModelLink
 {
     protected $_modelControllerId = 'game';
 
-} 
+}

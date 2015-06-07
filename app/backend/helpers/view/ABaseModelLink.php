@@ -53,4 +53,4 @@ abstract class ABaseModelLink extends \common\helpers\view\ABase
             return Yii::app()->createUrl($route, $params);
         }
     }
-} 
+}

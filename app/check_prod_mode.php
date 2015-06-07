@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Check for whether we are in production mode,
  * where we should compile all configs, combine assets,
