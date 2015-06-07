@@ -6,11 +6,10 @@
  * Time: 21:24
  */
 
-namespace backend\helpers\view;
+namespace backend\helpers\view\ModelLink;
 
-use \Yii;
 
-class MovieLink extends ABaseModelLink
+class Movie extends \backend\helpers\view\ModelLink
 {
     protected $_modelControllerId = 'movie';
 

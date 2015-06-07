@@ -13,7 +13,7 @@ namespace backend\helpers\view;
 use \Yii;
 
 
-abstract class ABaseModelLink extends \common\helpers\view\ABase
+abstract class ModelLink extends \common\helpers\view\Base
 {
     protected $_modelControllerId;
     

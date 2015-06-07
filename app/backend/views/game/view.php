@@ -3,8 +3,8 @@
 $this->pageTitle = $game->title;
 
 $btnHelper = $this->getViewHelper('UI\Button');
-$gameLinkHelper = $this->getViewHelper('GameLink');
-$movieLinkHelper = $this->getViewHelper('MovieLink');
+$gameLinkHelper = $this->getViewHelper('ModelLink\Game');
+$movieLinkHelper = $this->getViewHelper('ModelLink\Movie');
 
 $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
@@ -78,3 +78,4 @@ $this->widget(
         <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl)); ?>
     </div>
 </div>
+

@@ -11,7 +11,7 @@ namespace backend\helpers\view\UI;
 use \CHtml;
 
 
-class Icon extends \common\helpers\view\ABase
+class Icon extends \common\helpers\view\Base
 {
     public function icon($cssClass)
     {

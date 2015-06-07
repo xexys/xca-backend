@@ -9,7 +9,7 @@
 namespace backend\helpers\view\UI;
 
 
-class Button extends \common\helpers\view\ABase
+class Button extends \common\helpers\view\Base
 {
     /**
      * @param array $params

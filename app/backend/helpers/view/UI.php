@@ -9,7 +9,7 @@
 namespace backend\helpers\view;
 
 
-class UI extends \common\helpers\view\ABase
+class UI extends \common\helpers\view\Base
 {
     /**
      * @return \backend\helpers\view\UI\Button

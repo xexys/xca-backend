@@ -11,7 +11,7 @@
 namespace common\helpers\view;
 
 
-abstract class ABase extends \CComponent
+abstract class Base extends \CComponent
 {
     /**
      * @var \CController

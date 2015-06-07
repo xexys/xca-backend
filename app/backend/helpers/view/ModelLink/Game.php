@@ -6,10 +6,10 @@
  * Time: 21:24
  */
 
-namespace backend\helpers\view;
+namespace backend\helpers\view\ModelLink;
 
 
-class GameLink extends ABaseModelLink
+class Game extends \backend\helpers\view\ModelLink
 {
     protected $_modelControllerId = 'game';
 

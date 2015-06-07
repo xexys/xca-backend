@@ -9,7 +9,7 @@
 namespace backend\helpers\view\UI;
 
 
-class Link extends \common\helpers\view\ABase
+class Link extends \common\helpers\view\Base
 {
 
 }
