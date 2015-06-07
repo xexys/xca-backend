@@ -8,8 +8,14 @@
 
 namespace backend\helpers\view;
 
-class MovieLink extends ModelLink
+use \Yii;
+
+class MovieLink extends ABaseModelLink
 {
     protected $_modelControllerId = 'movie';
 
+    public function getBelongsToGameCreateUrl($game)
+    {
+        return $this->getCreateUrl(array('gameId'=>$game->id));
+    }
 }

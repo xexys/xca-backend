@@ -17,6 +17,8 @@ class GridView extends \TbExtendedGridView
 {
     public $type = 'bordered hover';
 
+//    public $pager = array('class' => 'booster.widgets.TbPager', 'htmlOptions'=>array('class'=>'grid-view_pagination'));
+
     /**
      * Шаблон будет создан в результате рендера виджета
      * Принимает значения array('class'=>'className', 'params'=>array()) | true - использовать виджет по умолчанию

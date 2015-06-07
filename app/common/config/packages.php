@@ -2,7 +2,7 @@
 
 $bowerComponents = 'static.bower_components';
 
-return array(
+return [
 
     // jQuery + plugins
     'jquery' => array(
@@ -18,7 +18,11 @@ return array(
     'cookie' => array(
         'depends' => array('jquery.cookie')
     ),
-
+    // Шрифты
+    'font-awesome-latest' => array(
+        'basePath' => $bowerComponents,
+        'css' => array('components-font-awesome/css/font-awesome.css')
+    )
 
     //    // jQuery.UI
     //    'jquery.ui'=>array(
@@ -95,4 +99,4 @@ return array(
     //    ),
 
 
-);
+];

@@ -10,6 +10,7 @@
 namespace backend\components;
 
 use \Yii;
+use \CHtml;
 
 class Controller extends \common\components\Controller
 {
@@ -17,6 +18,16 @@ class Controller extends \common\components\Controller
     public $breadcrumbs;
 
     private $_viewHelpers = array();
+    private $_viewHelpersNamespace = '\backend\helpers\view';
+
+    public function init()
+    {
+        // Устновка конвертера для задания префикса используемого в формах для редактирования модели
+        if (method_exists($this, '_friendGetFormElementsNamePrefix')) {
+            CHtml::setModelNameConverter(array($this, '_friendGetFormElementsNamePrefix'));
+        }
+        parent::init();
+    }
 
     public function filters()
     {
@@ -44,7 +55,7 @@ class Controller extends \common\components\Controller
         } elseif (strpos($name, '\\') !== false) {
             $className = $name;
         } else {
-            $className = '\backend\helpers\view\\' . $name;
+            $className = $this->_viewHelpersNamespace . '\\' . $name;
         }
 
         if (!isset($this->_viewHelpers[$className])) {

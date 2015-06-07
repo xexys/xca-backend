@@ -49,18 +49,18 @@ function ddump($var)
 
 /**
  * Функция для отладки, печатает переменную с подсветкой синтаксиса
- * @param mixed $var
+ * @param mixed
  */
-function d($var)
-{
-    CVarDumper::dump($var, 10, true);
-}
-
-function dd($var)
+function d()
 {
     foreach (func_get_args() as $arg) {
-        d($arg);
+        CVarDumper::dump($arg, 10, true);
         echo '<hr>';
     }
+}
+
+function dd()
+{
+    call_user_func_array('d', func_get_args());
     die;
 }

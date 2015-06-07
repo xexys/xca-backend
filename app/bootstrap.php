@@ -1,5 +1,9 @@
 <?php
 
+define('PHP_LOGO_GUID', 'PHPE9568F34-D428-11d2-A769-00AA001ACF42');
+define('PHP_EGG_LOGO_GUID', 'PHPE9568F36-D428-11d2-A769-00AA001ACF42');
+define('ZEND_LOGO_GUID', 'PHPE9568F35-D428-11d2-A769-00AA001ACF42');
+
 # Корневой каталог со всеми файлами проекта
 define('ROOT_DIR', realpath(__DIR__ . '/..'));
 

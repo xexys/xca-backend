@@ -9,7 +9,7 @@
 namespace backend\helpers\view;
 
 
-class GameLink extends ModelLink
+class GameLink extends ABaseModelLink
 {
     protected $_modelControllerId = 'game';
 

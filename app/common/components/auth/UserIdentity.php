@@ -29,7 +29,7 @@ class UserIdentity extends \CUserIdentity
 
         //$user = User::model()->notDeleted()->findByAttributes(array('email'=>$this->email));
         $user = User::model()->find(array(
-            'condition' => "lower(email)=lower(:email)",
+            'condition' => "email=:email",
             'params' => array(':email' => $this->email)
         ));
 

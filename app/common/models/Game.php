@@ -10,6 +10,7 @@
  */
 
 namespace common\models;
+
 use \common\components\ActiveRecord;
 
 
@@ -17,7 +18,7 @@ class Game extends ActiveRecord
 {
     public function findByTextId($textId)
     {
-        return $this->findByAttributes(array('text_id'=>$textId));
+        return $this->findByAttributes(array('text_id' => $textId));
     }
 
     /**
@@ -33,10 +34,11 @@ class Game extends ActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
-            array('title', 'required'),
+            array('text_id, title', 'required'),
+            array('text_id', 'length', 'max' => 10),
+            array('text_id', 'unique'),
+            array('text_id', 'match', 'pattern' => '/^[a-z0-9_]+$/',),
             array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -52,7 +54,7 @@ class Game extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'movies' => array(self::HAS_MANY, 'common\models\Movie', 'game_id'),
+            'movies' => array(self::HAS_MANY, '\common\models\Movie', 'game_id'),
         );
     }
 

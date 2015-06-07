@@ -1,26 +1,29 @@
 <?php
 
 $user = Yii::app()->user;
+$clientScript = Yii::app()->getClientScript();
+
 $controllerId = strtolower($this->id);
 $actionId = strtolower($this->action->id);
-
 $cssPageId = implode('-', array('page', $controllerId, $actionId));
 
 $scriptBasePath = Yii::getPathOfAlias('static.dev.backend.pages');
 
-// Публикация ресурсов
+$clientScript->registerPackage('font-awesome-latest');
+
+// Публикация статики для страниц
 Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, YII_DEBUG);
 
 // Добавление стилей
 $cssUrl = $this->getPageScriptUrl($scriptBasePath, 'style.css');
 if ($cssUrl) {
-    Yii::app()->clientScript->registerCssFile($cssUrl);
+    $clientScript->registerCssFile($cssUrl);
 }
 
 // Добавление скриптов
 $jsUrl = $this->getPageScriptUrl($scriptBasePath, 'script.js');
 if ($jsUrl) {
-    Yii::app()->clientScript->registerScriptFile($jsUrl);
+    $clientScript->registerScriptFile($jsUrl);
 }
 
 ?>
@@ -36,6 +39,7 @@ if ($jsUrl) {
 
             <div class="navbar navbar-default navbar-fixed-top navbar-inverse">
                 <div class="container">
+<!--                    TODO: Сделать H1-->
                     <a class="navbar-brand" href="<?= Yii::app()->homeUrl; ?>">
                         <?= Yii::app()->name; ?>
                     </a>

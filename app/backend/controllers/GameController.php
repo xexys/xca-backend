@@ -19,16 +19,16 @@ class GameController extends Controller
 {
     public function actionIndex()
     {
-        $dataProvider = new DataProvider\Game(array(
+        $gameDataProvider = new DataProvider\Game(array(
             'pagination' => array(
-                'pageSize' => 1,
+                'pageSize' => 10,
             ),
         ));
         $this->render('index', array(
-            'gameDataProvider' => $dataProvider,
+            'gameDataProvider' => $gameDataProvider,
         ));
-
     }
+
     public function actionView($id)
     {
         $game = $this->_getModelById($id);
@@ -43,12 +43,26 @@ class GameController extends Controller
         $this->render('view', array(
             'game' => $game,
             'gameMovieDataProvider' => $gameMovieDataProvider,
+            'gameLinkHelper' => $this->getViewHelper('GameLink'),
+            'movieLinkHelper' => $this->getViewHelper('MovieLink'),
         ));
     }
 
     public function actionCreate()
     {
-        $this->render('/dummy');
+        $game = new Game();
+
+        if (Yii::app()->request->isPostRequest) {
+            $this->_setModelAttributesByPost($game);
+            if ($game->save()) {
+                dd($game);
+                $this->redirect('index');
+            }
+        }
+
+        $this->render('create', array(
+            'game'=> $game
+        ));
     }
 
     public function actionEdit($id)
@@ -61,6 +75,11 @@ class GameController extends Controller
         $this->render('/dummy');
     }
 
+    public function _friendGetFormElementsNamePrefix($model)
+    {
+        return md5(get_class($model));
+    }
+
     private function _getModelById($id)
     {
         $game = Game::model()->findByPk($id);
@@ -69,6 +88,11 @@ class GameController extends Controller
             throw new \CHttpException(404, 'Модель не найдена');
         }
         return $game;
+    }
+
+    private function _setModelAttributesByPost($model)
+    {
+        $model->setAttributes(array_map('trim', $_POST[$this->_friendGetFormElementsNamePrefix($model)]));
     }
 
 }
