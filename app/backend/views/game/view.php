@@ -2,11 +2,13 @@
 
 $this->pageTitle = $game->title;
 
+$btnHelper = $this->getViewHelper('UI\Button');
+$gameLinkHelper = $this->getViewHelper('GameLink');
+$movieLinkHelper = $this->getViewHelper('MovieLink');
+
 $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
 $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
-
-$btnHelper = $this->getViewHelper('UI\Button');
 
 ?>
 

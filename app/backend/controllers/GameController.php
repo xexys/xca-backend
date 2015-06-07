@@ -43,8 +43,6 @@ class GameController extends Controller
         $this->render('view', array(
             'game' => $game,
             'gameMovieDataProvider' => $gameMovieDataProvider,
-            'gameLinkHelper' => $this->getViewHelper('GameLink'),
-            'movieLinkHelper' => $this->getViewHelper('MovieLink'),
         ));
     }
 
