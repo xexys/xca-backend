@@ -2,7 +2,7 @@
 
 $bowerComponents = 'static.bower_components';
 
-return [
+return array(
 
     // jQuery + plugins
     'jquery' => array(
@@ -99,4 +99,4 @@ return [
     //    ),
 
 
-];
+);
