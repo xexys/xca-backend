@@ -43,6 +43,16 @@ class MovieController extends Controller
     {
         $this->render('/dummy');
     }
+
+    function actionEdit()
+    {
+        $this->render('/dummy');
+    }
+
+    function actionDelete()
+    {
+        $this->render('/dummy');
+    }
 }
 
 

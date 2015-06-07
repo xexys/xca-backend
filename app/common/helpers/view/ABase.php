@@ -13,11 +13,14 @@ namespace common\helpers\view;
 
 abstract class ABase extends \CComponent
 {
-    protected $_owner;
+    /**
+     * @var \CController
+     */
+    protected $_controller;
 
     public function __construct($controller)
     {
-        $this->_owner = $controller;
+        $this->_controller = $controller;
     }
 
 } 

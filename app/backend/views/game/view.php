@@ -1,12 +1,12 @@
 <?php
 
-use \backend\helpers\Html;
-
 $this->pageTitle = $game->title;
 
 $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
 $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
+
+$btnHelper = $this->getViewHelper('UI\Button');
 
 ?>
 
@@ -41,7 +41,7 @@ $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
         <div class="game-card_movies">
 <?php
 $this->widget(
-    '\backend\components\GridView',
+    '\backend\components\grid\BaseView',
     array(
         'dataProvider' => $gameMovieDataProvider,
         'templateWidget'=>array(
@@ -54,10 +54,14 @@ $this->widget(
                 'name' => 'id',
             ),
             array(
-                'class' => 'backend\components\DataColumn\Movie',
+                'class' => 'backend\components\grid\DataColumn\Movie',
                 'name' => 'title',
                 'value' => '$this->title($data)',
             ),
+            array(
+                'class' => '\backend\components\grid\ButtonColumn',
+            )
+
         ),
 
     )
@@ -67,8 +71,8 @@ $this->widget(
     </div>
 
     <div class="game-card_section">
-        <?= Html::TbLinkButton(array('label' => 'Добавить ролик', 'fa-icon' => 'plus', 'context' => 'success', 'url' => $createMovieUrl)); ?>
-        <?= Html::TbLinkButton(array('label' => 'Редактировать', 'fa-icon' => 'edit', 'context' => 'primary', 'url' => $editGameUrl)); ?>
-        <?= Html::TbLinkButton(array('label' => 'Удалить', 'fa-icon' => 'trash-o', 'context' => 'danger', 'url' => $deleteGameUrl)); ?>
+        <?= $btnHelper->linkButton(array('label' => 'Добавить ролик', 'gl-icon' => 'plus', 'context' => 'success', 'url' => $createMovieUrl)); ?>
+        <?= $btnHelper->linkButton(array('label' => 'Редактировать', 'gl-icon' => 'pencil', 'context' => 'primary', 'url' => $editGameUrl)); ?>
+        <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl)); ?>
     </div>
 </div>

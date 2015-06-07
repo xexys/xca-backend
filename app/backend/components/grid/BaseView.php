@@ -6,14 +6,14 @@
  * Time: 21:57
  */
 
-namespace backend\components;
+namespace backend\components\grid;
 
 use \Yii;
-use \CHtml;
 
-Yii::import('booster.widgets.TbExtendedGridView', true);
+Yii::import('booster.widgets.TbExtendedGridView');
 
-class GridView extends \TbExtendedGridView
+
+class BaseView extends \TbExtendedGridView
 {
     public $type = 'bordered hover';
 

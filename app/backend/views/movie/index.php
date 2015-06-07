@@ -1,9 +1,9 @@
 <?php
 
-$this->pageTitle = 'Список роликов';
+$this->pageTitle = 'Ролики';
 
 $this->widget(
-    '\backend\components\GridView',
+    '\backend\components\grid\BaseView',
     array(
 //        'fixedHeader' => true,
 //        'headerOffset' => 40,
@@ -17,7 +17,7 @@ $this->widget(
                 'name'=>'id',
             ),
             array(
-                'class'=> 'backend\components\DataColumn\Movie',
+                'class'=> 'backend\components\grid\DataColumn\Movie',
                 'name'=>'title',
                 'value'=> '$this->title($data)',
             ),

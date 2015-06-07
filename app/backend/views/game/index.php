@@ -4,30 +4,28 @@
  * @var $this \CController
  */
 
-$this->pageTitle = 'Список игр';
+$this->pageTitle = 'Игры';
 
 $this->widget(
-    '\backend\components\GridView',
+    '\backend\components\grid\BaseView',
     array(
-//        'fixedHeader' => true,
-//        'headerOffset' => 40,
-        // 40px is the height of the main navigation at bootstrap
-//        'type' => 'bordered hover',
         'dataProvider' => $gameDataProvider,
-//        'responsiveTable' => true,
         'templateWidget' => true,
         'columns' => array(
             array(
-                'name'=>'id',
+                'name' => 'id',
             ),
             array(
-                'class'=> '\backend\components\DataColumn\Game',
-                'name'=>'title',
-                'value'=> '$this->title($data)',
+                'class' => '\backend\components\grid\DataColumn\Game',
+                'name' => 'title',
+                'value' => '$this->title($data)',
             ),
             array(
-                'name'=>'text_id',
+                'name' => 'text_id',
             ),
+            array(
+                'class' => '\backend\components\grid\ButtonColumn',
+            )
         ),
     )
 );

@@ -1,8 +1,8 @@
 <?php
 
-use \backend\helpers\Html;
-
 $this->pageTitle = 'Новая игра';
+
+$btnHelper = $this->getViewHelper('UI\Button');
 
 $form = $this->beginWidget(
     'booster.widgets.TbActiveForm',
@@ -34,10 +34,11 @@ $form = $this->beginWidget(
     </div>
 
     <div class="game-card_section">
-        <?= Html::TbSubmitButton(array('label' => 'Добавить', 'fa-icon' => 'plus', 'context' => 'success')); ?>
-        <?= Html::TbLinkButton(array('label' => 'Отмена', 'fa-icon' => 'ban', 'context' => 'primary', 'url' => '#')); ?>
+        <?= $btnHelper->submitButton(array('label' => 'Добавить', 'gl-icon' => 'plus', 'context' => 'success')); ?>
+        <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => '#')); ?>
     </div>
 
 <?php
 
 $this->endWidget();
+

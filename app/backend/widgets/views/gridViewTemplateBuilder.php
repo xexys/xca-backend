@@ -1,6 +1,6 @@
 <?php
 
-use \backend\helpers\Html;
+$btnHelper = $this->controller->getViewHelper('UI\Button');
 
 $isCreateItemButtonTop = $params['createItemButtonTop'];
 $isCreateItemButtonBottom = $params['createItemButtonBottom'];
@@ -8,10 +8,11 @@ $isCreateItemButtonBottom = $params['createItemButtonBottom'];
 if ($isCreateItemButtonTop || $isCreateItemButtonBottom) {
     $label = $params['createItemButtonLabel'] ?: 'Добавить';
 
-    $button = Html::TbLinkButton(array(
+    $button = $btnHelper->linkButton(array(
         'label' => $label,
-        'fa-icon' => 'plus',
+        'gl-icon' => 'plus',
         'context' => 'success',
+        // TODO: Сделать правильную генерацию урла (сейчас зависит от текущего контроллера а не от модели)
         'url' => $this->controller->createUrl('create')
     ));
 }

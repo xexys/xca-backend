@@ -22,7 +22,7 @@ class Controller extends \common\components\Controller
 
     public function init()
     {
-        // Устновка конвертера для задания префикса используемого в формах для редактирования модели
+        // Инициализация конвртера префикса используемого в формах для редактирования модели
         if (method_exists($this, '_friendGetFormElementsNamePrefix')) {
             CHtml::setModelNameConverter(array($this, '_friendGetFormElementsNamePrefix'));
         }
@@ -52,8 +52,6 @@ class Controller extends \common\components\Controller
     {
         if (strpos($name, '.') !== false) {
             $className = Yii::import($name, true);
-        } elseif (strpos($name, '\\') !== false) {
-            $className = $name;
         } else {
             $className = $this->_viewHelpersNamespace . '\\' . $name;
         }
