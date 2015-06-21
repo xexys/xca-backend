@@ -61,12 +61,6 @@ abstract class CrudController extends Controller
         return $backUrl;
     }
 
-    protected function _isAjaxValidationRequest()
-    {
-        $request = Yii::app()->getRequest();
-        return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
-    }
-
     protected function _tryAjaxValidation($model)
     {
         if ($this->_isAjaxValidationRequest()) {
@@ -74,6 +68,12 @@ abstract class CrudController extends Controller
             echo $this->_getAjaxValidationResponseContent($model);
             Yii::app()->end();
         }
+    }
+
+    protected function _isAjaxValidationRequest()
+    {
+        $request = Yii::app()->getRequest();
+        return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
     }
 
     protected function _getAjaxValidationResponseContent($model)

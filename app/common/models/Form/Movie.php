@@ -45,7 +45,7 @@ class Movie extends \CFormModel
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
-                $this->audioParams[] = new Model\Movie\Audio();
+                $this->audioParams[$n] = new Model\Movie\Audio();
             }
             $this->audioParams[$n]->setAttributes(array_map('trim', $data));
         }
