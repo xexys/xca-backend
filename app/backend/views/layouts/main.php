@@ -1,8 +1,18 @@
-<?php $this->beginContent('/layouts/base'); ?>
+<?php
+$this->beginContent('/layouts/base');
+?>
 
-<h3><?= $this->pageTitle; ?></h3>
-<hr>
+    <h3 class="page_title">
+        <?= $this->pageTitle; ?>
+
+        <?php if ($this->pageTitleIconClass): ?>
+            <?= $this->getViewHelper('UI\Icon')->icon($this->pageTitleIconClass); ?>
+        <?php endif; ?>
+
+    </h3>
+    <hr>
 
 <?= $content; ?>
 
-<?php $this->endContent(); 
+<?php
+$this->endContent();

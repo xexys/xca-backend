@@ -1,0 +1,42 @@
+@pageHeaderHeight: 50px;
+//@pageContentWidth: 1280px;
+@pageContentWidth: 1520px;
+//@pageContentWidth: auto;
+
+.page {
+
+  margin: auto;
+  width: @pageContentWidth;
+
+  &_header {
+    height: @pageHeaderHeight;
+    .navbar {
+      .navbar-brand {
+        font-size: 26px;
+      }
+      .container {
+        width: @pageContentWidth;
+      }
+    }
+    //  .nav {
+    //    margin-right: 30px;
+    //  }
+  }
+
+  &_content {
+    margin: 10px;
+  }
+
+  &_footer {
+    .alert {
+      margin-top: 0;
+    }
+  }
+
+  &_title {
+    .glyphicon {
+      font-size: 70%;
+    }
+  }
+
+}

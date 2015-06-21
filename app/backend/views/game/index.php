@@ -10,7 +10,11 @@ $this->widget(
     '\backend\components\grid\BaseView',
     array(
         'dataProvider' => $gameDataProvider,
-        'templateWidget' => true,
+        'templateWidget'=>array(
+            'params'=> array(
+                'createItemButton'=>true,
+            ),
+        ),
         'columns' => array(
             array(
                 'name' => 'id',

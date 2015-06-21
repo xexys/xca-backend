@@ -1,0 +1,22 @@
+// Модификатор для sticky footer
+@pageFooterHeight: 70px;
+
+html, body {
+  height: 100%;
+}
+
+.page_sticky-footer {
+  height: 100%;
+  box-sizing: border-box;
+
+  // Блок с контентом и хидером
+  .page_hc-block {
+    min-height: 100%;
+    padding-bottom: @pageFooterHeight;
+    margin-bottom: -@pageFooterHeight;
+  }
+
+  .page_footer {
+    height: @pageFooterHeight;
+  }
+}

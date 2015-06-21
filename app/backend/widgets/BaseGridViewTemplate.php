@@ -9,13 +9,13 @@
 namespace backend\widgets;
 
 
-class GridViewTemplateBuilder extends \CWidget
+class BaseGridViewTemplate extends \CWidget
 {
     /**
      * Могут быть значения true | false | 'top bottom'
      * @var bool | string
      */
-    public $createItemButton = true;
+    public $createItemButton = false;
     public $createItemButtonLabel;
 
     private $_normalizedParams;
@@ -23,7 +23,7 @@ class GridViewTemplateBuilder extends \CWidget
     public function run()
     {
         $params = $this->_getNormalizedParams();
-        $this->render('gridViewTemplateBuilder', array('params' => $params));
+        $this->render('baseGridViewTemplate', array('params' => $params));
     }
 
     private function _getNormalizedParams()

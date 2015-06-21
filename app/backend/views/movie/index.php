@@ -6,7 +6,11 @@ $this->widget(
     '\backend\components\grid\BaseView',
     array(
         'dataProvider' => $movieDataProvider,
-        'templateWidget' => true,
+        'templateWidget'=>array(
+            'params'=> array(
+                'createItemButton'=>true,
+            ),
+        ),
         'columns' => array(
             array(
                 'name'=>'id',

@@ -25,10 +25,10 @@ if (!PROD_MODE) {
 $yiiDir = APP_DIR . '/vendor/yiisoft/yii/framework';
 
 // Подключаем базовый класс фреймворка
-if (YII_DEBUG) {
-    require_once $yiiDir . '/yii.php';
-} else {
+if (PROD_MODE) {
     require_once $yiiDir . '/yiilite.php';
+} else {
+    require_once $yiiDir . '/yii.php';
 }
 
 // Определяем псевдонимы

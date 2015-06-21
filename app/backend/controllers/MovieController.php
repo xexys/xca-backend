@@ -8,19 +8,20 @@
 
 namespace backend\controllers;
 
-use \backend\components\Controller;
+use \backend\components\CrudController;
 use \Yii;
 use \common\models\Movie;
+use \common\models\Form\Movie as MovieForm;
 use \common\components\DataProvider;
 
 
-class MovieController extends Controller
+class MovieController extends CrudController
 {
     function actionIndex()
     {
         $dataProvider = new DataProvider\Movie(array(
-            'criteria'=>array(
-                'with'=>array('game')
+            'criteria' => array(
+                'with' => array('game')
             ),
             'pagination' => array(
                 'pageSize' => 1,
@@ -39,17 +40,34 @@ class MovieController extends Controller
     }
 
 
-    function actionCreate()
+    public function actionCreate()
+    {
+        $form = new MovieForm();
+
+        $form->tryAjaxValidation();
+
+        $backUrl = $this->_getBackUrl();
+
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->setAttributesByPost();
+
+            if ($form->save()) {
+                $this->redirect($backUrl);
+            }
+        }
+
+        $this->render('create', array(
+            'model' => $form,
+            'backUrl' => $backUrl,
+        ));
+    }
+
+    public function actionEdit($id)
     {
         $this->render('/dummy');
     }
 
-    function actionEdit()
-    {
-        $this->render('/dummy');
-    }
-
-    function actionDelete()
+    public function actionDelete($id)
     {
         $this->render('/dummy');
     }

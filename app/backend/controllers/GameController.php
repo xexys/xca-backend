@@ -8,14 +8,14 @@
 
 namespace backend\controllers;
 
-use \backend\components\Controller;
+use \backend\components\CrudController;
 use \backend\helpers;
 use \Yii;
 use \common\models\Game;
 use \common\components\DataProvider;
 
 
-class GameController extends Controller
+class GameController extends CrudController
 {
     public function actionIndex()
     {
@@ -34,7 +34,7 @@ class GameController extends Controller
         $game = $this->_getModelById($id);
         $gameMovieDataProvider = new DataProvider\Movie(array(
             'criteria' => array(
-                'condition'=> 'game_id = ' . $game->id
+                'condition' => 'game_id = ' . $game->id
             ),
             'pagination' => array(
                 'pageSize' => 1,
@@ -50,32 +50,51 @@ class GameController extends Controller
     {
         $game = new Game();
 
-        if (Yii::app()->request->isPostRequest) {
+        $this->_tryAjaxValidation($game);
+
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
             $this->_setModelAttributesByPost($game);
+
             if ($game->save()) {
-                dd($game);
                 $this->redirect('index');
             }
         }
 
         $this->render('create', array(
-            'game'=> $game
+            'game' => $game,
+            'backUrl' => $this->_getBackUrl()
         ));
     }
 
     public function actionEdit($id)
     {
-        $this->render('/dummy');
+        $game = $this->_getModelById($id);
+
+        $this->_tryAjaxValidation($game);
+
+        $backUrl = $this->_getBackUrl();
+
+        if (Yii::app()->request->isPostRequest) {
+            $this->_setModelAttributesByPost($game);
+
+            if ($game->save()) {
+                $this->redirect($backUrl);
+            }
+        }
+
+        $this->render('edit', array(
+            'game' => $game,
+            'oldGameAttrs' => $game->getAttributes(),
+            'backUrl' => $backUrl
+        ));
     }
 
     public function actionDelete($id)
     {
-        $this->render('/dummy');
-    }
-
-    public function _friendGetFormElementsNamePrefix($model)
-    {
-        return md5(get_class($model));
+        $game = $this->_getModelById($id);
+        $game->delete();
+        $url = $this->createUrl('index');
+        $this->redirect($url);
     }
 
     private function _getModelById($id)
@@ -87,12 +106,6 @@ class GameController extends Controller
         }
         return $game;
     }
-
-    private function _setModelAttributesByPost($model)
-    {
-        $model->setAttributes(array_map('trim', $_POST[$this->_friendGetFormElementsNamePrefix($model)]));
-    }
-
 }
 
 

@@ -1,8 +1,11 @@
 <?php
 
-$this->pageTitle = 'Новая игра';
+$uiHelper = $this->getViewHelper('UI');
+$btnHelper = $uiHelper->getButtonHelper();
 
-$btnHelper = $this->getViewHelper('UI\Button');
+$this->pageTitle = $oldGameAttrs['title'];
+$this->pageTitleIconClass = 'glyphicon glyphicon-pencil';
+
 
 $form = $this->beginWidget(
     'booster.widgets.TbActiveForm',
@@ -22,9 +25,11 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     <?php include('_form.php'); ?>
 
     <div class="game-card_section">
-        <?= $btnHelper->submitButton(array('label' => 'Добавить', 'gl-icon' => 'plus', 'context' => 'success')); ?>
+        <?= $btnHelper->submitButton(array('label' => 'Сохранить', 'fa-icon' => 'save', 'context' => 'success')); ?>
         <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => $backUrl)); ?>
     </div>
+
+</div>
 
 <?php
 

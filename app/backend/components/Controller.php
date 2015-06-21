@@ -9,6 +9,7 @@
 
 namespace backend\components;
 
+use common\components\ActiveRecord;
 use \Yii;
 use \CHtml;
 
@@ -16,18 +17,10 @@ class Controller extends \common\components\Controller
 {
     public $layout = '/layouts/main';
     public $breadcrumbs;
+    public $pageTitleIconClass;
 
     private $_viewHelpers = array();
     private $_viewHelpersNamespace = '\backend\helpers\view';
-
-    public function init()
-    {
-        // Инициализация конвртера префикса используемого в формах для редактирования модели
-        if (method_exists($this, '_friendGetFormElementsNamePrefix')) {
-            CHtml::setModelNameConverter(array($this, '_friendGetFormElementsNamePrefix'));
-        }
-        parent::init();
-    }
 
     public function filters()
     {
@@ -63,4 +56,27 @@ class Controller extends \common\components\Controller
         return $this->_viewHelpers[$className];
     }
 
+    public function getViewUIHelper($name)
+    {
+        return $this->getViewHelper('UI\\' . $name);
+    }
+
+    /**
+     * Возвращает хелпер для модели
+     * @param mixed $model - Модель, полное или короткое имя класса
+     * @return mixed
+     */
+    public function getViewModelLinkHelper($model)
+    {
+        if ($model instanceof \CActiveRecord) {
+            $name = (new \ReflectionClass($model))->getShortName();
+        } elseif (is_string($model) && strpos($model, '\\') !== false) {
+            $name = (new \ReflectionClass($model))->getShortName();
+        } else {
+            $name = $model;
+        }
+
+
+        return $this->getViewHelper('ModelLink\\' . $name);
+    }
 }

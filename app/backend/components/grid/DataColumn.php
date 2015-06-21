@@ -16,16 +16,11 @@ class DataColumn extends \CDataColumn
     protected function _getCrudLinkHelper()
     {
         if (self::$_crudLinkHelper === null) {
-            $name = 'ModelLink\\' . $this->_getModelClassShortName();
-            self::$_crudLinkHelper = $this->grid->controller->getViewHelper($name);
+            $modelClass = $this->grid->dataProvider->modelClass;
+            self::$_crudLinkHelper = $this->grid->controller->getViewModelLinkHelper($modelClass);
         }
         return self::$_crudLinkHelper;
 
-    }
-
-    private function _getModelClassShortName()
-    {
-        return (new \ReflectionClass($this->grid->dataProvider->modelClass))->getShortName();
     }
 
 

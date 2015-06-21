@@ -16,7 +16,7 @@ $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
     <div class="game-card_section">
         <div class="row">
             <div class="col-md-6">
-                <h4 class="game-card_header">Информация об игре</h4>
+                <h4 class="game-card_title">Информация об игре</h4>
                 <div class="game-card_info">
                     <? foreach ($game->attributes as $key => $val): ?>
                         <div class="row">
@@ -39,18 +39,13 @@ $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
     </div>
 
     <div class="game-card_section">
-        <h4 class="game-card_header">Ролики</h4>
+        <h4 class="game-card_title">Ролики</h4>
         <div class="game-card_movies">
 <?php
 $this->widget(
     '\backend\components\grid\BaseView',
     array(
         'dataProvider' => $gameMovieDataProvider,
-        'templateWidget'=>array(
-            'params'=> array(
-                'createItemButton'=>false,
-            ),
-        ),
         'columns' => array(
             array(
                 'name' => 'id',

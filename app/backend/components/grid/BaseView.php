@@ -29,9 +29,9 @@ class BaseView extends \TbExtendedGridView
     public function init()
     {
         if ($this->templateWidget) {
-            $class = isset($this->templateWidget['class']) ? $this->templateWidget['class'] : '\backend\widgets\GridViewTemplateBuilder';
+            $class = isset($this->templateWidget['class']) ? $this->templateWidget['class'] : '\backend\widgets\BaseGridViewTemplate';
             $params = isset($this->templateWidget['params']) ? $this->templateWidget['params'] : array();
-            $this->template = $this->controller->widget($class, $params, true);
+            $this->template = $this->getController()->widget($class, $params, true);
         }
 
         parent::init();
