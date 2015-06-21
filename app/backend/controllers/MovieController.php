@@ -36,7 +36,7 @@ class MovieController extends CrudController
 
     public function actionView($id)
     {
-        $movie = Movie::model()->findByPk($id);
+        $movie = $this->_getModelById($id, array('video', 'audio'));
         $this->render('view', array('movie' => $movie));
     }
 
@@ -65,7 +65,29 @@ class MovieController extends CrudController
 
     public function actionEdit($id)
     {
-        $this->render('/dummy');
+        $movie = $this->_getModelById($id, array('video', 'audio'));
+
+        $form = new MovieForm();
+        $form->mainParams = $movie;
+        $form->videoParams = $movie->video;
+        $form->audioParams = $movie->audio;
+
+        $this->_tryAjaxValidation($form);
+
+        $backUrl = $this->_getBackUrl();
+
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->setAttributesByPost();
+
+            if ($form->save()) {
+                $this->redirect($backUrl);
+            }
+        }
+
+        $this->render('create', array(
+            'model' => $form,
+            'backUrl' => $backUrl,
+        ));
     }
 
     public function actionDelete($id)
@@ -79,6 +101,17 @@ class MovieController extends CrudController
         $json2 = json_decode(CActiveForm::validateTabular($form->audioParams), true);
         return json_encode(array_merge($json1, $json2));
     }
+
+    private function _getModelById($id, $with = array())
+    {
+        $game = Movie::model()->with($with)->findByPk($id);
+        if (!$game) {
+            // TODO: Сделать нормальное исключение
+            throw new \CHttpException(404, 'Модель не найдена');
+        }
+        return $game;
+    }
+
 
 }
 

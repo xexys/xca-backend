@@ -24,7 +24,6 @@ class Movie extends \CFormModel
         $this->mainParams = new Model\Movie();
         $this->videoParams = new Model\Movie\Video();
         $this->audioParams[] = new Model\Movie\Audio();
-        $this->audioParams[] = new Model\Movie\Audio();
 
         parent::init();
     }
