@@ -10,6 +10,7 @@ namespace backend\controllers;
 
 use \backend\components\CrudController;
 use \Yii;
+use \CActiveForm;
 use \common\models\Movie;
 use \common\models\Form\Movie as MovieForm;
 use \common\components\DataProvider;
@@ -44,7 +45,7 @@ class MovieController extends CrudController
     {
         $form = new MovieForm();
 
-        $form->tryAjaxValidation();
+        $this->_tryAjaxValidation($form);
 
         $backUrl = $this->_getBackUrl();
 
@@ -71,6 +72,14 @@ class MovieController extends CrudController
     {
         $this->render('/dummy');
     }
+
+    protected function _getAjaxValidationResponseContent($form)
+    {
+        $json1 = json_decode(CActiveForm::validate(array($form->mainParams, $form->videoParams)), true);
+        $json2 = json_decode(CActiveForm::validateTabular($form->audioParams), true);
+        return json_encode(array_merge($json1, $json2));
+    }
+
 }
 
 

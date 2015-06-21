@@ -10,7 +10,6 @@ namespace common\models\Form;
 
 use \Yii;
 use \CHtml;
-use \CActiveForm;
 use \common\models as Model;
 
 
@@ -63,18 +62,6 @@ class Movie extends \CFormModel
             if (!$model->validate()) {
                 $this->addError($key, 'model has errors');
             }
-        }
-    }
-
-    public function tryAjaxValidation()
-    {
-        $request = Yii::app()->getRequest();
-        if ($request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax')) {
-            header('Content-Type: application/json');
-            $json1 = json_decode(CActiveForm::validate(array($this->mainParams, $this->videoParams)), true);
-            $json2 = json_decode(CActiveForm::validateTabular($this->audioParams), true);
-            echo json_encode(array_merge($json1, $json2));
-            Yii::app()->end();
         }
     }
 

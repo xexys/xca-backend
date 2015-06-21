@@ -61,16 +61,23 @@ abstract class CrudController extends Controller
         return $backUrl;
     }
 
-    /**
-     * @param \CActiveRecord $model
-     */
-    protected function _tryAjaxValidation($model)
+    protected function _isAjaxValidationRequest()
     {
         $request = Yii::app()->getRequest();
-        if ($request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax')) {
+        return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
+    }
+
+    protected function _tryAjaxValidation($model)
+    {
+        if ($this->_isAjaxValidationRequest()) {
             header('Content-Type: application/json');
-            echo \CActiveForm::validate($model);
+            echo $this->_getAjaxValidationResponseContent($model);
             Yii::app()->end();
         }
+    }
+
+    protected function _getAjaxValidationResponseContent($model)
+    {
+        return \CActiveForm::validate($model);
     }
 }
