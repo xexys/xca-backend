@@ -8,9 +8,9 @@
 
 namespace backend\components;
 
-use common\components\ActiveRecord;
 use \Yii;
 use \CHtml;
+use \CActiveForm;
 
 
 abstract class CrudController extends Controller
@@ -54,8 +54,8 @@ abstract class CrudController extends Controller
         $request = Yii::app()->getRequest();
         $backUrl = $request->getUrlReferrer() ?: $this->createUrl($defaultBackAction);
 
-        if ($request->getIsPostRequest()) {
-            $backUrl = $request->getPost('backUrl');
+        if ($request->getIsPostRequest() && ($postBackUrl = $request->getPost('backUrl'))) {
+            $backUrl = $postBackUrl;
         }
 
         return $backUrl;
@@ -78,6 +78,6 @@ abstract class CrudController extends Controller
 
     protected function _getAjaxValidationResponseContent($model)
     {
-        return \CActiveForm::validate($model);
+        return CActiveForm::validate($model);
     }
 }
