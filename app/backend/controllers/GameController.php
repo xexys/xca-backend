@@ -69,6 +69,7 @@ class GameController extends CrudController
     public function actionEdit($id)
     {
         $game = $this->_getModelById($id);
+        $gameAttrs = $game->getAttributes();
 
         $this->_tryAjaxValidation($game);
 
@@ -84,7 +85,7 @@ class GameController extends CrudController
 
         $this->render('edit', array(
             'game' => $game,
-            'oldGameAttrs' => $game->getAttributes(),
+            'gameAttrs' => $gameAttrs,
             'backUrl' => $backUrl
         ));
     }

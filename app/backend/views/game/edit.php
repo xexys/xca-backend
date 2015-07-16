@@ -3,7 +3,7 @@
 $uiHelper = $this->getViewHelper('UI');
 $btnHelper = $uiHelper->getButtonHelper();
 
-$this->pageTitle = $oldGameAttrs['title'];
+$this->pageTitle = $gameAttrs['title'];
 $this->pageTitleIconClass = 'glyphicon glyphicon-pencil';
 
 
