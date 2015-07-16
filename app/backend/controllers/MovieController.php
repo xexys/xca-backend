@@ -9,10 +9,10 @@
 namespace backend\controllers;
 
 use \backend\components\CrudController;
+use \backend\models\Form\Movie as MovieForm;
 use \Yii;
 use \CActiveForm;
 use \common\models\Movie;
-use \common\models\Form\Movie as MovieForm;
 use \common\components\DataProvider;
 
 

@@ -6,11 +6,11 @@
  * Time: 1:22
  */
 
-namespace common\models\Form;
+namespace backend\models\Form;
 
 use \Yii;
 use \CHtml;
-use \common\models as Model;
+use \common\models;
 
 
 class Movie extends \CFormModel
@@ -21,9 +21,9 @@ class Movie extends \CFormModel
 
     public function init()
     {
-        $this->mainParams = new Model\Movie();
-        $this->videoParams = new Model\Movie\Video();
-        $this->audioParams[] = new Model\Movie\Audio();
+        $this->mainParams = new models\Movie();
+        $this->videoParams = new models\Movie\Video();
+        $this->audioParams[] = new models\Movie\Audio();
 
         parent::init();
     }
@@ -45,7 +45,7 @@ class Movie extends \CFormModel
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
-                $this->audioParams[$n] = new Model\Movie\Audio();
+                $this->audioParams[$n] = new models\Movie\Audio();
             }
             $this->audioParams[$n]->setAttributes(array_map('trim', $data));
         }

@@ -46,6 +46,7 @@ $this->widget(
     '\backend\components\grid\BaseView',
     array(
         'dataProvider' => $gameMovieDataProvider,
+        'templateWidget' => true,
         'columns' => array(
             array(
                 'name' => 'id',
