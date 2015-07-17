@@ -7,12 +7,12 @@ $controllerId = strtolower($this->id);
 $actionId = strtolower($this->action->id);
 $pageId = implode('-', array('page', $controllerId, $actionId));
 
-$scriptBasePath = Yii::getPathOfAlias('static.build.' . (!PROD_MODE ? 'prod' : 'dev') . '.backend.pages');
+$scriptBasePath = Yii::getPathOfAlias('static.build.' . (PROD_MODE ? 'prod' : 'dev') . '.backend.pages');
 
 $clientScript->registerPackage('font-awesome-latest');
 
 // Публикация статики для страниц
-Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, YII_DEBUG);
+Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, !PROD_MODE);
 
 // Добавление стилей
 $cssUrl = $this->getPageScriptUrl($scriptBasePath, 'style.css');
