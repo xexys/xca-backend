@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    // @link: https://github.com/gruntjs/grunt-contrib-watch
     watch: {
       less: {
         files: ['src/**/*.less'],
@@ -31,6 +32,7 @@ module.exports = function(grunt) {
       }
     },
 
+    // @link https://github.com/gruntjs/grunt-contrib-less
     less: {
       build: {
         files: [{
@@ -58,6 +60,7 @@ module.exports = function(grunt) {
 //        }]
 //      }
 //    },
+//
 //    copy: {
 //      dev: {
 //        files: [{
@@ -70,6 +73,8 @@ module.exports = function(grunt) {
 //        }]
 //      }
 //    },
+
+    // @link https://github.com/jmreidy/grunt-browserify
     browserify: {
       build: {
         options: {
@@ -87,15 +92,48 @@ module.exports = function(grunt) {
           rename: preparePath
         }]
       }
+    },
+
+    // @link: https://github.com/gruntjs/grunt-contrib-uglify
+    uglify: {
+      options: {
+        mangle: true, // Калечит имена
+        beautify: {
+          semicolons: true // Точка с запятой, вместо переноса строки (там где это возможно)
+        }
+      },
+      build: {
+        files: [{
+          expand: true,
+          cwd: 'build/dev',
+          src: '**/script.js',
+          dest: 'build/prod'
+        }]
+      }
+    },
+
+    // @link: https://github.com/gruntjs/grunt-contrib-cssmin
+    cssmin: {
+      build: {
+        files: [{
+          expand: true,
+          cwd: 'build/dev',
+          src: '**/style.css',
+          dest: 'build/prod'
+        }]
+      }
     }
+
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-less');
 //  grunt.loadNpmTasks('grunt-contrib-coffee');
 //  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 //  grunt.loadNpmTasks('grunt-contrib-requirejs')
 //  grunt.loadNpmTasks('grunt-contrib-jst')
@@ -106,9 +144,8 @@ module.exports = function(grunt) {
 //  });
 
 
-//  grunt.registerTask('default', ['less', 'coffee'])
-  grunt.registerTask('default', ['less:build', 'browserify:build'])
-
-
+  grunt.registerTask('dev', ['less:build', 'browserify:build']);
+  grunt.registerTask('prod', ['dev', 'uglify:build', 'cssmin:build']);
+  grunt.registerTask('default', 'dev')
 
 };
