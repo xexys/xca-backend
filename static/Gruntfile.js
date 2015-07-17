@@ -1,8 +1,8 @@
 /**
  * Путь для сборки страничных скриптов
  */
-function preparePath() {
-  return 'dev/' + arguments[1].replace('/app/pages', '/pages');
+function preparePath(dest, src) {
+  return dest + '/' + src.replace('/app/pages', '/pages');
 }
 
 module.exports = function(grunt) {
@@ -14,14 +14,17 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: ['src/**/*.less'],
-        tasks: ['less:dev'],
+        tasks: ['less:build'],
         options: {
           spawn: false
         }
       },
-      coffee: {
-        files: ['src/**/*.coffee'],
-        tasks: ['coffee:dev'],
+      js: {
+        files: [
+          'src/**/*.coffee',
+          'src/**/*.js'
+        ],
+        tasks: ['browserify:build'],
         options: {
           spawn: false
         }
@@ -29,27 +32,57 @@ module.exports = function(grunt) {
     },
 
     less: {
-      dev: {
+      build: {
         files: [{
           expand: true,
           flatten: false,
           cwd: 'src',
           src: ['*/app/pages/**/style.less'],
-//          dest: 'dev',
+          dest: 'build/dev',
           ext: '.css',
           rename: preparePath
         }]
       }
     },
 
-    coffee: {
-      dev: {
+//    coffee: {
+//      dev: {
+//        files: [{
+//          expand: true,
+//          flatten: false,
+//          cwd: 'src',
+//          src: ['*/app/pages/**/script.coffee'],
+//          dest: 'build/src',
+//          ext: '.js',
+//          rename: preparePath
+//        }]
+//      }
+//    },
+//    copy: {
+//      dev: {
+//        files: [{
+//          expand: true,
+//          flatten: false,
+//          cwd: 'src',
+//          src: ['*/app/pages/**/script.js'],
+//          dest: 'build/src',
+//          rename: preparePath
+//        }]
+//      }
+//    },
+    browserify: {
+      build: {
+        options: {
+          transform: ['coffeeify']
+        },
         files: [{
           expand: true,
-          flatten: false,
           cwd: 'src',
-          src: ['*/app/pages/**/script.coffee'],
-//          dest: 'dev',
+          src: [
+            '*/app/pages/**/script.coffee',
+            '*/app/pages/**/script.js'
+          ],
+          dest: 'build/dev',
           ext: '.js',
           rename: preparePath
         }]
@@ -60,13 +93,12 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-coffee');
+//  grunt.loadNpmTasks('grunt-contrib-coffee');
+//  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-browserify');
 
 //  grunt.loadNpmTasks('grunt-contrib-requirejs')
 //  grunt.loadNpmTasks('grunt-contrib-jst')
-
-
-
 
 //  // A very basic default task.
 //  grunt.registerTask('default', function() {
@@ -75,7 +107,8 @@ module.exports = function(grunt) {
 
 
 //  grunt.registerTask('default', ['less', 'coffee'])
-  grunt.registerTask('default', ['less:dev', 'coffee:dev'])
+  grunt.registerTask('default', ['less:build', 'browserify:build'])
+
 
 
 };

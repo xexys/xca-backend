@@ -79,4 +79,9 @@ class Controller extends \common\components\Controller
 
         return $this->getViewHelper('ModelLink\\' . $name);
     }
+
+    protected function _getRequest()
+    {
+        return Yii::app()->getRequest();
+    }
 }

@@ -50,7 +50,10 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                     foreach ($model->audioParams as $n => $audioParams) {
                         foreach ($audioParamsKeys as $key) {
                             $name = '[' . $n . ']' . $key;
-                            echo $form->textFieldGroup($audioParams, $name);
+                            $placeholder = $key;
+                            echo $form->textFieldGroup($audioParams, $name, array('widgetOptions'=>array(
+                                'htmlOptions'=>array('placeholder' => $placeholder)
+                            )));
                         }
                         echo '<hr>';
                     }

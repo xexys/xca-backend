@@ -52,7 +52,7 @@ class GameController extends CrudController
 
         $this->_tryAjaxValidation($game);
 
-        if (Yii::app()->getRequest()->getIsPostRequest()) {
+        if ($this->_getRequest()->getIsPostRequest()) {
             $this->_setModelAttributesByPost($game);
 
             if ($game->save()) {
@@ -75,7 +75,7 @@ class GameController extends CrudController
 
         $backUrl = $this->_getBackUrl();
 
-        if (Yii::app()->request->isPostRequest) {
+        if ($this->_getRequest()->getIsPostRequest()) {
             $this->_setModelAttributesByPost($game);
 
             if ($game->save()) {

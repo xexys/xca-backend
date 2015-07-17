@@ -23,6 +23,9 @@ $this->widget(
             array(
                 'name'=>'game.title',
             ),
+            array(
+                'class' => '\backend\components\grid\ButtonColumn',
+            )
         ),
 
     )

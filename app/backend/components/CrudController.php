@@ -42,7 +42,7 @@ abstract class CrudController extends Controller
 
     protected function _setModelAttributesByPost($model)
     {
-        $model->setAttributes(array_map('trim', $_POST[CHtml::modelName($model)]));
+        $model->setAttributes(array_map('trim', $this->_getRequest()->getPost([CHtml::modelName($model)])));
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class CrudController extends Controller
      */
     protected function _getBackUrl($defaultBackAction = 'index')
     {
-        $request = Yii::app()->getRequest();
+        $request = $this->_getRequest();
         $backUrl = $request->getUrlReferrer() ?: $this->createUrl($defaultBackAction);
 
         if ($request->getIsPostRequest() && ($postBackUrl = $request->getPost('backUrl'))) {
@@ -72,7 +72,7 @@ abstract class CrudController extends Controller
 
     protected function _isAjaxValidationRequest()
     {
-        $request = Yii::app()->getRequest();
+        $request = $this->_getRequest();
         return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
     }
 
