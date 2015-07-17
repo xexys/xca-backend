@@ -58,9 +58,9 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-coffee')
+  grunt.loadNpmTasks('grunt-contrib-coffee');
 
 //  grunt.loadNpmTasks('grunt-contrib-requirejs')
 //  grunt.loadNpmTasks('grunt-contrib-jst')
