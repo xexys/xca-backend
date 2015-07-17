@@ -11,7 +11,6 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
-    // @link: https://github.com/gruntjs/grunt-contrib-watch
     watch: {
       less: {
         files: ['src/**/*.less'],
@@ -32,7 +31,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // @link https://github.com/gruntjs/grunt-contrib-less
     less: {
       build: {
         files: [{
@@ -74,7 +72,6 @@ module.exports = function(grunt) {
 //      }
 //    },
 
-    // @link https://github.com/jmreidy/grunt-browserify
     browserify: {
       build: {
         options: {
@@ -94,7 +91,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // @link: https://github.com/gruntjs/grunt-contrib-uglify
     uglify: {
       options: {
         mangle: true, // Калечит имена
@@ -112,7 +108,6 @@ module.exports = function(grunt) {
       }
     },
 
-    // @link: https://github.com/gruntjs/grunt-contrib-cssmin
     cssmin: {
       build: {
         files: [{
@@ -123,7 +118,6 @@ module.exports = function(grunt) {
         }]
       }
     }
-
 
   });
 
