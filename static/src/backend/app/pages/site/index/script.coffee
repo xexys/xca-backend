@@ -1,3 +1,4 @@
+`
 var _ = require('underscore'),
   names = ['Bruce Wayne', 'Wally West', 'John Jones', 'Kyle Rayner', 'Arthur Curry', 'Clark Kent'],
   otherNames = ['Barry Allen', 'Hal Jordan', 'Kara Kent', 'Diana Prince', 'Ray Palmer', 'Oliver Queen'];
@@ -16,4 +17,9 @@ function findSuperman(values) {
   });
 }
 
-console.log(require('./script1.coffee'));
+
+`
+console.log(require('./script1.js'));
+console.log(123);
+
+
