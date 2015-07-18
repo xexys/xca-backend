@@ -1,9 +1,40 @@
+var path = require('path');
+
 /**
  * Путь для сборки страничных скриптов
  */
-function preparePath(dest, src) {
+function prepareBuildPath(dest, src) {
   return dest + '/' + src.replace('/app/pages', '/pages');
 }
+
+/**
+ * Правила преобразования алиасов в пути к блокам
+ */
+function blocksAliasFilter(src) {
+  var match = src.match(/^(\S+)\/(blocks|blocks-modules|blocks-pages)\/(\S+)\.js/);
+
+  if (!match) {
+    return '';
+  }
+
+  var alias;
+  var base = path.join(match[1], match[2]);
+  var parts = match[3].split('/');
+
+  // Блок или модификатор
+  if (parts.length === 2) {
+    alias = path.join(base, parts[1]);
+  }
+  // Элемент или модификатор
+  else {
+    alias = path.join(base, parts[0], parts[2].replace(parts[0] + '_', ''))
+  }
+
+//  console.log(alias, '->', src);
+
+  return alias
+}
+
 
 module.exports = function(grunt) {
 
@@ -14,7 +45,7 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: ['src/**/*.less'],
-        tasks: ['less:build'],
+        tasks: ['dev-less'],
         options: {
           spawn: false
         }
@@ -24,7 +55,7 @@ module.exports = function(grunt) {
           'src/**/*.coffee',
           'src/**/*.js'
         ],
-        tasks: ['browserify:build'],
+        tasks: ['dev-js'],
         options: {
           spawn: false
         }
@@ -40,34 +71,57 @@ module.exports = function(grunt) {
           src: ['*/app/pages/**/style.less'],
           dest: 'build/dev',
           ext: '.css',
-          rename: preparePath
+          rename: prepareBuildPath
+        }]
+      }
+    },
+
+    coffee: {
+      build: {
+        files: [{
+          expand: true,
+          cwd: 'src',
+          src: ['**/*.coffee'],
+          dest: 'build/src',
+          ext: '.js'
+        }]
+      }
+    },
+
+    copy: {
+      build: {
+        files: [{
+          expand: true,
+          flatten: false,
+          cwd: 'src',
+          src: ['**/*.js'],
+          dest: 'build/src'
         }]
       }
     },
 
 //    coffee: {
-//      dev: {
+//      build: {
 //        files: [{
 //          expand: true,
-//          flatten: false,
 //          cwd: 'src',
 //          src: ['*/app/pages/**/script.coffee'],
 //          dest: 'build/src',
 //          ext: '.js',
-//          rename: preparePath
+//          rename: prepareBuildPath
 //        }]
 //      }
 //    },
 //
 //    copy: {
-//      dev: {
+//      build: {
 //        files: [{
 //          expand: true,
 //          flatten: false,
 //          cwd: 'src',
 //          src: ['*/app/pages/**/script.js'],
 //          dest: 'build/src',
-//          rename: preparePath
+//          rename: prepareBuildPath
 //        }]
 //      }
 //    },
@@ -75,18 +129,42 @@ module.exports = function(grunt) {
     browserify: {
       build: {
         options: {
-          transform: ['coffeeify']
+//          aliasMappings: {
+//            cwd: './src/backend',
+//            src: ['blocks-modules/**/*.js']
+//          },
+
+          alias: {
+//            'blocks-modules/backbone': './src/common/blocks-modules/backbone/backbone.js',
+//            'blocks-modules/marionette': './src/common/blocks-modules/marionette/marionette.js'
+
+//            'backbone': './src/backend/blocks-modules/backbone/backbone.js'
+//            'marionette': './src/backend/blocks-modules/marionette/marionette.js'
+          },
+
+//          require: [
+//            ['./src/backend/blocks-modules/backbone/backbone.js', {expose: 'backbone'}]
+//          ],
+
+          plugin: [
+            ['remapify', [{
+                src: '**/*',
+                cwd: 'build/src',
+                filter: blocksAliasFilter
+              }]
+            ]
+          ]
+//          transform: ['coffeeify']
         },
         files: [{
           expand: true,
-          cwd: 'src',
+          cwd: 'build/src',
           src: [
-            '*/app/pages/**/script.coffee',
+//            '*/app/pages/**/script.coffee',
             '*/app/pages/**/script.js'
           ],
           dest: 'build/dev',
-          ext: '.js',
-          rename: preparePath
+          rename: prepareBuildPath
         }]
       }
     },
@@ -121,8 +199,8 @@ module.exports = function(grunt) {
 
   });
 
-//  grunt.loadNpmTasks('grunt-contrib-coffee');
-//  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-watch');
 //  grunt.loadNpmTasks('grunt-watchify');
@@ -139,7 +217,9 @@ module.exports = function(grunt) {
 //  });
 
 
-  grunt.registerTask('dev', ['less:build', 'browserify:build']);
+  grunt.registerTask('dev-js', ['coffee:build', 'copy:build', 'browserify:build']);
+  grunt.registerTask('dev-less', ['less:build']);
+  grunt.registerTask('dev', ['dev-less', 'dev-js']);
   grunt.registerTask('prod', ['dev', 'uglify:build', 'cssmin:build']);
   grunt.registerTask('default', 'dev')
 

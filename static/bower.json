@@ -1,10 +1,9 @@
 {
   "name"           : "xca",
   "devDependencies": {
-    "jquery"       : "1.8.x",
-    "jquery.cookie": "*",
-    "marionette"   : "2.4.1",
-    "normalize-css": "3.0.3",
+    "jquery"                 : "1.8.x",
+    "jquery.cookie"          : "*",
+    "normalize-css"          : "3.0.3",
     "components-font-awesome": "*"
   }
 }

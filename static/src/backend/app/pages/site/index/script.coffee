@@ -1,3 +1,7 @@
+require('../script.js')
+
+console.log("pages/site/index");
+
 `
 var _ = require('underscore'),
   names = ['Bruce Wayne', 'Wally West', 'John Jones', 'Kyle Rayner', 'Arthur Curry', 'Clark Kent'],
@@ -19,7 +23,6 @@ function findSuperman(values) {
 
 
 `
-console.log(require('./script1.js'));
 console.log(123);
 
 
