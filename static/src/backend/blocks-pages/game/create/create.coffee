@@ -1,16 +1,13 @@
 Marionette = require('common/blocks-modules/marionette');
-GameCard = require('backend/blocks/game-card');
+PageView = require('backend/blocks/page');
+GameCardView = require('backend/blocks/game-card');
 
 
-class GameCreatePage extends Marionette.LayoutView
+class GameCreatePageView extends PageView
 
   initialize: ->
-
-    console.log('GameCreatePage')
-
-    @_gameCard = new GameCard({el: '.game-card'});
-
-    @_gameCard.test()
+    super
+    @_gameCard = new GameCardView(el: '.game-card');
 
 
-module.exports = GameCreatePage
+module.exports = GameCreatePageView

@@ -21,11 +21,11 @@ function blocksAliasFilter(src) {
   var base = path.join(match[1], match[2]);
   var parts = match[3].split('/');
 
-  // Блок или модификатор
+  // Блок или его модификатор
   if (parts.length === 2) {
     alias = path.join(base, parts[1]);
   }
-  // Элемент или модификатор
+  // Элемент или его модификатор
   else {
     alias = path.join(base, parts[0], parts[2].replace(parts[0] + '_', ''))
   }

@@ -42,7 +42,7 @@ abstract class CrudController extends Controller
 
     protected function _setModelAttributesByPost($model)
     {
-        $model->setAttributes(array_map('trim', $this->_getRequest()->getPost([CHtml::modelName($model)])));
+        $model->setAttributes(array_map('trim', $this->_getRequest()->getPost(CHtml::modelName($model))));
     }
 
     /**
