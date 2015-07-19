@@ -3,7 +3,10 @@
 #require('backend/blocks/foo-bar/item')
 #require('backend/blocks/foo-bar/item_active')
 
-BasePage = require('backend/app/base')
+Marionette = require('common/blocks-modules/marionette')
 
-$ ->
-  (new BasePage).start()
+
+class BaseApp extends Marionette.Application
+
+
+module.exports = BaseApp

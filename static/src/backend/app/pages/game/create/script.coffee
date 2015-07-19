@@ -1,12 +1,17 @@
-require('../../script.js')
+BaseApp = require('backend/app/base')
 
 MenuView = require('backend/blocks/menu')
 GameCreatePageView = require('backend/blocks-pages/game/create')
 
-$ ->
-  new MenuView
-  new GameCreatePageView
 
-# Блоки, не привязаны к конкретным нодам в доме, имеют стили
-# Виджеты, создают экземпляры блоков, имеют свои стили, идет взаимодействие между блоками
-#
+class GameCreatePageApp extends BaseApp
+
+  initialize: ->
+    super
+
+    new MenuView
+    new GameCreatePageView
+
+
+$ ->
+  (new GameCreatePageApp).start()

@@ -1,4 +1,5 @@
 var path = require('path');
+var _ = require('underscore');
 
 /**
  * Путь для сборки страничных скриптов
@@ -33,6 +34,25 @@ function blocksAliasFilter(src) {
 //  console.log(alias, '->', src);
 
   return alias
+}
+
+function appAliasFilter(src, basedir) {
+  var alias = src.replace('.js', '');
+  if (/pages/.test(basedir)) {
+    return ''
+  }
+
+//  console.log(alias, '->', src);
+
+  return alias;
+}
+
+function memoizeAliasFilter(func) {
+  var memFunc = _.memoize(func, function(src) {
+    return src;
+  });
+
+  return memFunc
 }
 
 
@@ -150,8 +170,12 @@ module.exports = function(grunt) {
             ['remapify', [{
                 src: '**/*',
                 cwd: 'build/src',
-                filter: blocksAliasFilter
-              }]
+                filter: memoizeAliasFilter(blocksAliasFilter)
+              }, {
+              src: '**/app/**/*.js',
+              cwd: 'build/src',
+              filter: memoizeAliasFilter(appAliasFilter)
+            }]
             ]
           ]
 //          transform: ['coffeeify']
