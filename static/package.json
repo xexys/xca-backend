@@ -4,7 +4,7 @@
 
   "dependencies": {
     "backbone"               : "1.1.2",
-    "backbone.marionette"    : "2.4.1",
+    "backbone.marionette"    : "2.4.2",
     "underscore"         : "1.8.*"
   },
 
@@ -27,7 +27,8 @@
     "grunt-contrib-uglify": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-browserify"    : "3.8.*",
-    "grunt-watchify"      : "*"
+    "grunt-watchify"      : "*",
+    "grunt-strip-code"      : "*"
 
   }
 }

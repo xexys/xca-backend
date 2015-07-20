@@ -1,9 +1,12 @@
-#require('backend/blocks/foo-bar')
-#require('backend/blocks/foo-bar_baz')
-#require('backend/blocks/foo-bar/item')
-#require('backend/blocks/foo-bar/item_active')
+app = require('backend/app')
+BaseRouter = require('backend/routers/base')
+BasePageView = require('backend/blocks-pages/base')
 
-BasePage = require('backend/app/base')
 
 $ ->
-  (new BasePage).start()
+
+  app.router = new BaseRouter
+  app.rootView = new BasePageView
+
+  app.start()
+
