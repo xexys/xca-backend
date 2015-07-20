@@ -62,4 +62,4 @@ module.exports = {
   blocksAliasFilter: memoizeAliasFilter(blocksAliasFilter),
   appAliasFilter: memoizeAliasFilter(appAliasFilter)
 
-}
+};
