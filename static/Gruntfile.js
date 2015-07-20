@@ -155,7 +155,7 @@ module.exports = function(grunt) {
 //          },
 
           alias: {
-//            'blocks-modules/backbone': './src/common/blocks-modules/backbone/backbone.js',
+            'backend/app': './build/src/backend/app/app.js'
 //            'blocks-modules/marionette': './src/common/blocks-modules/marionette/marionette.js'
 
 //            'backbone': './src/backend/blocks-modules/backbone/backbone.js'
