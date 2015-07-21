@@ -7,7 +7,7 @@ $controllerId = strtolower($this->id);
 $actionId = strtolower($this->action->id);
 $pageId = implode('-', array('page', $controllerId, $actionId));
 
-$scriptBasePath = Yii::getPathOfAlias('static.build.' . (PROD_MODE ? 'prod' : 'dev') . '.backend.pages');
+$scriptBasePath = Yii::getPathOfAlias('static.build.' . (PROD_MODE ? 'prod' : 'dev') . '.backend.bundles');
 
 $clientScript->registerPackage('font-awesome-latest');
 

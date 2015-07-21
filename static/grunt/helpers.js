@@ -10,13 +10,6 @@ function memoizeAliasFilter(func) {
 }
 
 /**
- * Путь для сборки страничных скриптов
- */
-function prepareBuildPath(dest, src) {
-  return dest + '/' + src.replace('/app/pages', '/pages');
-}
-
-/**
  * Правила преобразования алиасов в пути к блокам
  */
 function blocksAliasFilter(src) {
@@ -47,9 +40,6 @@ function blocksAliasFilter(src) {
 function appAliasFilter(src, basedir) {
   var alias = src.replace('/app', '');
   alias = alias.replace('.js', '');
-  if (/pages/.test(basedir)) {
-    return ''
-  }
 
 //  console.log(alias, '->', src);
 
@@ -58,7 +48,6 @@ function appAliasFilter(src, basedir) {
 
 
 module.exports = {
-  prepareBuildPath: prepareBuildPath,
   blocksAliasFilter: memoizeAliasFilter(blocksAliasFilter),
   appAliasFilter: memoizeAliasFilter(appAliasFilter)
 

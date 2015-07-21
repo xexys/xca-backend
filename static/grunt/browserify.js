@@ -37,12 +37,8 @@ var tasks = {
     files: [{
       expand: true,
       cwd: 'build/src',
-      src: [
-//            '*/app/pages/**/script.coffee',
-        '*/app/pages/**/script.js'
-      ],
-      dest: 'build/dev',
-      rename: helpers.prepareBuildPath
+      src: '**/bundles/**/script.js',
+      dest: 'build/dev'
     }]
   }
 };

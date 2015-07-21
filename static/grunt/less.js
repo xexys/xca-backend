@@ -6,10 +6,9 @@ var tasks = {
       expand: true,
       flatten: false,
       cwd: 'src',
-      src: ['*/app/pages/**/style.less'],
+      src: ['**/bundles/**/style.less'],
       dest: 'build/dev',
-      ext: '.css',
-      rename: helpers.prepareBuildPath
+      ext: '.css'
     }]
   }
 };
