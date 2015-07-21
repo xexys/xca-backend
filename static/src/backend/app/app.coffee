@@ -13,15 +13,17 @@ BasePageView = require('backend/blocks-pages/base')
 
 class App extends Marionette.Application
 
-  onStart: ->
-    @router = @router || new BaseRouter
-    @rootView = @rootView || new BasePageView
+  onBeforeStart: (options = {}) ->
+    @_router = options.router || new BaseRouter
+    @_pageView = options.pageView || new BasePageView
 
+
+  onStart: ->
     ### dev-code-start ###
     console.info('App:', 'start')
-    console.log('Router:', @router.constructor.name)
-    console.log('Controller:', @router.controller.constructor.name)
-    console.log('PageView:', @rootView.constructor.name)
+    console.log('Router:', @_router.constructor.name)
+    console.log('Controller:', @_router.controller.constructor.name)
+    console.log('PageView:', @_pageView.constructor.name)
     ### dev-code-end ###
 
     Backbone.history.start()
