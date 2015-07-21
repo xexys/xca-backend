@@ -6,7 +6,7 @@ var tasks = {
       expand: true,
       flatten: false,
       cwd: 'src',
-      src: ['**/bundles/**/style.less'],
+      src: ['*/bundles/**/style.less'],
       dest: 'build/dev',
       ext: '.css'
     }]

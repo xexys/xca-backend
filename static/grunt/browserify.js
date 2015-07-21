@@ -37,7 +37,7 @@ var tasks = {
     files: [{
       expand: true,
       cwd: 'build/src',
-      src: '**/bundles/**/script.js',
+      src: '*/bundles/**/script.js',
       dest: 'build/dev'
     }]
   }
