@@ -13,8 +13,6 @@ BasePageView = require('backend/blocks-pages/base')
 
 class App extends Marionette.Application
 
-  rootView: null
-
   onStart: ->
     @router = @router || new BaseRouter
     @rootView = @rootView || new BasePageView
