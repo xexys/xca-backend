@@ -11,6 +11,7 @@ namespace backend\models\Form;
 use \Yii;
 use \CHtml;
 use \common\models;
+use \common\helpers\Data as DataHelper;
 
 
 class Movie extends \CFormModel
@@ -21,7 +22,7 @@ class Movie extends \CFormModel
 
     public function init()
     {
-        $this->mainParams = new models\Movie();
+        $this->mainParams = new \backend\models\Form\Movie\MainParams();
         $this->videoParams = new models\Movie\Video();
         $this->audioParams[] = new models\Movie\Audio();
 
@@ -40,14 +41,14 @@ class Movie extends \CFormModel
     public function setAttributesByPost()
     {
         $request = Yii::app()->getRequest();
-        $this->mainParams->setAttributes(array_map('trim', $request->getPost(CHtml::modelName($this->mainParams))));
-        $this->videoParams->setAttributes(array_map('trim', $request->getPost(CHtml::modelName($this->videoParams))));
+        $this->mainParams->setAttributes($request->getPost(CHtml::modelName($this->mainParams)));
+        $this->videoParams->setAttributes($request->getPost(CHtml::modelName($this->videoParams)));
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
                 $this->audioParams[$n] = new models\Movie\Audio();
             }
-            $this->audioParams[$n]->setAttributes(array_map('trim', $data));
+            $this->audioParams[$n]->setAttributes($data);
         }
     }
 
@@ -77,8 +78,12 @@ class Movie extends \CFormModel
     public function getMainInputKeys()
     {
         $keys = array_keys($this->mainParams->getAttributes());
-        $invalidKeys = array('id');
-        return $this->_filterParamsKeys($keys, $invalidKeys);
+        return $this->_filterParamsKeys($keys, $this->getMainHiddenKeys());
+    }
+
+    public function getMainHiddenKeys()
+    {
+        return array('gameId');
     }
 
     public function getVideoInputKeys()

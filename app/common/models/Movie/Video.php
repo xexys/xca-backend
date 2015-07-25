@@ -22,7 +22,7 @@ class Video extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, width, height, bit_rate, frame_rate', 'required'),
+			array('movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode', 'required'),
 			array('movie_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
 			array('frame_rate, frame_quality', 'numerical'),
 			// The following rule is used by search().

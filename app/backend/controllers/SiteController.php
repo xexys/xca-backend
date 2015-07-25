@@ -8,7 +8,7 @@
  */
 
 namespace backend\controllers;
-use \backend\components\Controller;
+use \backend\components\HtmlController;
 use \Yii;
 use \DateTime;
 use \common\models\Game;
@@ -18,7 +18,7 @@ use \common\models\Reference;
 use \common\models\User;
 
 
-class SiteController extends Controller
+class SiteController extends HtmlController
 {
     public function actionIndex()
     {

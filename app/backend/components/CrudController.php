@@ -11,9 +11,10 @@ namespace backend\components;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
+use \common\helpers\Data as DataHelper;
 
 
-abstract class CrudController extends Controller
+abstract class CrudController extends HtmlController
 {
     public function init()
     {
@@ -42,7 +43,7 @@ abstract class CrudController extends Controller
 
     protected function _setModelAttributesByPost($model)
     {
-        $model->setAttributes(array_map('trim', $this->_getRequest()->getPost(CHtml::modelName($model))));
+        $model->setAttributes($this->_trimData($this->_getRequest()->getPost(CHtml::modelName($model))));
     }
 
     /**
@@ -79,5 +80,12 @@ abstract class CrudController extends Controller
     protected function _getAjaxValidationResponseContent($model)
     {
         return CActiveForm::validate($model);
+    }
+
+    protected function _trimData($data)
+    {
+        array_walk_recursive($data, function(&$item) {
+            $item = trim($item);
+        });
     }
 }

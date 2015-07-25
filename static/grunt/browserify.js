@@ -9,6 +9,8 @@ var tasks = {
 //          },
 
       alias: {
+//        'jquery': './bower_components/jquery/jquery.js',
+//        'jquery': './bower_components/jquery/dist/jquery.js',
         'backend/app': './build/src/backend/app/app.js'
 //            'blocks-modules/marionette': './src/common/blocks-modules/marionette/marionette.js'
 

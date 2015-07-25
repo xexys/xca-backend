@@ -9,23 +9,16 @@
 
 namespace backend\components;
 
-use common\components\ActiveRecord;
 use \Yii;
-use \CHtml;
+use \common\helpers\Data as DataHelper;
 
-class Controller extends \common\components\Controller
+class Controller extends \CController
 {
-    public $layout = '/layouts/main';
-    public $breadcrumbs;
-    public $pageTitleIconClass;
-
-    private $_viewHelpers = array();
-    private $_viewHelpersNamespace = '\backend\helpers\view';
-
     public function filters()
     {
         return array(
             'accessControl',
+            'trimPostData',
         );
     }
 
@@ -41,43 +34,12 @@ class Controller extends \common\components\Controller
         );
     }
 
-    public function getViewHelper($name)
+    public function filterTrimPostData($filterChain)
     {
-        if (strpos($name, '.') !== false) {
-            $className = Yii::import($name, true);
-        } else {
-            $className = $this->_viewHelpersNamespace . '\\' . $name;
-        }
+        // Необходимо сделать trim для POST данных, иначе валидация форм через ajax не пройдет, т.к. CActiveForm::validate работает напрямую с массивом $_POST
+        $_POST = DataHelper::trimRecursive($_POST);
 
-        if (!isset($this->_viewHelpers[$className])) {
-            $this->_viewHelpers[$className] = new $className($this);
-        }
-
-        return $this->_viewHelpers[$className];
-    }
-
-    public function getViewUIHelper($name)
-    {
-        return $this->getViewHelper('UI\\' . $name);
-    }
-
-    /**
-     * Возвращает хелпер для модели
-     * @param mixed $model - Модель, полное или короткое имя класса
-     * @return mixed
-     */
-    public function getViewModelLinkHelper($model)
-    {
-        if ($model instanceof \CActiveRecord) {
-            $name = (new \ReflectionClass($model))->getShortName();
-        } elseif (is_string($model) && strpos($model, '\\') !== false) {
-            $name = (new \ReflectionClass($model))->getShortName();
-        } else {
-            $name = $model;
-        }
-
-
-        return $this->getViewHelper('ModelLink\\' . $name);
+        $filterChain->run();
     }
 
     protected function _getRequest()

@@ -112,7 +112,7 @@ return array(
 //                "SET timezone='$postgreTimezone'",  // fix +04 для Postgre 8.4
 //            ),
             // Включить кэширование схем для улучшения производительности
-            'schemaCachingDuration'=>3600*24*365,
+            'schemaCachingDuration'=> 3600*24*365,
         ),
 
         /*

@@ -17,7 +17,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 ?>
 
-<div class="game-card game-card_edit">
+<div class="movie-card movie-card_edit">
 
     <div class="row">
         <div class="col-md-6">
@@ -25,8 +25,21 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Основные параметры</h4>
                 <div class="">
                     <?php
+
+                    foreach ($model->getMainHiddenKeys() as $key) {
+                        $cssKey = $this->_correctCssName($key);
+                        $options = array('class' => 'movie-card_main_' . $cssKey);
+                        echo $form->hiddenField($model->mainParams, $key, $options);
+                    }
                     foreach ($model->getMainInputKeys() as $key) {
-                        echo $form->textFieldGroup($model->mainParams, $key);
+                        $cssKey = $this->_correctCssName($key);
+                        $options = array('widgetOptions' => array(
+                            'htmlOptions'=>array(
+                                'autocomplete' => 'off',
+                                'class' => 'movie-card_main_' . $cssKey
+                            )
+                        ));
+                        echo $form->textFieldGroup($model->mainParams, $key, $options);
                     }
                     ?>
                 </div>
@@ -51,9 +64,10 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                         foreach ($audioParamsKeys as $key) {
                             $name = '[' . $n . ']' . $key;
                             $placeholder = $key;
-                            echo $form->textFieldGroup($audioParams, $name, array('widgetOptions'=>array(
+                            $options = array('widgetOptions' => array(
                                 'htmlOptions'=>array('placeholder' => $placeholder)
-                            )));
+                            ));
+                            echo $form->textFieldGroup($audioParams, $name, $options);
                         }
                         echo '<hr>';
                     }

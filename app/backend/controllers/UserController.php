@@ -12,7 +12,7 @@ use \Yii;
 use \common\components\auth\UserIdentity;
 use \common\models\User;
 
-class UserController extends \backend\components\Controller
+class UserController extends \backend\components\HtmlController
 {
     public function accessRules()
     {

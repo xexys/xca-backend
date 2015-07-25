@@ -28,4 +28,23 @@ class ActiveRecord extends \CActiveRecord
         return $attribute;
     }
 
+    /**
+     * Возвращает модель найденную по одному из атрибутов в списке
+     * Последовательно пытается найти записи по каждому атрибуту
+     * @param array $attrs
+     * @return mixed
+     */
+    public function findByOneOfAttributes(array $attrs)
+    {
+        $model = null;
+        foreach($attrs as $key => $val) {
+            $model = $this->findByAttributes(array($key => $val));
+            if ($model) {
+                return $model;
+            }
+        }
+        return $model;
+    }
+
+
 }

@@ -10,6 +10,7 @@ $pageId = implode('-', array('page', $controllerId, $actionId));
 $scriptBasePath = Yii::getPathOfAlias('static.build.' . (PROD_MODE ? 'prod' : 'dev') . '.backend.bundles');
 
 $clientScript->registerPackage('font-awesome-latest');
+$clientScript->registerPackage('bootstrap3-typeahead');
 
 // Публикация статики для страниц
 Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, !PROD_MODE);

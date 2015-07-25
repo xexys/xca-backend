@@ -18,6 +18,12 @@ return array(
     'cookie' => array(
         'depends' => array('jquery.cookie')
     ),
+    'bootstrap3-typeahead' => array(
+        'basePath' => $bowerComponents,
+        'js' => array('bootstrap3-typeahead/bootstrap3-typeahead.js'),
+        'depends' => array('jquery')
+    ),
+
     // Шрифты
     'font-awesome-latest' => array(
         'basePath' => $bowerComponents,

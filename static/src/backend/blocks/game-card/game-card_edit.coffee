@@ -1,10 +1,6 @@
-GameCard = require('./game-card.coffee')
+GameCard = require('./game-card')
 
-class GameCard_Edit extends GameCard
-
-  test: ->
-    super
-    console.log('GameCard_Edit')
+class GameCardEdit extends GameCard
 
 
-module.exports = GameCard_Edit
+module.exports = GameCardEdit
