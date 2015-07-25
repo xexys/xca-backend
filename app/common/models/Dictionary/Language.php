@@ -1,17 +1,17 @@
 <?php
 
-namespace common\models\Reference;
+namespace common\models\Dictionary;
 use \common\components\ActiveRecord;
 
 
-class FileFormat extends ActiveRecord
+class Language extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{ref_file_formats}}';
+		return '{{dic_languages}}';
 	}
 
 	/**
@@ -22,13 +22,13 @@ class FileFormat extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, extension, name', 'required'),
+			array('id, code2, code3', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('extension', 'length', 'max'=>3),
-			array('name', 'length', 'max'=>20),
+			array('code2', 'length', 'max'=>2),
+			array('code3', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, extension, name', 'safe', 'on'=>'search'),
+			array('id, code2, code3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -39,8 +39,8 @@ class FileFormat extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'extension' => 'Extension',
-			'name' => 'Name',
+			'code2' => 'Code2',
+			'code3' => 'Code3',
 		);
 	}
 
@@ -63,8 +63,8 @@ class FileFormat extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('extension',$this->extension,true);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('code2',$this->code2,true);
+		$criteria->compare('code3',$this->code3,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -75,7 +75,7 @@ class FileFormat extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return RefFileFormats the static model class
+	 * @return RefLanguages the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

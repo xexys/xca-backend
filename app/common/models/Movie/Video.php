@@ -39,7 +39,7 @@ class Video extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'format' => array(self::BELONGS_TO, '\common\models\Reference\VideoFormat', 'format_id'),
+			'format' => array(self::BELONGS_TO, '\common\models\Dictionary\VideoFormat', 'format_id'),
 			'movie' => array(self::BELONGS_TO, '\common\models\Movie', 'movie_id'),
 		);
 	}

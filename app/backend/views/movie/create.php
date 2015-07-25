@@ -25,21 +25,28 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Основные параметры</h4>
                 <div class="">
                     <?php
+                    foreach ($model->getMainParamKeys() as $key) {
+                        $cssClass = 'movie-card_main-param_' . $this->_correctCssName($key);
 
-                    foreach ($model->getMainHiddenKeys() as $key) {
-                        $cssKey = $this->_correctCssName($key);
-                        $options = array('class' => 'movie-card_main_' . $cssKey);
-                        echo $form->hiddenField($model->mainParams, $key, $options);
-                    }
-                    foreach ($model->getMainInputKeys() as $key) {
-                        $cssKey = $this->_correctCssName($key);
-                        $options = array('widgetOptions' => array(
-                            'htmlOptions'=>array(
-                                'autocomplete' => 'off',
-                                'class' => 'movie-card_main_' . $cssKey
-                            )
-                        ));
-                        echo $form->textFieldGroup($model->mainParams, $key, $options);
+                        if ($key == 'gameId') {
+                            continue;
+                        } elseif ($key == 'formatId') {
+                            $options = array('widgetOptions' => array(
+                                'data'=> $model->mainParams->getFormatDictionary(),
+                                'htmlOptions'=>array(
+                                    'class' => $cssClass
+                                )
+                            ));
+                            echo $form->dropDownListGroup($model->mainParams, $key, $options);
+                        } else {
+                            $options = array('widgetOptions' => array(
+                                'htmlOptions'=>array(
+                                    'autocomplete' => 'off',
+                                    'class' => $cssClass
+                                )
+                            ));
+                            echo $form->textFieldGroup($model->mainParams, $key, $options);
+                        }
                     }
                     ?>
                 </div>
@@ -49,9 +56,28 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Видео параметры</h4>
                 <div class="">
                     <?php
-                    foreach ($model->getVideoInputKeys() as $key) {
-                        echo $form->textFieldGroup($model->videoParams, $key);
-                    } ?>
+                    foreach ($model->getVideoParamKeys() as $key) {
+                        $cssClass = 'movie-card_video-param_' . $this->_correctCssName($key);
+
+                        if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
+                            $options = array('widgetOptions' => array(
+                                'data'=> $model->videoParams->getDictionary($key),
+                                'htmlOptions'=>array(
+                                    'class' => $cssClass
+                                )
+                            ));
+                            echo $form->dropDownListGroup($model->videoParams, $key, $options);
+                        } else {
+                            $options = array('widgetOptions' => array(
+                                'htmlOptions'=>array(
+                                    'autocomplete' => 'off',
+                                    'class' => $cssClass
+                                )
+                            ));
+                            echo $form->textFieldGroup($model->videoParams, $key, $options);
+                        }
+                    }
+                    ?>
                 </div>
             </div>
 
@@ -59,15 +85,32 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Аудио параметры</h4>
                 <div class="">
                     <?php
-                    $audioParamsKeys = $model->getAudioInputKeys();
+                    $audioParamsKeys = $model->getAudioParamKeys();
                     foreach ($model->audioParams as $n => $audioParams) {
                         foreach ($audioParamsKeys as $key) {
+                            $cssClass = 'movie-card_audio-param_' . $this->_correctCssName($key);
                             $name = '[' . $n . ']' . $key;
-                            $placeholder = $key;
-                            $options = array('widgetOptions' => array(
-                                'htmlOptions'=>array('placeholder' => $placeholder)
-                            ));
-                            echo $form->textFieldGroup($audioParams, $name, $options);
+                            $placeholder = $audioParams->getAttributeLabel($key);
+
+                            if (in_array($key, array('formatId', 'bitRateMode', 'channels', 'languageId'))) {
+                                $options = array('widgetOptions' => array(
+                                    'data'=> $audioParams->getDictionary($key),
+                                    'htmlOptions'=>array(
+                                        'placeholder' => $placeholder,
+                                        'class' => $cssClass,
+                                    )
+                                ));
+                                echo $form->dropDownListGroup($audioParams, $name, $options);
+                            } else {
+                                $options = array('widgetOptions' => array(
+                                    'htmlOptions'=>array(
+                                        'autocomplete' => 'off',
+                                        'placeholder' => $placeholder,
+                                        'class' => $cssClass
+                                    )
+                                ));
+                                echo $form->textFieldGroup($audioParams, $name, $options);
+                            }
                         }
                         echo '<hr>';
                     }

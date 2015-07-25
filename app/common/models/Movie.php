@@ -45,7 +45,7 @@ class Movie extends ActiveRecord
             'storage' => array(self::HAS_ONE, '\common\models\Movie\Storage', 'movie_id'),
             'video' => array(self::HAS_ONE, '\common\models\Movie\Video', 'movie_id'),
             'audio' => array(self::HAS_MANY, '\common\models\Movie\Audio', 'movie_id'),
-            'format' => array(self::BELONGS_TO, '\common\models\Reference\FileFormat', 'format_id'),
+            'format' => array(self::BELONGS_TO, '\common\models\Dictionary\FileFormat', 'format_id'),
             'mediaInfo' => array(self::HAS_ONE, '\common\models\Movie\MediaInfo', 'movie_id'),
         );
     }

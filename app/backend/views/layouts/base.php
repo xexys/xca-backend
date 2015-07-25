@@ -11,6 +11,7 @@ $scriptBasePath = Yii::getPathOfAlias('static.build.' . (PROD_MODE ? 'prod' : 'd
 
 $clientScript->registerPackage('font-awesome-latest');
 $clientScript->registerPackage('bootstrap3-typeahead');
+//$clientScript->registerPackage('bootstrap-select');
 
 // Публикация статики для страниц
 Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, !PROD_MODE);

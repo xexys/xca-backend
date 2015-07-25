@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\Reference;
+namespace common\models\Dictionary;
 use \common\components\ActiveRecord;
 
 
@@ -11,7 +11,7 @@ class VideoFormat extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{ref_video_formats}}';
+		return '{{dic_video_formats}}';
 	}
 
 	/**

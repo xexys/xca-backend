@@ -40,8 +40,8 @@ class Audio extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'movie' => array(self::BELONGS_TO, '\common\models\Movie', 'movie_id'),
-			'format' => array(self::BELONGS_TO, '\common\models\Reference\AudioFormat', 'format_id'),
-			'lang' => array(self::BELONGS_TO, '\common\models\Reference\Language', 'language_id'),
+			'format' => array(self::BELONGS_TO, '\common\models\Dictionary\AudioFormat', 'format_id'),
+			'lang' => array(self::BELONGS_TO, '\common\models\Dictionary\Language', 'language_id'),
 		);
 	}
 

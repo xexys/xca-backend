@@ -37,7 +37,7 @@ class Controller extends \CController
     public function filterTrimPostData($filterChain)
     {
         // Необходимо сделать trim для POST данных, иначе валидация форм через ajax не пройдет, т.к. CActiveForm::validate работает напрямую с массивом $_POST
-        $_POST = DataHelper::trimRecursive($_POST);
+        DataHelper::trimRecursive($_POST);
 
         $filterChain->run();
     }

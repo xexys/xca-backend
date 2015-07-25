@@ -14,7 +14,7 @@ use \common\models;
 use \common\helpers\Data as DataHelper;
 
 
-class Movie extends \CFormModel
+class Movie extends \common\components\FormModel
 {
     public $mainParams;
     public $videoParams;
@@ -22,9 +22,9 @@ class Movie extends \CFormModel
 
     public function init()
     {
-        $this->mainParams = new \backend\models\Form\Movie\MainParams();
-        $this->videoParams = new models\Movie\Video();
-        $this->audioParams[] = new models\Movie\Audio();
+        $this->mainParams = new Movie\MainParams($this->getScenario());
+        $this->videoParams = new Movie\VideoParams($this->getScenario());
+        $this->audioParams[] = new Movie\AudioParams($this->getScenario());
 
         parent::init();
     }
@@ -32,9 +32,9 @@ class Movie extends \CFormModel
     public function rules()
     {
         return array(
-            array('mainParams', 'validateModel'),
-            array('videoParams', 'validateModel'),
-            array('audioParams', 'validateModel'),
+            array('mainParams', 'validateParams'),
+            array('videoParams', 'validateParams'),
+            array('audioParams', 'validateParams'),
         );
     }
 
@@ -46,13 +46,13 @@ class Movie extends \CFormModel
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
-                $this->audioParams[$n] = new models\Movie\Audio();
+                $this->audioParams[$n] = new Movie\AudioParams($this->getScenario());
             }
             $this->audioParams[$n]->setAttributes($data);
         }
     }
 
-    public function validateModel($key)
+    public function validateParams($key)
     {
         $models = $this->$key;
         if (!is_array($models)) {
@@ -60,7 +60,7 @@ class Movie extends \CFormModel
         }
         foreach ($models as $model) {
             if (!$model->validate()) {
-                $this->addError($key, 'model has errors');
+                $this->addError($key, 'form has errors');
             }
         }
     }
@@ -75,35 +75,18 @@ class Movie extends \CFormModel
         return false;
     }
 
-    public function getMainInputKeys()
+    public function getMainParamKeys()
     {
-        $keys = array_keys($this->mainParams->getAttributes());
-        return $this->_filterParamsKeys($keys, $this->getMainHiddenKeys());
+        return array_keys($this->mainParams->getAttributes());
     }
 
-    public function getMainHiddenKeys()
+    public function getVideoParamKeys()
     {
-        return array('gameId');
+        return array_keys($this->videoParams->getAttributes());
     }
 
-    public function getVideoInputKeys()
+    public function getAudioParamKeys()
     {
-        $keys = array_keys($this->videoParams->getAttributes());
-        $invalidKeys = array('id', 'movie_id');
-        return $this->_filterParamsKeys($keys, $invalidKeys);
-    }
-
-    public function getAudioInputKeys()
-    {
-        $keys = array_keys($this->audioParams[0]->getAttributes());
-        $invalidKeys = array('id', 'movie_id');
-        return $this->_filterParamsKeys($keys, $invalidKeys);
-    }
-
-    private function _filterParamsKeys($keys, $invalidKeys)
-    {
-        return array_filter($keys, function ($val) use ($invalidKeys) {
-            return !in_array($val, $invalidKeys, true);
-        });
+        return array_keys($this->audioParams[0]->getAttributes());
     }
 }

@@ -7,9 +7,9 @@ class MovieCardEdit extends MovieCard
 
 
   initGameTitleAutocomplete: ->
-    @$('.movie-card_main_game-title').typeahead(
-      items: 10
-      minLength: 1
+    @$('.movie-card_main-param_game-title').typeahead(
+#      items: 10
+#      minLength: 1
       delay: 100
 
       source: (query, process) ->
@@ -22,8 +22,8 @@ class MovieCardEdit extends MovieCard
           process(items)
         )
 
-      afterSelect: (item) =>
-        @$('.movie-card_main_game-id').val(item.id)
+#      afterSelect: (item) =>
+#        @$('.movie-card_main_game-id').val(item.id)
     )
 
 

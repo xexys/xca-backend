@@ -43,11 +43,12 @@ class MovieController extends CrudController
 
     public function actionCreate()
     {
-        $form = new MovieForm();
+        $form = new MovieForm('create');
 
         $this->_tryAjaxValidation($form);
 
         $backUrl = $this->_getBackUrl();
+
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $form->setAttributesByPost();

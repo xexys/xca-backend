@@ -10,6 +10,7 @@
 namespace backend\components;
 
 use \Yii;
+use \common\helpers\Data as DataHelper;
 
 abstract class HtmlController extends Controller
 {
@@ -88,11 +89,8 @@ abstract class HtmlController extends Controller
 
     public function _correctCssName($name)
     {
-        $name = strtr($name, '_', '-');
-        $name = preg_replace_callback('/[A-Z]/', function($match) {
-            return '-' . strtolower($match[0]);
-        }, $name);
-        return $name;
+        $name = DataHelper::camelToSnake($name);
+        return strtr($name, '_', '-');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace common\models\Reference;
+namespace common\models\Dictionary;
 use \common\components\ActiveRecord;
 
 class AudioFormat extends ActiveRecord
@@ -10,7 +10,7 @@ class AudioFormat extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{ref_audio_formats}}';
+		return '{{dic_audio_formats}}';
 	}
 
 	/**

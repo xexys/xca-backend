@@ -19,11 +19,12 @@ class AutocompleteController extends \backend\components\JsonController
 
         $criteria = new CDbCriteria();
         $criteria->addSearchCondition('t.title', $search); // %search%
+        $criteria->order = 't.title ASC';
         $games = Game::model()->findAll($criteria);
 
         $data = array();
         foreach ($games as $game) {
-            $data[] = array('name' => $game->title, 'id' => $game->id);
+            $data[] = array('name' => $game->title, 'value' => $game->id);
         }
 
         $this->_sendAnswer($data);

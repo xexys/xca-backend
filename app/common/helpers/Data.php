@@ -11,7 +11,7 @@ namespace common\helpers;
 
 class Data
 {
-    public static function trimRecursive($data)
+    public static function trimRecursive(&$data)
     {
 //        if (!is_array($data)) {
 //            $data = trim($data);
@@ -25,4 +25,18 @@ class Data
 
         return $data;
     }
+    
+    public static function snakeToCamel($str)
+    {
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
+    }
+    
+    public static function camelToSnake($str)
+    {
+        $str = preg_replace_callback('/[A-Z]/', function($match) {
+            return '_' . strtolower($match[0]);
+        }, $str);
+        return $str;
+    }
+    
 }

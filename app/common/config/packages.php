@@ -23,6 +23,12 @@ return array(
         'js' => array('bootstrap3-typeahead/bootstrap3-typeahead.js'),
         'depends' => array('jquery')
     ),
+    'bootstrap-select' => array(
+        'basePath' => $bowerComponents,
+        'js' => array('bootstrap-select/dist/js/bootstrap-select.js'),
+        'css' => array('bootstrap-select/dist/css/bootstrap-select.css'),
+        'depends' => array('jquery')
+    ),
 
     // Шрифты
     'font-awesome-latest' => array(

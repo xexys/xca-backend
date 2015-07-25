@@ -13,7 +13,7 @@ use \Yii;
 use \DateTime;
 use \common\models\Game;
 use \common\models\Movie;
-use \common\models\Reference;
+use \common\models\Dictionary;
 
 use \common\models\User;
 
