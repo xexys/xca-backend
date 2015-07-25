@@ -38,5 +38,23 @@ class Data
         }, $str);
         return $str;
     }
-    
+
+    public static function arrayKeysSnakeToCamel($arrayIn)
+    {
+        $arrayOut = array();
+        foreach ($arrayIn as $key => $val) {
+            $arrayOut[self::snakeToCamel($key)] = $val;
+        }
+        return $arrayOut;
+    }
+
+    public static function arrayKeysCamelToSnake($arrayIn)
+    {
+        $arrayOut = array();
+        foreach ($arrayIn as $key => $val) {
+            $arrayOut[self::camelToSnake($key)] = $val;
+        }
+        return $arrayOut;
+    }
+
 }

@@ -38,16 +38,16 @@ class Movie extends \common\components\FormModel
 
     public function setAttributesByMovie(\common\models\Movie $movie)
     {
-        $this->mainParams->setAttributes($this->_getModelAttributesSnakeToCamel($movie));
+        $this->mainParams->setAttributes($this->getModelAttributesSnakeToCamel($movie));
         $this->mainParams->gameTitle = $movie->game->title;
 
-        $this->videoParams->setAttributes($this->_getModelAttributesSnakeToCamel($movie->video));
+        $this->videoParams->setAttributes($this->getModelAttributesSnakeToCamel($movie->video));
 
         foreach ($movie->audio as $n => $audio) {
             if (!isset($this->audioParams[$n])) {
                 $this->audioParams[$n] = $this->_createAudioParamsFormModel();
             }
-            $this->audioParams[$n]->setAttributes($this->_getModelAttributesSnakeToCamel($audio));
+            $this->audioParams[$n]->setAttributes($this->getModelAttributesSnakeToCamel($audio));
         }
     }
 
@@ -106,16 +106,5 @@ class Movie extends \common\components\FormModel
     private function _createAudioParamsFormModel()
     {
         return new Movie\AudioParams($this->getScenario());
-    }
-
-    /**
-     * Возвращает массив атрибутов модели с преобразованными ключами
-     *
-     * @param $model
-     * @return array
-     */
-    private function _getModelAttributesSnakeToCamel($model)
-    {
-        return $this->_arrayKeysSnakeToCamel($model->getAttributes());
     }
 }

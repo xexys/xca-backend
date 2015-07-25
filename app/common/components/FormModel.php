@@ -35,13 +35,27 @@ class FormModel extends \CFormModel
         });
     }
 
-    protected function _arrayKeysSnakeToCamel($data)
+    /**
+     * Возвращает массив атрибутов модели с ключами, преобразованными в camelCase
+     *
+     * @param $model
+     * @return array
+     */
+    public function getModelAttributesSnakeToCamel($model)
     {
-        $attrs = array();
-        foreach ($data as $key => $val) {
-            $attrs[$this->snakeToCamel($key)] = $val;
-        }
-        return $attrs;
+        return DataHelper::arrayKeysSnakeToCamel($model->getAttributes());
     }
+
+    /**
+     * Возвращает массив атрибутов модели с ключами, преобразованными в snake_case
+     *
+     * @param $model
+     * @return array
+     */
+    public function getModelAttributesCamelToSnake($model)
+    {
+        return DataHelper::arrayKeysCamelToSnake($model->getAttributes());
+    }
+
 
 }
