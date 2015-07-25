@@ -10,8 +10,6 @@ namespace backend\models\Form;
 
 use \Yii;
 use \CHtml;
-use \common\models;
-use \common\helpers\Data as DataHelper;
 
 
 class Movie extends \common\components\FormModel
@@ -24,7 +22,7 @@ class Movie extends \common\components\FormModel
     {
         $this->mainParams = new Movie\MainParams($this->getScenario());
         $this->videoParams = new Movie\VideoParams($this->getScenario());
-        $this->audioParams[] = new Movie\AudioParams($this->getScenario());
+        $this->audioParams[] = $this->_createAudioParamsFormModel();
 
         parent::init();
     }
@@ -38,6 +36,21 @@ class Movie extends \common\components\FormModel
         );
     }
 
+    public function setAttributesByMovie(\common\models\Movie $movie)
+    {
+        $this->mainParams->setAttributes($this->_getModelAttributesSnakeToCamel($movie));
+        $this->mainParams->gameTitle = $movie->game->title;
+
+        $this->videoParams->setAttributes($this->_getModelAttributesSnakeToCamel($movie->video));
+
+        foreach ($movie->audio as $n => $audio) {
+            if (!isset($this->audioParams[$n])) {
+                $this->audioParams[$n] = $this->_createAudioParamsFormModel();
+            }
+            $this->audioParams[$n]->setAttributes($this->_getModelAttributesSnakeToCamel($audio));
+        }
+    }
+
     public function setAttributesByPost()
     {
         $request = Yii::app()->getRequest();
@@ -46,7 +59,7 @@ class Movie extends \common\components\FormModel
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
-                $this->audioParams[$n] = new Movie\AudioParams($this->getScenario());
+                $this->audioParams[$n] = $this->_createAudioParamsFormModel();;
             }
             $this->audioParams[$n]->setAttributes($data);
         }
@@ -88,5 +101,21 @@ class Movie extends \common\components\FormModel
     public function getAudioParamKeys()
     {
         return array_keys($this->audioParams[0]->getAttributes());
+    }
+
+    private function _createAudioParamsFormModel()
+    {
+        return new Movie\AudioParams($this->getScenario());
+    }
+
+    /**
+     * Возвращает массив атрибутов модели с преобразованными ключами
+     *
+     * @param $model
+     * @return array
+     */
+    private function _getModelAttributesSnakeToCamel($model)
+    {
+        return $this->_arrayKeysSnakeToCamel($model->getAttributes());
     }
 }

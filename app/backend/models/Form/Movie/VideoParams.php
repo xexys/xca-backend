@@ -13,7 +13,6 @@ class VideoParams extends \common\components\FormModel
 {
     const FRAME_RATE_MODE_CONSTANT = 0;
     const FRAME_RATE_MODE_VARIABLE = 1;
-
     const FORMAT_ID_H264 = 3;
 
     public $formatId = self::FORMAT_ID_H264;

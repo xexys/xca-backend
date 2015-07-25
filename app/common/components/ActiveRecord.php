@@ -44,6 +44,4 @@ class ActiveRecord extends \CActiveRecord
         }
         return $model;
     }
-
-
 }

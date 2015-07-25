@@ -86,11 +86,4 @@ abstract class HtmlController extends Controller
             }
         };
     }
-
-    public function _correctCssName($name)
-    {
-        $name = DataHelper::camelToSnake($name);
-        return strtr($name, '_', '-');
-    }
-
 }

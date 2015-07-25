@@ -26,11 +26,9 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <div class="">
                     <?php
                     foreach ($model->getMainParamKeys() as $key) {
-                        $cssClass = 'movie-card_main-param_' . $this->_correctCssName($key);
+                        $cssClass = 'movie-card_main-param_' . $model->nameToCssName($key);
 
-                        if ($key == 'gameId') {
-                            continue;
-                        } elseif ($key == 'formatId') {
+                        if ($key == 'formatId') {
                             $options = array('widgetOptions' => array(
                                 'data'=> $model->mainParams->getFormatDictionary(),
                                 'htmlOptions'=>array(
@@ -57,7 +55,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <div class="">
                     <?php
                     foreach ($model->getVideoParamKeys() as $key) {
-                        $cssClass = 'movie-card_video-param_' . $this->_correctCssName($key);
+                        $cssClass = 'movie-card_video-param_' . $model->nameToCssName($key);
 
                         if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
                             $options = array('widgetOptions' => array(
@@ -88,11 +86,11 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                     $audioParamsKeys = $model->getAudioParamKeys();
                     foreach ($model->audioParams as $n => $audioParams) {
                         foreach ($audioParamsKeys as $key) {
-                            $cssClass = 'movie-card_audio-param_' . $this->_correctCssName($key);
+                            $cssClass = 'movie-card_audio-param_' . $model->nameToCssName($key);
                             $name = '[' . $n . ']' . $key;
                             $placeholder = $audioParams->getAttributeLabel($key);
 
-                            if (in_array($key, array('formatId', 'bitRateMode', 'channels', 'languageId'))) {
+                            if (in_array($key, array('formatId', 'bitRateMode', 'channels', 'languageId', 'sampleRate'))) {
                                 $options = array('widgetOptions' => array(
                                     'data'=> $audioParams->getDictionary($key),
                                     'htmlOptions'=>array(

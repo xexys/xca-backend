@@ -16,7 +16,6 @@ class MainParams extends \common\components\FormModel
 
     public $gameTitle;
     public $title;
-    public $gameId;
     public $filename;
     public $filesize;
     public $duration;
@@ -33,7 +32,6 @@ class MainParams extends \common\components\FormModel
             array('gameTitle', 'length', 'max' => 50),
             array('filename', 'length', 'max' => 50),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
-            array('gameId', 'numerical', 'integerOnly' => true, 'allowEmpty' => false, 'on' => 'update'),
             array('gameTitle', 'validateGameTitleExist', 'on' => 'create'),
         );
     }

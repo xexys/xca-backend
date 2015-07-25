@@ -13,20 +13,17 @@ class AudioParams extends \common\components\FormModel
 {
     const BIT_RATE_MODE_CONSTANT = 0;
     const BIT_RATE_MODE_VARIABLE = 1;
-
     const FORMAT_ID_MP3 = 3;
-
     const CHANNELS_STEREO = '2.0';
-
     const LANGUAGE_ID_ENG = 1;
 
+    public $trackNumber;
     public $formatId = self::FORMAT_ID_MP3;
     public $bitRate;
     public $bitRateMode = self::BIT_RATE_MODE_CONSTANT;
+    public $sampleRate = 44100;
     public $channels = self::CHANNELS_STEREO;
     public $languageId = self::LANGUAGE_ID_ENG;
-    public $sampleRate;
-    public $trackNumber;
 
     private static $_formatDictionary;
     private static $_languageDictionary;
@@ -35,11 +32,12 @@ class AudioParams extends \common\components\FormModel
     public function rules()
     {
         return array(
-            array('bitRate, sampleRate, trackNumber', 'numerical', 'integerOnly' => true, 'allowEmpty' => false),
+            array('bitRate, trackNumber', 'numerical', 'integerOnly' => true, 'allowEmpty' => false),
             array('bitRateMode', 'in', 'range' => array_keys($this->getBitRateModeDictionary()), 'allowEmpty' => false),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
             array('channels', 'in', 'range' => array_keys($this->getChannelDictionary()), 'allowEmpty' => false),
             array('languageId', 'in', 'range' => array_keys($this->getLanguageDictionary()), 'allowEmpty' => false),
+            array('sampleRate', 'in', 'range' => array_keys($this->getSampleRateDictionary()), 'allowEmpty' => false),
         );
     }
 
@@ -59,6 +57,9 @@ class AudioParams extends \common\components\FormModel
                 break;
             case 'languageId':
                 $data = $this->getLanguageDictionary();
+                break;
+            case 'sampleRate':
+                $data = $this->getSampleRateDictionary();
                 break;
         }
 
@@ -80,6 +81,16 @@ class AudioParams extends \common\components\FormModel
             '1.0' => 'Mono',
             self::CHANNELS_STEREO => 'Stereo',
             '5.1' => 'Full Surround',
+        );
+    }
+
+    public function getSampleRateDictionary()
+    {
+        return array(
+            11025 => '11025',
+            22050 => '22050',
+            44100 => '44100',
+            48000 => '48000',
         );
     }
 

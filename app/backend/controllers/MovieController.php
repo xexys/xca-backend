@@ -68,10 +68,8 @@ class MovieController extends CrudController
     {
         $movie = $this->_getModelById($id, array('video', 'audio'));
 
-        $form = new MovieForm();
-        $form->mainParams = $movie;
-        $form->videoParams = $movie->video;
-        $form->audioParams = $movie->audio;
+        $form = new MovieForm('update');
+        $form->setAttributesByMovie($movie);
 
         $this->_tryAjaxValidation($form);
 

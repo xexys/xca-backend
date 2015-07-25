@@ -28,7 +28,7 @@ class Data
     
     public static function snakeToCamel($str)
     {
-        return str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
     }
     
     public static function camelToSnake($str)
