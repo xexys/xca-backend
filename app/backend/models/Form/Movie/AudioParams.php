@@ -14,7 +14,6 @@ class AudioParams extends \common\components\FormModel
     const BIT_RATE_MODE_CONSTANT = 0;
     const BIT_RATE_MODE_VARIABLE = 1;
     const FORMAT_ID_MP3 = 3;
-    const CHANNELS_STEREO = '2.0';
     const LANGUAGE_ID_ENG = 1;
 
     public $trackNumber;
@@ -22,7 +21,7 @@ class AudioParams extends \common\components\FormModel
     public $bitRate;
     public $bitRateMode = self::BIT_RATE_MODE_CONSTANT;
     public $sampleRate = 44100;
-    public $channels = self::CHANNELS_STEREO;
+    public $channels = '2.0';
     public $languageId = self::LANGUAGE_ID_ENG;
 
     private static $_formatDictionary;
@@ -74,16 +73,21 @@ class AudioParams extends \common\components\FormModel
         );
     }
 
-    // https://en.wikipedia.org/wiki/DVD-Audio
+    /**
+     * @link https://en.wikipedia.org/wiki/DVD-Audio
+     */
     public function getChannelDictionary()
     {
         return array(
             '1.0' => 'Mono',
-            self::CHANNELS_STEREO => 'Stereo',
-            '5.1' => 'Full Surround',
+            '2.0' => 'Stereo',
+            '5.1' => '5.1',
         );
     }
 
+    /**
+     * @link https://en.wikipedia.org/wiki/Sampling_(signal_processing)#Sampling_rate
+     */
     public function getSampleRateDictionary()
     {
         return array(
