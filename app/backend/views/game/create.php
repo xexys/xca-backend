@@ -26,6 +26,8 @@ echo CHtml::hiddenField('backUrl', $backUrl);
         <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => $backUrl)); ?>
     </div>
 
+</div>
+
 <?php
 
 $this->endWidget();
