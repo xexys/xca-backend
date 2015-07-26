@@ -3,8 +3,15 @@
         <div class="col-md-6">
             <h4 class="game-card_title">Информация об игре</h4>
             <div class="game-card_info">
-                <?= $form->textFieldGroup($game, 'text_id'); ?>
-                <?= $form->textFieldGroup($game, 'title'); ?>
+                <?php
+                $options = array('widgetOptions' => array(
+                    'htmlOptions'=>array(
+                        'autocomplete' => 'off',
+                    )
+                ));
+                echo $form->textFieldGroup($game, 'text_id', $options);
+                echo $form->textFieldGroup($game, 'title', $options);
+                ?>
             </div>
         </div>
         <div class="col-md-6">

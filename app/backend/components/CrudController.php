@@ -43,7 +43,7 @@ abstract class CrudController extends HtmlController
 
     protected function _setModelAttributesByPost($model)
     {
-        $model->setAttributes($this->_trimData($this->_getRequest()->getPost(CHtml::modelName($model))));
+        $model->setAttributes($this->_getRequest()->getPost(CHtml::modelName($model)));
     }
 
     /**
@@ -80,12 +80,5 @@ abstract class CrudController extends HtmlController
     protected function _getAjaxValidationResponseContent($model)
     {
         return CActiveForm::validate($model);
-    }
-
-    protected function _trimData($data)
-    {
-        array_walk_recursive($data, function(&$item) {
-            $item = trim($item);
-        });
     }
 }

@@ -37,8 +37,8 @@ class Game extends ActiveRecord
         return array(
             array('text_id, title', 'required'),
             array('text_id', 'length', 'max' => 10),
-            array('text_id', 'unique'),
-            array('text_id', 'match', 'pattern' => '/^[a-z0-9_]+$/',),
+            array('text_id, title', 'unique', 'caseSensitive' => false),
+            array('text_id', 'match', 'pattern' => '/^[a-z][a-z0-9_]+$/',),
             array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

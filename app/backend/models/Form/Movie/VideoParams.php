@@ -82,8 +82,19 @@ class VideoParams extends \common\components\FormModel
                 'order'=>'t.name ASC'
             ));
 
+            // Подисчитываем вхождение названий
+            $names = array();
             foreach ($data as $item) {
-                self::$_formatDictionary[$item->id] = $item->name;
+                $names[] = $item->name;
+            }
+            $counts = array_count_values($names);
+
+            foreach ($data as $item) {
+                $format = $item->name;
+                if ($counts[$item->name] > 1) {
+                    $format .= ' (' . $item->fourcc . ')';
+                }
+                self::$_formatDictionary[$item->id] = $format;
             }
         }
         return self::$_formatDictionary;
