@@ -10,8 +10,6 @@ namespace backend\components;
 
 use \Yii;
 use \CHtml;
-use \CActiveForm;
-use \common\helpers\Data as DataHelper;
 
 
 abstract class CrudController extends HtmlController
@@ -67,29 +65,9 @@ abstract class CrudController extends HtmlController
     {
         if ($this->_isAjaxValidationRequest()) {
             header('Content-Type: application/json');
-            $this->_setAttributesByPost($model);
-            echo $this->_getAjaxValidationResponseContent($model);
+            $model->setAttributesByPost();
+            echo $model->getAjaxValidationResponseContent();
             Yii::app()->end();
         }
     }
-
-    protected function _setAttributesByPost($model)
-    {
-        if ($model instanceof \common\components\interfaces\Form\AjaxValidation) {
-            $model->setAttributesByPost();
-        } else {
-            $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($model));
-            $model->setAttributes(DataHelper::trimRecursive($postData));
-        }
-    }
-
-    private function _getAjaxValidationResponseContent($model)
-    {
-        if ($model instanceof \common\components\interfaces\Form\AjaxValidation) {
-            return $model->getAjaxValidationResponseContent();
-        } else {
-            return CActiveForm::validate($model, null, false);
-        }
-    }
-
 }

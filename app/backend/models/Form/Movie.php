@@ -14,7 +14,7 @@ use \CActiveForm;
 use \common\helpers\Data as DataHelper;
 
 
-class Movie extends \common\components\FormModel implements \common\components\interfaces\Form\AjaxValidation
+class Movie extends \common\components\FormModel
 {
     public $mainParams;
     public $videoParams;

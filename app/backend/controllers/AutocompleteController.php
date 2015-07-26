@@ -9,7 +9,11 @@ use \common\models\Game;
 
 class AutocompleteController extends \backend\components\JsonController
 {
-    public function actionGetGameList($search = '')
+    /**
+     * @param string $search Поисковая строка
+     * @param bool $expand Возвращать расширенные данные
+     */
+    public function actionGetGameList($search = '', $expand = false)
     {
         $search = trim($search);
         $minLength = 1;
@@ -23,8 +27,15 @@ class AutocompleteController extends \backend\components\JsonController
         $games = Game::model()->findAll($criteria);
 
         $data = array();
-        foreach ($games as $game) {
-            $data[] = array('name' => $game->title, 'value' => $game->id);
+
+        if ($expand) {
+            foreach ($games as $game) {
+                $data[] = array('title' => $game->title, 'id' => $game->id);
+            }
+        } else {
+            foreach ($games as $game) {
+                $data[] = $game->title;
+            }
         }
 
         $this->_sendAnswer($data);

@@ -53,7 +53,7 @@ class GameController extends CrudController
         $this->_tryAjaxValidation($game);
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $this->_setAttributesByPost($game);
+            $game->setAttributesByPost();
 
             if ($game->save()) {
                 $this->redirect('index');
@@ -76,7 +76,7 @@ class GameController extends CrudController
         $backUrl = $this->_getBackUrl();
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $this->_setAttributesByPost($game);
+            $game->setAttributesByPost();
 
             if ($game->save()) {
                 $this->redirect($backUrl);

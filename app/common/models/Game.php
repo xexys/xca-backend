@@ -11,6 +11,7 @@
 
 namespace common\models;
 
+
 use \common\components\ActiveRecord;
 
 
@@ -27,6 +28,13 @@ class Game extends ActiveRecord
     public function tableName()
     {
         return '{{game_list}}';
+    }
+
+    public function behaviors()
+    {
+        return array(
+            'ajaxValidation' => '\common\models\behaviors\AjaxValidation',
+        );
     }
 
     /**
