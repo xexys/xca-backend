@@ -26,7 +26,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <div class="">
                     <?php
                     foreach ($model->getMainParamKeys() as $key) {
-                        $cssClass = 'movie-card_main-param_' . $model->nameToCssName($key);
+                        $cssClass = 'movie-card_main-param_' . $model->fixCssName($key);
 
                         if ($key == 'formatId') {
                             $options = array('widgetOptions' => array(
@@ -55,7 +55,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <div class="">
                     <?php
                     foreach ($model->getVideoParamKeys() as $key) {
-                        $cssClass = 'movie-card_video-param_' . $model->nameToCssName($key);
+                        $cssClass = 'movie-card_video-param_' . $model->fixCssName($key);
 
                         if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
                             $options = array('widgetOptions' => array(
@@ -86,7 +86,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                     $audioParamsKeys = $model->getAudioParamKeys();
                     foreach ($model->audioParams as $n => $audioParams) {
                         foreach ($audioParamsKeys as $key) {
-                            $cssClass = 'movie-card_audio-param_' . $model->nameToCssName($key);
+                            $cssClass = 'movie-card_audio-param_' . $model->fixCssName($key);
                             $name = '[' . $n . ']' . $key;
                             $placeholder = $audioParams->getAttributeLabel($key);
 

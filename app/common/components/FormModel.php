@@ -23,7 +23,7 @@ class FormModel extends \CFormModel
         return DataHelper::snakeToCamel($str);
     }
 
-    public function nameToCssName($name)
+    public function fixCssName($name)
     {
         return strtr($this->camelToSnake($name), '_', '-');
     }
