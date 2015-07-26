@@ -49,7 +49,6 @@ class MovieController extends CrudController
 
         $backUrl = $this->_getBackUrl();
 
-
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $form->setAttributesByPost();
 
@@ -66,12 +65,12 @@ class MovieController extends CrudController
 
     public function actionEdit($id)
     {
-        $movie = $this->_getModelById($id, array('video', 'audio'));
-
         $form = new MovieForm('update');
-        $form->setAttributesByMovie($movie);
 
         $this->_tryAjaxValidation($form);
+
+        $movie = $this->_getModelById($id, array('video', 'audio'));
+        $form->setAttributesByMovieModel($movie);
 
         $backUrl = $this->_getBackUrl();
 
@@ -92,13 +91,6 @@ class MovieController extends CrudController
     public function actionDelete($id)
     {
         $this->render('/dummy');
-    }
-
-    protected function _getAjaxValidationResponseContent($form)
-    {
-        $json1 = json_decode(CActiveForm::validate(array($form->mainParams, $form->videoParams)), true);
-        $json2 = json_decode(CActiveForm::validateTabular($form->audioParams), true);
-        return json_encode(array_merge($json1, $json2));
     }
 
     private function _getModelById($id, $with = array())

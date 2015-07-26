@@ -10,9 +10,11 @@ namespace backend\models\Form;
 
 use \Yii;
 use \CHtml;
+use \CActiveForm;
+use \common\helpers\Data as DataHelper;
 
 
-class Movie extends \common\components\FormModel
+class Movie extends \common\components\FormModel implements \common\components\interfaces\Form\AjaxValidation
 {
     public $mainParams;
     public $videoParams;
@@ -36,7 +38,7 @@ class Movie extends \common\components\FormModel
         );
     }
 
-    public function setAttributesByMovie(\common\models\Movie $movie)
+    public function setAttributesByMovieModel($movie)
     {
         $this->mainParams->setAttributes($this->getModelAttributesSnakeToCamel($movie));
         $this->mainParams->gameTitle = $movie->game->title;
@@ -54,15 +56,27 @@ class Movie extends \common\components\FormModel
     public function setAttributesByPost()
     {
         $request = Yii::app()->getRequest();
-        $this->mainParams->setAttributes($request->getPost(CHtml::modelName($this->mainParams)));
-        $this->videoParams->setAttributes($request->getPost(CHtml::modelName($this->videoParams)));
+
+        $mainParamsPostData = $request->getPost(CHtml::modelName($this->mainParams));
+        $this->mainParams->setAttributes(DataHelper::trimRecursive($mainParamsPostData));
+
+        $videoParamsPostData = $request->getPost(CHtml::modelName($this->videoParams));
+        $this->videoParams->setAttributes(DataHelper::trimRecursive($videoParamsPostData));
+
         $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
         foreach ($audioParamsPostData as $n => $data) {
             if (!isset($this->audioParams[$n])) {
                 $this->audioParams[$n] = $this->_createAudioParamsFormModel();;
             }
-            $this->audioParams[$n]->setAttributes($data);
+            $this->audioParams[$n]->setAttributes(DataHelper::trimRecursive($data));
         }
+    }
+
+    public function getAjaxValidationResponseContent()
+    {
+        $json1 = json_decode(CActiveForm::validate(array($this->mainParams, $this->videoParams), null, false), true);
+        $json2 = json_decode(CActiveForm::validateTabular($this->audioParams, null, false), true);
+        return json_encode(array_merge($json1, $json2));
     }
 
     public function validateParams($key)
@@ -88,17 +102,17 @@ class Movie extends \common\components\FormModel
         return false;
     }
 
-    public function getMainParamKeys()
+    public function getMainParamsKeys()
     {
         return array_keys($this->mainParams->getAttributes());
     }
 
-    public function getVideoParamKeys()
+    public function getVideoParamsKeys()
     {
         return array_keys($this->videoParams->getAttributes());
     }
 
-    public function getAudioParamKeys()
+    public function getAudioParamsKeys()
     {
         return array_keys($this->audioParams[0]->getAttributes());
     }

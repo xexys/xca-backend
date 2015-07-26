@@ -41,11 +41,6 @@ abstract class CrudController extends HtmlController
         return md5(get_class($model));
     }
 
-    protected function _setModelAttributesByPost($model)
-    {
-        $model->setAttributes($this->_getRequest()->getPost(CHtml::modelName($model)));
-    }
-
     /**
      * @param string $defaultBackAction - Куда переходить если нет urlReferrer
      * @return mixed|string
@@ -62,23 +57,39 @@ abstract class CrudController extends HtmlController
         return $backUrl;
     }
 
-    protected function _tryAjaxValidation($model)
-    {
-        if ($this->_isAjaxValidationRequest()) {
-            header('Content-Type: application/json');
-            echo $this->_getAjaxValidationResponseContent($model);
-            Yii::app()->end();
-        }
-    }
-
     protected function _isAjaxValidationRequest()
     {
         $request = $this->_getRequest();
         return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
     }
 
-    protected function _getAjaxValidationResponseContent($model)
+    protected function _tryAjaxValidation($model)
     {
-        return CActiveForm::validate($model);
+        if ($this->_isAjaxValidationRequest()) {
+            header('Content-Type: application/json');
+            $this->_setAttributesByPost($model);
+            echo $this->_getAjaxValidationResponseContent($model);
+            Yii::app()->end();
+        }
     }
+
+    protected function _setAttributesByPost($model)
+    {
+        if ($model instanceof \common\components\interfaces\Form\AjaxValidation) {
+            $model->setAttributesByPost();
+        } else {
+            $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($model));
+            $model->setAttributes(DataHelper::trimRecursive($postData));
+        }
+    }
+
+    private function _getAjaxValidationResponseContent($model)
+    {
+        if ($model instanceof \common\components\interfaces\Form\AjaxValidation) {
+            return $model->getAjaxValidationResponseContent();
+        } else {
+            return CActiveForm::validate($model, null, false);
+        }
+    }
+
 }

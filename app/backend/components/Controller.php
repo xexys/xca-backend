@@ -18,7 +18,6 @@ class Controller extends \CController
     {
         return array(
             'accessControl',
-            'trimPostData',
         );
     }
 
@@ -32,14 +31,6 @@ class Controller extends \CController
                   'users'=>array('*'),
             ),
         );
-    }
-
-    public function filterTrimPostData($filterChain)
-    {
-        // Необходимо сделать trim для POST данных, иначе валидация форм через ajax не пройдет, т.к. CActiveForm::validate работает напрямую с массивом $_POST
-        DataHelper::trimRecursive($_POST);
-
-        $filterChain->run();
     }
 
     protected function _getRequest()

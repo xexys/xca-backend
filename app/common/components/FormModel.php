@@ -8,6 +8,8 @@
 
 namespace common\components;
 
+use Yii;
+use \CHtml;
 use \common\helpers\Data as DataHelper;
 
 
@@ -56,6 +58,4 @@ class FormModel extends \CFormModel
     {
         return DataHelper::arrayKeysCamelToSnake($model->getAttributes());
     }
-
-
 }

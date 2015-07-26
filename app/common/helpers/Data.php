@@ -11,7 +11,7 @@ namespace common\helpers;
 
 class Data
 {
-    public static function trimRecursive(&$data)
+    public static function trimRecursive($data)
     {
 //        if (!is_array($data)) {
 //            $data = trim($data);

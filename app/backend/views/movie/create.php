@@ -25,7 +25,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Основные параметры</h4>
                 <div class="">
                     <?php
-                    foreach ($model->getMainParamKeys() as $key) {
+                    foreach ($model->getMainParamsKeys() as $key) {
                         $cssClass = 'movie-card_main-param_' . $model->fixCssName($key);
 
                         if ($key == 'formatId') {
@@ -54,7 +54,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Видео параметры</h4>
                 <div class="">
                     <?php
-                    foreach ($model->getVideoParamKeys() as $key) {
+                    foreach ($model->getVideoParamsKeys() as $key) {
                         $cssClass = 'movie-card_video-param_' . $model->fixCssName($key);
 
                         if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
@@ -83,7 +83,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                 <h4 class="movie-card_title">Аудио параметры</h4>
                 <div class="">
                     <?php
-                    $audioParamsKeys = $model->getAudioParamKeys();
+                    $audioParamsKeys = $model->getAudioParamsKeys();
                     foreach ($model->audioParams as $n => $audioParams) {
                         foreach ($audioParamsKeys as $key) {
                             $cssClass = 'movie-card_audio-param_' . $model->fixCssName($key);
