@@ -13,7 +13,7 @@ function memoizeAliasFilter(func) {
  * Правила преобразования алиасов в пути к блокам
  */
 function blocksAliasFilter(src) {
-  var match = src.match(/^(\S+)\/(blocks|blocks-modules|blocks-pages)\/(\S+)\.js/);
+  var match = src.match(/^(\S+)\/(blocks|blocks-widgets|blocks-modules|blocks-pages)\/(\S+)\.js/);
 
   if (!match) {
     return '';
