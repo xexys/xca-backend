@@ -13,7 +13,7 @@ $clientScript->registerPackage('font-awesome-latest');
 $clientScript->registerPackage('bootstrap3-typeahead');
 //$clientScript->registerPackage('bootstrap-select');
 
-// Публикация статики для страниц
+// Публикация статики всех страниц
 Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, !PROD_MODE);
 
 // Добавление стилей

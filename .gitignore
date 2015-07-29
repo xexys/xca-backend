@@ -3,8 +3,7 @@
 
 app/vendor
 
-static/dev
-static/prod
+static/build
 static/node_modules
 static/bower_components
 
