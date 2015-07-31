@@ -1,19 +1,14 @@
 .idea
 .svn
 
-app/vendor
+server/vendor
 
-static/build
-static/node_modules
-static/bower_components
+client/build
+client/node_modules
+client/bower_components
 
-runtime/*
-!runtime/readme.md
+server/runtime/*
+!server/runtime/readme.md
 
-www/frontend/assets/*
-!www/frontend/assets/readme.md
-
-www/backend/assets/*
-!www/backend/assets/readme.md
-
-
+www/assets/*
+!www/assets/readme.md
