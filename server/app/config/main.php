@@ -11,7 +11,7 @@ Yii::setPathOfAlias('booster', Yii::getPathOfAlias('vendor.clevertech.yii-booste
 // Общие настройки
 $config = array(
 
-    'basePath' => realpath(APP_DIR), // Псевдоним application
+    'basePath' => realpath(__DIR__ . '/..'), // Псевдоним application
 
     'name'=>'Xexys Cinematic Archive',
 
@@ -22,7 +22,7 @@ $config = array(
 
 
     // Путь к папке временных файлов
-    'runtimePath'=>ROOT_DIR . '/runtime',
+    'runtimePath'=>__DIR__ . '/../../runtime',
 
     //    'controllerMap' => array(
     //        'site' => 'SiteController'

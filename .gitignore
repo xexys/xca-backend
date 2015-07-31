@@ -1,12 +1,11 @@
 .idea
 .svn
 
-server/vendor
-
 client/build
 client/node_modules
 client/bower_components
 
+server/vendor
 server/runtime/*
 !server/runtime/readme.md
 
