@@ -7,9 +7,6 @@ define('ZEND_LOGO_GUID', 'PHPE9568F35-D428-11d2-A769-00AA001ACF42');
 # Корневой каталог со всеми файлами проекта
 define('ROOT_DIR', realpath(__DIR__ . '/..'));
 
-# Корневой каталог с серверной частью проекта
-define('APP_DIR', __DIR__ . '/app');
-
 # Определяем режим работы - разработка/продакшн
 define('PROD_MODE', require(__DIR__ . '/check_prod_mode.php'));
 if (!PROD_MODE) {
@@ -32,9 +29,9 @@ if (PROD_MODE) {
 }
 
 // Определяем псевдонимы
-Yii::setPathOfAlias('app', APP_DIR);
-Yii::setPathOfAlias('client', ROOT_DIR . '/client');
+Yii::setPathOfAlias('app', __DIR__ . '/app');
 Yii::setPathOfAlias('vendor', __DIR__ . '/vendor');
+Yii::setPathOfAlias('client', ROOT_DIR . '/client');
 
 // Выставляем кодировку для многобойтовых строк
 mb_internal_encoding("UTF-8");
