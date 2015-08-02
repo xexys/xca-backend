@@ -36,18 +36,23 @@ class Movie extends \app\components\FormFacade
             $movie = new MovieModel();
         }
 
+        $this->setScenario($scenario);
         $this->_movieModel = $movie;
+
+        parent::__construct($scenario);
+    }
+
+    public function init()
+    {
+        parent::init();
 
         $this->mainParams = new Movie\MainParams($this->getScenario());
         $this->videoParams = new Movie\VideoParams($this->getScenario());
         $this->audioParamsArray[] = $this->_createAudioParams();
 
-        if ($movieId) {
-            $this->_setAttributesByMovieModel();
-        }
-
-        parent::__construct($scenario);
+        $this->_setAttributesByMovieModel();
     }
+
 
     public function rules()
     {
@@ -129,6 +134,10 @@ class Movie extends \app\components\FormFacade
 
     private function _setAttributesByMovieModel()
     {
+        if (!$this->_movieModel->id) {
+            return;
+        }
+
         $this->mainParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel));
         $this->mainParams->gameTitle = $this->_movieModel->game->title;
 
