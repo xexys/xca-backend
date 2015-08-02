@@ -14,6 +14,9 @@ use \app\helpers\Data as DataHelper;
 
 class FormModel extends \CFormModel
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     public function fixCssName($name)
     {
         return strtr(DataHelper::camelToSnake($name), '_', '-');

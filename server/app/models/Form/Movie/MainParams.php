@@ -32,7 +32,7 @@ class MainParams extends \app\components\FormModel
             array('gameTitle', 'length', 'max' => 50),
             array('filename', 'length', 'max' => 50),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
-            array('gameTitle', 'validateGameTitleExist', 'on' => 'create'),
+            array('gameTitle', 'validateGameTitleExist', 'on' => self::SCENARIO_CREATE),
         );
     }
 

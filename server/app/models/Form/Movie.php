@@ -29,7 +29,7 @@ class Movie extends \app\components\FormFacade
     public function __construct($movieId = null)
     {
         if ($movieId) {
-            $scenario = 'update';
+            $scenario = self::SCENARIO_UPDATE;
             $movie = $this->_getMovieModelById($movieId);
         } else {
             $scenario = 'create';
@@ -102,16 +102,6 @@ class Movie extends \app\components\FormFacade
         }
     }
 
-    public function save()
-    {
-        if ($this->validate()) {
-
-            // Сохранить данные в транзакции
-
-        }
-        return false;
-    }
-
     public function getMainParamsKeys()
     {
         return array_keys($this->mainParams->getAttributes());
@@ -125,6 +115,16 @@ class Movie extends \app\components\FormFacade
     public function getAudioParamsKeys()
     {
         return array_keys($this->audioParamsArray[0]->getAttributes());
+    }
+
+    protected function _create()
+    {
+        throw new \Exception(self::SCENARIO_CREATE);
+    }
+
+    protected function _update()
+    {
+        throw new \Exception(self::SCENARIO_UPDATE);
     }
 
     private function _createAudioParams()

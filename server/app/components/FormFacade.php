@@ -12,7 +12,7 @@ use Yii;
 use \app\helpers\Data as DataHelper;
 
 
-class FormFacade extends FormModel
+abstract class FormFacade extends FormModel
 {
     public function behaviors()
     {
@@ -23,6 +23,19 @@ class FormFacade extends FormModel
             )
         );
     }
+
+    public function save()
+    {
+        if ($this->validate()) {
+            return $this->getScenario() == self::SCENARIO_CREATE ? $this->_create() : $this->_update();
+        }else {
+            return false;
+        }
+    }
+
+    abstract protected function _create();
+
+    abstract protected function _update();
 
     /**
      * Возвращает массив атрибутов модели с ключами, преобразованными в camelCase
