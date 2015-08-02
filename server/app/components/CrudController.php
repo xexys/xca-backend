@@ -16,7 +16,7 @@ abstract class CrudController extends HtmlController
 {
     public function init()
     {
-        // Инициализация конвертера префикса используемого в формах для редактирования модели
+        // Инициализация конвертера префикса используемого в формах для редактирования и создания модели
         if (!PROD_MODE) {
             CHtml::setModelNameConverter(array($this, '_friendGetFormElementsNamePrefix'));
         }
