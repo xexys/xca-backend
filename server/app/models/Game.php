@@ -30,13 +30,6 @@ class Game extends ActiveRecord
         return '{{game_list}}';
     }
 
-    public function behaviors()
-    {
-        return array(
-            'ajaxValidation' => '\app\models\behaviors\AjaxValidation',
-        );
-    }
-
     /**
      * @return array validation rules for model attributes.
      */

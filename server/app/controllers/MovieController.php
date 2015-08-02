@@ -43,7 +43,7 @@ class MovieController extends CrudController
 
     public function actionCreate()
     {
-        $form = new MovieForm('create');
+        $form = new MovieForm;
 
         $this->_tryAjaxValidation($form);
 
@@ -65,12 +65,9 @@ class MovieController extends CrudController
 
     public function actionEdit($id)
     {
-        $form = new MovieForm('update');
+        $form = new MovieForm($id);
 
         $this->_tryAjaxValidation($form);
-
-        $movie = $this->_getModelById($id, array('video', 'audio'));
-        $form->setAttributesByMovieModel($movie);
 
         $backUrl = $this->_getBackUrl();
 
@@ -95,12 +92,12 @@ class MovieController extends CrudController
 
     private function _getModelById($id, $with = array())
     {
-        $game = Movie::model()->with($with)->findByPk($id);
-        if (!$game) {
+        $model = Movie::model()->with($with)->findByPk($id);
+        if (!$model) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
         }
-        return $game;
+        return $model;
     }
 
 

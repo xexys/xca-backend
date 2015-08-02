@@ -90,12 +90,8 @@ class AudioParams extends \app\components\FormModel
      */
     public function getSampleRateDictionary()
     {
-        return array(
-            11025 => '11025',
-            22050 => '22050',
-            44100 => '44100',
-            48000 => '48000',
-        );
+        $sampleRates = array('11025', '22050', '44100', '48000');
+        return array_combine($sampleRates, $sampleRates);
     }
 
     public function getFormatDictionary()

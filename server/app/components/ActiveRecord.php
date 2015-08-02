@@ -28,6 +28,16 @@ class ActiveRecord extends \CActiveRecord
         return $attribute;
     }
 
+    public function behaviors()
+    {
+        return \CMap::mergeArray(
+            parent::behaviors(),
+            array(
+                'ajaxValidation' => '\app\models\behaviors\AjaxValidation',
+            )
+        );
+    }
+
     /**
      * Возвращает модель найденную по одному из атрибутов в списке
      * Последовательно пытается найти записи по каждому атрибуту

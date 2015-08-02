@@ -1,6 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Форма для создания и редактировния ролика
+ *
+ * Фасадный объект для работы с несколькими формами и моделями AR
+ *
  * User: Alex
  * Date: 21.06.15
  * Time: 1:22
@@ -12,21 +15,38 @@ use \Yii;
 use \CHtml;
 use \CActiveForm;
 use \app\helpers\Data as DataHelper;
+use \app\models\Movie as MovieModel;
 
 
-class Movie extends \app\components\FormModel
+class Movie extends \app\components\FormFacade
 {
     public $mainParams;
     public $videoParams;
-    public $audioParams = array();
+    public $audioParamsArray = array();
 
-    public function init()
+    private $_movieModel;
+
+    public function __construct($movieId = null)
     {
+        if ($movieId) {
+            $scenario = 'update';
+            $movie = $this->_getMovieModelById($movieId);
+        } else {
+            $scenario = 'create';
+            $movie = new MovieModel();
+        }
+
+        $this->_movieModel = $movie;
+
         $this->mainParams = new Movie\MainParams($this->getScenario());
         $this->videoParams = new Movie\VideoParams($this->getScenario());
-        $this->audioParams[] = $this->_createAudioParamsFormModel();
+        $this->audioParamsArray[] = $this->_createAudioParams();
 
-        parent::init();
+        if ($movieId) {
+            $this->_setAttributesByMovieModel();
+        }
+
+        parent::__construct($scenario);
     }
 
     public function rules()
@@ -34,23 +54,8 @@ class Movie extends \app\components\FormModel
         return array(
             array('mainParams', 'validateParams'),
             array('videoParams', 'validateParams'),
-            array('audioParams', 'validateParams'),
+            array('audioParamsArray', 'validateParams'),
         );
-    }
-
-    public function setAttributesByMovieModel($movie)
-    {
-        $this->mainParams->setAttributes($this->getModelAttributesSnakeToCamel($movie));
-        $this->mainParams->gameTitle = $movie->game->title;
-
-        $this->videoParams->setAttributes($this->getModelAttributesSnakeToCamel($movie->video));
-
-        foreach ($movie->audio as $n => $audio) {
-            if (!isset($this->audioParams[$n])) {
-                $this->audioParams[$n] = $this->_createAudioParamsFormModel();
-            }
-            $this->audioParams[$n]->setAttributes($this->getModelAttributesSnakeToCamel($audio));
-        }
     }
 
     public function setAttributesByPost()
@@ -63,19 +68,19 @@ class Movie extends \app\components\FormModel
         $videoParamsPostData = $request->getPost(CHtml::modelName($this->videoParams));
         $this->videoParams->setAttributes(DataHelper::trimRecursive($videoParamsPostData));
 
-        $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParams[0]));
+        $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParamsArray[0]));
         foreach ($audioParamsPostData as $n => $data) {
-            if (!isset($this->audioParams[$n])) {
-                $this->audioParams[$n] = $this->_createAudioParamsFormModel();;
+            if (!isset($this->audioParamsArray[$n])) {
+                $this->audioParamsArray[$n] = $this->_createAudioParams();;
             }
-            $this->audioParams[$n]->setAttributes(DataHelper::trimRecursive($data));
+            $this->audioParamsArray[$n]->setAttributes(DataHelper::trimRecursive($data));
         }
     }
 
     public function getAjaxValidationResponseContent()
     {
         $json1 = json_decode(CActiveForm::validate(array($this->mainParams, $this->videoParams), null, false), true);
-        $json2 = json_decode(CActiveForm::validateTabular($this->audioParams, null, false), true);
+        $json2 = json_decode(CActiveForm::validateTabular($this->audioParamsArray, null, false), true);
         return json_encode(array_merge($json1, $json2));
     }
 
@@ -114,11 +119,37 @@ class Movie extends \app\components\FormModel
 
     public function getAudioParamsKeys()
     {
-        return array_keys($this->audioParams[0]->getAttributes());
+        return array_keys($this->audioParamsArray[0]->getAttributes());
     }
 
-    private function _createAudioParamsFormModel()
+    private function _createAudioParams()
     {
         return new Movie\AudioParams($this->getScenario());
     }
+
+    private function _setAttributesByMovieModel()
+    {
+        $this->mainParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel));
+        $this->mainParams->gameTitle = $this->_movieModel->game->title;
+
+        $this->videoParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel->video));
+
+        foreach ($this->_movieModel->audio as $n => $audio) {
+            if (!isset($this->audioParamsArray[$n])) {
+                $this->audioParamsArray[$n] = $this->_createAudioParams();
+            }
+            $this->audioParamsArray[$n]->setAttributes($this->_getModelAttributesSnakeToCamel($audio));
+        }
+    }
+
+    private function _getMovieModelById($id)
+    {
+        $movie = MovieModel::model()->with(array('video', 'audio'))->findByPk($id);
+        if (!$movie) {
+            // TODO: Сделать нормальное исключение
+            throw new \CHttpException(404, 'Модель не найдена');
+        }
+        return $movie;
+    }
+
 }
