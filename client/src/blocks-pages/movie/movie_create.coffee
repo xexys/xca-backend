@@ -1,11 +1,12 @@
-MoviePageView = require('blocks-pages/movie');
-MovieCardEdit = require('blocks-widgets/movie-card_edit');
+MoviePage = require('blocks-pages/movie');
+MovieCardEditWidget = require('blocks-widgets/movie-card_edit');
 
 
-class MovieCreatePageView extends MoviePageView
+class MovieCreatePage extends MoviePage
 
   initialize: ->
-    new MovieCardEdit(el: '.movie-card_edit')
+    super
+    new MovieCardEditWidget(el: '.movie-card_edit')
 
 
-module.exports = MovieCreatePageView
+module.exports = MovieCreatePage

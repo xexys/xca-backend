@@ -9,6 +9,8 @@
 
 namespace app\components;
 
+use \app\helpers\Data as DataHelper;
+
 
 class ActiveRecord extends \CActiveRecord
 {
@@ -38,21 +40,37 @@ class ActiveRecord extends \CActiveRecord
         );
     }
 
-    /**
-     * Возвращает модель найденную по одному из атрибутов в списке
-     * Последовательно пытается найти записи по каждому атрибуту
-     * @param array $attrs
-     * @return mixed
-     */
-    public function findByOneOfAttributes(array $attrs)
+    public function setAttributes($values, $safeOnly = true)
     {
-        $model = null;
-        foreach($attrs as $key => $val) {
-            $model = $this->findByAttributes(array($key => $val));
-            if ($model) {
-                return $model;
-            }
-        }
-        return $model;
+        return parent::setAttributes(DataHelper::arrayKeysCamelToSnake($values), $safeOnly);
     }
+
+//    /**
+//     * Возвращает модель найденную по одному из атрибутов в списке
+//     * Последовательно пытается найти записи по каждому атрибуту
+//     * @param array $attrs
+//     * @return mixed
+//     */
+//    public function findByOneOfAttributes(array $attrs)
+//    {
+//        $model = null;
+//        foreach($attrs as $key => $val) {
+//            $model = $this->findByAttributes(array($key => $val));
+//            if ($model) {
+//                return $model;
+//            }
+//        }
+//        return $model;
+//    }
+
+//    public function getAttributesInCamelCase($names = null)
+//    {
+//        return DataHelper::arrayKeysSnakeToCamel($this->getAttributes($names));
+//    }
+
+//    public function setAttributesInCamelCase($values, $safeOnly = true)
+//    {
+//        return $this->setAttributes($values, $safeOnly);
+//    }
+
 }

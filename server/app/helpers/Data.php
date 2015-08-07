@@ -33,6 +33,7 @@ class Data
     
     public static function camelToSnake($str)
     {
+        $str = lcfirst($str);
         $str = preg_replace_callback('/[A-Z]/', function($match) {
             return '_' . strtolower($match[0]);
         }, $str);

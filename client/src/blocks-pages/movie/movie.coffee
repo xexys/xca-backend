@@ -1,7 +1,7 @@
-BasePageView = require('blocks-pages/base');
+BasePage = require('blocks-pages/base');
 
-class MoviePageView extends BasePageView
+class MoviePage extends BasePage
 
 
 
-module.exports = MoviePageView
+module.exports = MoviePage

@@ -23,11 +23,23 @@ return array(
         'js' => array('bootstrap3-typeahead/bootstrap3-typeahead.js'),
         'depends' => array('jquery')
     ),
-    'bootstrap-select' => array(
+//    'bootstrap-select' => array(
+//        'basePath' => $bowerComponents,
+//        'js' => array('bootstrap-select/dist/js/bootstrap-select.js'),
+//        'css' => array('bootstrap-select/dist/css/bootstrap-select.css'),
+//        'depends' => array('jquery')
+//    ),
+
+//    'select2-latest' => array(
+//        'basePath' => $bowerComponents,
+//        'js' => array('select2/dist/js/select2.js'),
+//        'css' => array('select2/dist/css/select2.css'),
+//        'depends' => array('jquery')
+//    ),
+    'select2-bootstrap-css' => array(
         'basePath' => $bowerComponents,
-        'js' => array('bootstrap-select/dist/js/bootstrap-select.js'),
-        'css' => array('bootstrap-select/dist/css/bootstrap-select.css'),
-        'depends' => array('jquery')
+        'css' => array('select2-bootstrap-css/select2-bootstrap.css'),
+        'depends' => array('select2') // yii-booster
     ),
 
     // Шрифты

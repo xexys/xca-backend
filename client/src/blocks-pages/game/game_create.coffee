@@ -1,7 +1,12 @@
-GamePageView = require('blocks-pages/game');
+GamePage = require('blocks-pages/game');
+GameCardEditWidget = require('blocks-widgets/game-card_edit');
 
-class GameCreatePageView extends GamePageView
+class GameCreatePage extends GamePage
+
+  initialize: ->
+    super
+    new GameCardEditWidget(el: '.game-card_edit')
 
 
 
-module.exports = GameCreatePageView
+module.exports = GameCreatePage

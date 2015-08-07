@@ -84,12 +84,11 @@ class Movie extends \app\components\FormFacade
         $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->audioParamsArray[0]));
         foreach ($postData as $n => $data) {
             if (!isset($this->audioParamsArray[$n])) {
-                $this->audioParamsArray[$n] = $this->_createAudioParams();;
+                $this->audioParamsArray[$n] = $this->_createAudioParams();
             }
             $this->audioParamsArray[$n]->setAttributes(DataHelper::trimRecursive($data));
         }
     }
-
 
     public function getAjaxValidationResponseContent()
     {
@@ -106,29 +105,29 @@ class Movie extends \app\components\FormFacade
         }
         foreach ($models as $model) {
             if (!$model->validate()) {
-                $this->addError($key, 'form has errors');
+                $this->addError($key, 'При заполнении формы возникли ошибки.');
             }
         }
     }
 
     public function getMainParamsKeys()
     {
-        return array_keys($this->mainParams->getAttributes());
+        return $this->mainParams->attributeNames();
     }
 
     public function getFileParamsKeys()
     {
-        return array_keys($this->fileParams->getAttributes());
+        return $this->fileParams->attributeNames();
     }
 
     public function getVideoParamsKeys()
     {
-        return array_keys($this->videoParams->getAttributes());
+        return $this->videoParams->attributeNames();
     }
 
     public function getAudioParamsKeys()
     {
-        return array_keys($this->audioParamsArray[0]->getAttributes());
+        return $this->audioParamsArray[0]->attributeNames();
     }
 
     protected function _create()
@@ -151,15 +150,15 @@ class Movie extends \app\components\FormFacade
         $this->mainParams->title = $this->_movieModel->title;
         $this->mainParams->gameTitle = $this->_movieModel->game->title;
 
-        $this->fileParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel->file));
+        $this->fileParams->setAttributes($this->_movieModel->file->getAttributes());
 
-        $this->videoParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel->video));
+        $this->videoParams->setAttributes($this->_movieModel->video->getAttributes());
 
         foreach ($this->_movieModel->audio as $n => $audio) {
             if (!isset($this->audioParamsArray[$n])) {
                 $this->audioParamsArray[$n] = $this->_createAudioParams();
             }
-            $this->audioParamsArray[$n]->setAttributes($this->_getModelAttributesSnakeToCamel($audio));
+            $this->audioParamsArray[$n]->setAttributes($audio->getAttributes());
         }
     }
 

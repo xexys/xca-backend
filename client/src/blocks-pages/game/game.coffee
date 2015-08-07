@@ -1,7 +1,7 @@
-BasePageView = require('blocks-pages/base');
+BasePage = require('blocks-pages/base');
 
-class GamePageView extends BasePageView
+class GamePage extends BasePage
 
 
 
-module.exports = GamePageView
+module.exports = GamePage

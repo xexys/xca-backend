@@ -1,6 +1,6 @@
-MovieCard = require('./movie-card')
+MovieCardWidget = require('./movie-card')
 
-class MovieCardEdit extends MovieCard
+class MovieCardEditWidget extends MovieCardWidget
 
   initialize: ->
     @initGameTitleAutocomplete()
@@ -28,4 +28,4 @@ class MovieCardEdit extends MovieCard
 
 
 
-module.exports = MovieCardEdit
+module.exports = MovieCardEditWidget

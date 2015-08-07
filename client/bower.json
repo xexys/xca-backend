@@ -6,6 +6,6 @@
     "normalize-css"          : "3.0.3",
     "components-font-awesome": "*",
     "bootstrap3-typeahead"   : "3.1.*",
-    "bootstrap-select"       : "1.7.*"
+    "select2-bootstrap-css"  : "1.4.*"
   }
 }

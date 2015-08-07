@@ -49,43 +49,43 @@ class GameController extends CrudController
 
     public function actionCreate()
     {
-        $game = new GameForm;
+        $form = new GameForm;
 
-        $this->_tryAjaxValidation($game);
+        $this->_tryAjaxValidation($form);
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $game->setAttributesByPost();
+            $form->setAttributesByPost();
 
-            if ($game->save()) {
+            if ($form->save()) {
                 $this->redirect('index');
             }
         }
 
         $this->render('create', array(
-            'game' => $game,
+            'model' => $form,
             'backUrl' => $this->_getBackUrl()
         ));
     }
 
     public function actionEdit($id)
     {
-        $game = new GameForm($id);
-        $gameTitle = $game->title;
+        $form = new GameForm($id);
+        $gameTitle = $form->mainParams->title;
 
-        $this->_tryAjaxValidation($game);
+        $this->_tryAjaxValidation($form);
 
         $backUrl = $this->_getBackUrl();
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $game->setAttributesByPost();
+            $form->setAttributesByPost();
 
-            if ($game->save()) {
+            if ($form->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'game' => $game,
+            'model' => $form,
             'gameTitle' => $gameTitle,
             'backUrl' => $backUrl
         ));
@@ -93,6 +93,7 @@ class GameController extends CrudController
 
     public function actionDelete($id)
     {
+        // TODO: Сделать удаление через FormFacade чтбы удалить зависимые таблицы
         $game = $this->_getModelById($id);
         $game->delete();
         $url = $this->createUrl('index');

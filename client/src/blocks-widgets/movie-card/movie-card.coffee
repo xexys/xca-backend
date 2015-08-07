@@ -1,7 +1,7 @@
 Marionette = require('blocks-modules/marionette')
 
-class MovieCard extends Marionette.LayoutView
+class MovieCardWidget extends Marionette.LayoutView
 
 
 
-module.exports = MovieCard
+module.exports = MovieCardWidget

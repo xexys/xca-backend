@@ -11,11 +11,17 @@ namespace app\models\Game;
 use \app\components\ActiveRecord;
 
 
-class Platform extends ActiveRecord
+class PlatformInfo extends ActiveRecord
 {
+    const STATUS_NOT_EXIST = 0;
+    const STATUS_AWAITING = 1;
+    const STATUS_RELEASED = 2;
+    const STATUS_FROZEN = 3;
+    const STATUS_RIP = 4;
+
     public function tableName()
     {
-        return '{{games_platforms}}';
+        return '{{games_platform_info}}';
     }
 
     /**

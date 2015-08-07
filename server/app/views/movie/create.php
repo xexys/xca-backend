@@ -43,7 +43,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
             <div class="movie-card_section">
                 <h4 class="movie-card_title">Параметры файла</h4>
-                <div class="">
+                <div>
                     <?php
                     foreach ($model->getFileParamsKeys() as $key) {
                         $cssClass = 'movie-card_file-param_' . $model->fixCssName($key);

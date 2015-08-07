@@ -54,7 +54,7 @@ class Game extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'movies' => array(self::HAS_MANY, '\app\models\Movie', 'game_id'),
-            'platforms' => array(self::HAS_MANY, '\app\models\Game\Platform', 'game_id'),
+            'platforms' => array(self::HAS_MANY, '\app\models\Game\PlatformInfo', 'game_id'),
         );
     }
 

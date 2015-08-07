@@ -1,6 +1,15 @@
-GameCard = require('./game-card')
+GameCardWidget = require('./game-card')
 
-class GameCardEdit extends GameCard
+class GameCardEditWidget extends GameCardWidget
 
 
-module.exports = GameCardEdit
+  initialize: ->
+    @initPlatformIdsSelect()
+
+
+  initPlatformIdsSelect: ->
+#    @$('.game-card_param_platform-ids').select2()
+
+
+
+module.exports = GameCardEditWidget

@@ -20,16 +20,17 @@ class MainParams extends \app\components\FormModel
             array('title, gameTitle', 'required'),
             array('title', 'length', 'max' => 100),
             array('gameTitle', 'length', 'max' => 50),
+            // TODO: Сделать проверку и для UPDATE
             array('gameTitle', 'validateGameTitleExist', 'on' => self::SCENARIO_CREATE),
         );
     }
 
     public function validateGameTitleExist($key)
     {
-        $gameTitle = strtolower($this->gameTitle);
+        $gameTitle = $this->gameTitle;
         $game = \app\models\Game::model()->findByAttributes(array('title' => $gameTitle));
 
-        if ($game && strtolower($game->title) == $gameTitle) {
+        if ($game && strtolower($game->title) == strtolower($gameTitle)) {
             return;
         }
         $this->addError($key, 'Игры с таким названием не существует в базе данных.');
