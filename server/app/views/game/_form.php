@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="game-card_section">
-                <h4 class="game-card_title">Выход игры на платформах</h4>
+                <h4 class="game-card_title">Выход на платформах</h4>
                 <div>
                     <?php
                     $platformInfoParamsKeys = $model->getPlatformInfoParamsKeys();
