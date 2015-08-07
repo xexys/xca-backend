@@ -5,14 +5,14 @@ namespace app\models\Dictionary;
 use \app\components\ActiveRecord;
 
 
-class AudioFormat extends ActiveRecord
+class Platform extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{dic_audio_formats}}';
+		return '{{dic_platforms}}';
 	}
 
 	/**
@@ -23,12 +23,13 @@ class AudioFormat extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name', 'required'),
+			array('id, full_name', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>10),
+			array('short_name', 'length', 'max'=>20),
+			array('full_name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, full_name, short_name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +52,8 @@ class AudioFormat extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('full_name',$this->full_name,true);
+		$criteria->compare('short_name',$this->short_name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

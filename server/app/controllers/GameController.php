@@ -10,6 +10,7 @@ namespace app\controllers;
 
 use \app\components\CrudController;
 use \app\helpers;
+use \app\models\Form\Game as GameForm;
 use \Yii;
 use \app\models\Game;
 use \app\components\DataProvider;
@@ -48,7 +49,7 @@ class GameController extends CrudController
 
     public function actionCreate()
     {
-        $game = new Game();
+        $game = new GameForm;
 
         $this->_tryAjaxValidation($game);
 
@@ -68,8 +69,8 @@ class GameController extends CrudController
 
     public function actionEdit($id)
     {
-        $game = $this->_getModelById($id);
-        $gameTitle = $game->getAttribute('title');
+        $game = new GameForm($id);
+        $gameTitle = $game->title;
 
         $this->_tryAjaxValidation($game);
 

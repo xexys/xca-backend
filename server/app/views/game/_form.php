@@ -9,8 +9,9 @@
                         'autocomplete' => 'off',
                     )
                 ));
-                echo $form->textFieldGroup($game, 'text_id', $options);
+                echo $form->textFieldGroup($game, 'textId', $options);
                 echo $form->textFieldGroup($game, 'title', $options);
+
                 ?>
             </div>
         </div>

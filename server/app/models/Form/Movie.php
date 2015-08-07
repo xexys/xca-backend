@@ -52,7 +52,9 @@ class Movie extends \app\components\FormFacade
         $this->videoParams = new Movie\VideoParams($this->getScenario());
         $this->audioParamsArray[] = $this->_createAudioParams();
 
-        $this->_setAttributesByMovieModel();
+        if ($this->_movieModel->id) {
+            $this->_setAttributesByMovieModel();
+        }
     }
 
 
@@ -65,25 +67,29 @@ class Movie extends \app\components\FormFacade
 
     public function setAttributesByPost()
     {
-        $request = Yii::app()->getRequest();
+        $this->_setParamsByPost($this->mainParams);
+        $this->_setParamsByPost($this->fileParams);
+        $this->_setParamsByPost($this->videoParams);
+        $this->_setAudioParamsByPost();
+    }
 
-        $mainParamsPostData = $request->getPost(CHtml::modelName($this->mainParams));
-        $this->mainParams->setAttributes(DataHelper::trimRecursive($mainParamsPostData));
-
-        $fileParamsPostData = $request->getPost(CHtml::modelName($this->fileParams));
-        $this->fileParams->setAttributes(DataHelper::trimRecursive($fileParamsPostData));
-
-        $videoParamsPostData = $request->getPost(CHtml::modelName($this->videoParams));
-        $this->videoParams->setAttributes(DataHelper::trimRecursive($videoParamsPostData));
-
-        $audioParamsPostData = $request->getPost(CHtml::modelName($this->audioParamsArray[0]));
-        foreach ($audioParamsPostData as $n => $data) {
+    private function _setParamsByPost($paramsModel)
+    {
+        $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($paramsModel));
+        $paramsModel->setAttributes(DataHelper::trimRecursive($postData));
+    }
+    
+    private function _setAudioParamsByPost()
+    {
+        $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->audioParamsArray[0]));
+        foreach ($postData as $n => $data) {
             if (!isset($this->audioParamsArray[$n])) {
                 $this->audioParamsArray[$n] = $this->_createAudioParams();;
             }
             $this->audioParamsArray[$n]->setAttributes(DataHelper::trimRecursive($data));
         }
     }
+
 
     public function getAjaxValidationResponseContent()
     {
@@ -142,10 +148,6 @@ class Movie extends \app\components\FormFacade
 
     private function _setAttributesByMovieModel()
     {
-        if (!$this->_movieModel->id) {
-            return;
-        }
-
         $this->mainParams->title = $this->_movieModel->title;
         $this->mainParams->gameTitle = $this->_movieModel->game->title;
 
@@ -163,7 +165,7 @@ class Movie extends \app\components\FormFacade
 
     private function _getMovieModelById($id)
     {
-        $movie = MovieModel::model()->with(array('file', 'video', 'audio'))->findByPk($id);
+        $movie = MovieModel::model()->with(array('game', 'file', 'video', 'audio'))->findByPk($id);
         if (!$movie) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
