@@ -150,7 +150,6 @@ class Movie extends \app\components\FormFacade
         $this->mainParams->gameTitle = $this->_movieModel->game->title;
 
         $this->fileParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel->file));
-        $this->fileParams->gameTitle = $this->_movieModel->game->title;
 
         $this->videoParams->setAttributes($this->_getModelAttributesSnakeToCamel($this->_movieModel->video));
 

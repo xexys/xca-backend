@@ -32,6 +32,6 @@ class MainParams extends \app\components\FormModel
         if ($game && strtolower($game->title) == $gameTitle) {
             return;
         }
-        $this->addError($key, 'Игры с таким названием не существует в базе данных.');
+        $this->addError($key, 'РРіСЂС‹ СЃ С‚Р°РєРёРј РЅР°Р·РІР°РЅРёРµРј РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С….');
     }
 }
