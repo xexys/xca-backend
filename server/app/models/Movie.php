@@ -11,7 +11,7 @@ class Movie extends ActiveRecord
      */
     public function tableName()
     {
-        return '{{movie_list}}';
+        return '{{movies}}';
     }
 
     /**
@@ -40,13 +40,13 @@ class Movie extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'images' => array(self::HAS_MANY, '\app\models\Movie\Image', 'movie_id'),
             'game' => array(self::BELONGS_TO, '\app\models\Game', 'game_id'),
-            'storage' => array(self::HAS_ONE, '\app\models\Movie\Storage', 'movie_id'),
+            'file' => array(self::HAS_ONE, '\app\models\Movie\File', 'movie_id'),
             'video' => array(self::HAS_ONE, '\app\models\Movie\Video', 'movie_id'),
             'audio' => array(self::HAS_MANY, '\app\models\Movie\Audio', 'movie_id'),
-            'format' => array(self::BELONGS_TO, '\app\models\Dictionary\FileFormat', 'format_id'),
             'mediaInfo' => array(self::HAS_ONE, '\app\models\Movie\MediaInfo', 'movie_id'),
+            'storage' => array(self::HAS_ONE, '\app\models\Movie\Storage', 'movie_id'),
+            'images' => array(self::HAS_MANY, '\app\models\Movie\Image', 'movie_id'),
         );
     }
 

@@ -11,7 +11,7 @@ class Audio extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{movie_audio_params}}';
+		return '{{movies_audio_params}}';
 	}
 
 	/**

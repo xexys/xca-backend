@@ -11,7 +11,7 @@ class MediaInfo extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{movie_media_info}}';
+		return '{{movies_media_info}}';
 	}
 
 	/**

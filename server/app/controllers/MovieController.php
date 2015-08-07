@@ -36,7 +36,7 @@ class MovieController extends CrudController
 
     public function actionView($id)
     {
-        $movie = $this->_getModelById($id, array('video', 'audio'));
+        $movie = $this->_getModelById($id, array('file', 'video', 'audio'));
         $this->render('view', array('movie' => $movie));
     }
 

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Alex
- * Date: 25.07.15
- * Time: 15:56
+ * Date: 07.08.15
+ * Time: 12:39
  */
 
 namespace app\models\Form\Movie;
@@ -11,27 +11,15 @@ namespace app\models\Form\Movie;
 
 class MainParams extends \app\components\FormModel
 {
-    const FORMAT_ID_AVI = 1;
-    const FORMAT_ID_MP4 = 3;
-
     public $gameTitle;
     public $title;
-    public $filename;
-    public $filesize;
-    public $duration;
-    public $formatId = self::FORMAT_ID_AVI;
-
-    private static $_formatDictionary;
 
     public function rules()
     {
         return array(
-            array('title, gameTitle, duration', 'required'),
-            array('filesize, duration', 'numerical', 'integerOnly' => true),
+            array('title, gameTitle', 'required'),
             array('title', 'length', 'max' => 100),
             array('gameTitle', 'length', 'max' => 50),
-            array('filename', 'length', 'max' => 50),
-            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
             array('gameTitle', 'validateGameTitleExist', 'on' => self::SCENARIO_CREATE),
         );
     }
@@ -44,22 +32,6 @@ class MainParams extends \app\components\FormModel
         if ($game && strtolower($game->title) == $gameTitle) {
             return;
         }
-        $this->addError($key, 'Ð˜Ð³Ñ€Ñ‹ Ñ Ñ‚Ð°ÐºÐ¸Ð¼ Ð½Ð°Ð·Ð²Ð°Ð½Ð¸ÐµÐ¼ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚ Ð² Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ….');
+        $this->addError($key, 'Èãðû ñ òàêèì íàçâàíèåì íå ñóùåñòâóåò â áàçå äàííûõ.');
     }
-
-    public function getFormatDictionary()
-    {
-        if (self::$_formatDictionary === null) {
-            self::$_formatDictionary = array();
-
-            $data = \app\models\Dictionary\FileFormat::model()->findAll(array(
-                'order'=>'t.extension ASC'
-            ));
-
-            foreach ($data as $item) {
-                self::$_formatDictionary[$item->id] = strtoupper($item->extension);
-            }
-        }
-        return self::$_formatDictionary;
-    }
-} 
+}

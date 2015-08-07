@@ -14,6 +14,7 @@ $form = $this->beginWidget(
 );
 
 $mainParams = $model->mainParams;
+$fileParams = $model->fileParams;
 $videoParams = $model->videoParams;
 $audioParamsArray = $model->audioParamsArray;
 
@@ -26,20 +27,35 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     <div class="row">
         <div class="col-md-6">
             <div class="movie-card_section">
-                <h4 class="movie-card_title">Основные параметры</h4>
+                <?php
+                foreach ($model->getMainParamsKeys() as $key) {
+                    $cssClass = 'movie-card_main-param_' . $model->fixCssName($key);
+                    $options = array('widgetOptions' => array(
+                        'htmlOptions'=>array(
+                            'autocomplete' => 'off',
+                            'class' => $cssClass
+                        )
+                    ));
+                    echo $form->textFieldGroup($mainParams, $key, $options);
+                }
+                ?>
+            </div>
+
+            <div class="movie-card_section">
+                <h4 class="movie-card_title">Параметры файла</h4>
                 <div class="">
                     <?php
-                    foreach ($model->getMainParamsKeys() as $key) {
-                        $cssClass = 'movie-card_main-param_' . $model->fixCssName($key);
+                    foreach ($model->getFileParamsKeys() as $key) {
+                        $cssClass = 'movie-card_file-param_' . $model->fixCssName($key);
 
                         if ($key == 'formatId') {
                             $options = array('widgetOptions' => array(
-                                'data'=> $mainParams->getFormatDictionary(),
+                                'data'=> $fileParams->getFormatDictionary(),
                                 'htmlOptions'=>array(
                                     'class' => $cssClass
                                 )
                             ));
-                            echo $form->dropDownListGroup($mainParams, $key, $options);
+                            echo $form->dropDownListGroup($fileParams, $key, $options);
                         } else {
                             $options = array('widgetOptions' => array(
                                 'htmlOptions'=>array(
@@ -47,7 +63,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
                                     'class' => $cssClass
                                 )
                             ));
-                            echo $form->textFieldGroup($mainParams, $key, $options);
+                            echo $form->textFieldGroup($fileParams, $key, $options);
                         }
                     }
                     ?>
@@ -55,7 +71,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
             </div>
 
             <div class="movie-card_section">
-                <h4 class="movie-card_title">Видео параметры</h4>
+                <h4 class="movie-card_title">Параметры видео</h4>
                 <div class="">
                     <?php
                     foreach ($model->getVideoParamsKeys() as $key) {
@@ -84,7 +100,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
             </div>
 
             <div class="movie-card_section">
-                <h4 class="movie-card_title">Аудио параметры</h4>
+                <h4 class="movie-card_title">Параметры аудио</h4>
                 <div class="">
                     <?php
                     $audioParamsKeys = $model->getAudioParamsKeys();

@@ -1,49 +1,31 @@
 <?php
-
 /**
- * This is the model class for table "games".
- *
- * The followings are the available columns in table 'game_list':
- * @property integer $id
- * @property string $title
- *
+ * Created by PhpStorm.
+ * User: Alex
+ * Date: 07.08.15
+ * Time: 12:52
  */
 
-namespace app\models;
-
-
+namespace app\models\Movie;
 use \app\components\ActiveRecord;
 
 
-class Game extends ActiveRecord
+class File extends ActiveRecord
 {
-    public function findByTextId($textId)
-    {
-        return $this->findByAttributes(array('text_id' => $textId));
-    }
-
-    /**
-     * @return string the associated database table name
-     */
     public function tableName()
     {
-        return '{{games}}';
+        return '{{movies_file_params}}';
     }
 
-    /**
-     * @return array validation rules for model attributes.
-     */
     public function rules()
     {
         return array(
-            array('text_id, title', 'required'),
-            array('text_id', 'length', 'max' => 10),
-            array('text_id, title', 'unique', 'caseSensitive' => false),
-            array('text_id', 'match', 'pattern' => '/^[a-z][a-z0-9_]+$/',),
-            array('title', 'length', 'max' => 50),
+            array('movie_id, format_id', 'required'),
+            array('movie_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title', 'safe', 'on' => 'search'),
+            array('id, movie_id, name, size, duration, format_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -55,7 +37,8 @@ class Game extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'movies' => array(self::HAS_MANY, '\app\models\Movie', 'game_id'),
+            'movie' => array(self::BELONGS_TO, 'app\models\Movie', 'movie_id'),
+            'format' => array(self::BELONGS_TO, 'app\models\Dictionary\FileFormat', 'format_id'),
         );
     }
 
@@ -66,7 +49,11 @@ class Game extends ActiveRecord
     {
         return array(
             'id' => 'ID',
-            'title' => 'Title',
+            'movie_id' => 'Movie',
+            'name' => 'Name',
+            'size' => 'Size',
+            'duration' => 'Duration',
+            'format_id' => 'Format',
         );
     }
 
@@ -86,13 +73,18 @@ class Game extends ActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('title', $this->title, true);
+        $criteria->compare('id',$this->id);
+        $criteria->compare('movie_id',$this->movie_id);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('size',$this->size);
+        $criteria->compare('duration',$this->duration);
+        $criteria->compare('format_id',$this->format_id);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
+            'criteria'=>$criteria,
         ));
     }
+
 }

@@ -11,7 +11,7 @@ class Image extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{movie_images}}';
+		return '{{movies_images}}';
 	}
 
 	/**

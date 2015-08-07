@@ -28,12 +28,12 @@ class VideoParams extends \app\components\FormModel
     public function rules()
     {
         return array(
-            array('width, height, bitRate', 'required'),
+            array('width, height, bitRate, frameRate, frameRateMode, formatId', 'required'),
             array('width, height, bitRate', 'numerical', 'integerOnly' => true),
             array('frameQuality', 'numerical'),
-            array('frameRateMode', 'in', 'range' => array_keys($this->getFrameRateModeDictionary()), 'allowEmpty' => false),
-            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
-            array('frameRate', 'in', 'range' => array_keys($this->getFrameRateDictionary()), 'allowEmpty' => false),
+            array('frameRate', 'in', 'range' => array_keys($this->getFrameRateDictionary())),
+            array('frameRateMode', 'in', 'range' => array_keys($this->getFrameRateModeDictionary())),
+            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
         );
     }
 

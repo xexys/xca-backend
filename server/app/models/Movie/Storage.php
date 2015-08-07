@@ -11,7 +11,7 @@ class Storage extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{movie_storage}}';
+		return '{{movies_storage}}';
 	}
 
 	/**

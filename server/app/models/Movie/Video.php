@@ -11,7 +11,7 @@ class Video extends ActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{{movie_video_params}}';
+		return '{{movies_video_params}}';
 	}
 
 	/**

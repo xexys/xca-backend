@@ -31,12 +31,13 @@ class AudioParams extends \app\components\FormModel
     public function rules()
     {
         return array(
-            array('bitRate, trackNumber', 'numerical', 'integerOnly' => true, 'allowEmpty' => false),
-            array('bitRateMode', 'in', 'range' => array_keys($this->getBitRateModeDictionary()), 'allowEmpty' => false),
-            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary()), 'allowEmpty' => false),
-            array('channels', 'in', 'range' => array_keys($this->getChannelDictionary()), 'allowEmpty' => false),
-            array('languageId', 'in', 'range' => array_keys($this->getLanguageDictionary()), 'allowEmpty' => false),
-            array('sampleRate', 'in', 'range' => array_keys($this->getSampleRateDictionary()), 'allowEmpty' => false),
+            array('trackNumber, bitRate, bitRateMode, formatId, channels, languageId, sampleRate', 'required'),
+            array('bitRate, trackNumber', 'numerical', 'integerOnly' => true),
+            array('bitRateMode', 'in', 'range' => array_keys($this->getBitRateModeDictionary())),
+            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
+            array('channels', 'in', 'range' => array_keys($this->getChannelDictionary())),
+            array('languageId', 'in', 'range' => array_keys($this->getLanguageDictionary())),
+            array('sampleRate', 'in', 'range' => array_keys($this->getSampleRateDictionary())),
         );
     }
 
