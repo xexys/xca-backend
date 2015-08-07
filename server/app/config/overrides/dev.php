@@ -53,6 +53,20 @@ return array(
                     'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов
                 ),
 
+                array(
+                    'class'       => 'CFileLogRoute',
+                    'levels'      => 'profile',
+                    'logFile'     => 'profile.log',
+                    'enabled'     => true,
+                    'maxFileSize' => 1024, // Значение в кб
+                    'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов
+                ),
+
+//                array(
+//                    'class'=>'CProfileLogRoute',
+//                    'levels'=>'profile',
+//                    'enabled'=>true,
+//                ),
 
             ),
         ),

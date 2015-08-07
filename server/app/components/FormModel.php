@@ -52,6 +52,15 @@ class FormModel extends \CFormModel
         return parent::setAttributes(DataHelper::arrayKeysSnakeToCamel($values), $safeOnly);
     }
 
+    public function getSafeAttributes($names = null)
+    {
+        $safeNames = $this->getSafeAttributeNames();
+        if ($names) {
+            $safeNames = array_intersect($names, $safeNames);
+        }
+        return $this->getAttributes($safeNames);
+    }
+
 //    public function getAttributesInSnakeCase($names = null)
 //    {
 //        return DataHelper::arrayKeysCamelToSnake($this->getAttributes($names));

@@ -138,13 +138,14 @@ class Game extends \app\components\FormFacade
     {
         $game = $this->_gameModel;
 
-        $game->setAttributes($this->mainParams->getAttributes());
+        $game->setAttributes($this->mainParams->getSafeAttributes());
 
         $transaction = $this->getDb()->beginTransaction();
 
         try {
             $game->save();
 
+            // create + update
             $platformInfoModels = GameModel\PlatformInfo::model()->findAll(array(
                 'index' => 'id',
                 'condition' => 'game_id = :game_id',
@@ -154,7 +155,7 @@ class Game extends \app\components\FormFacade
             $updateIds = array();
 
             foreach ($this->platformInfoParamsArray as $platformInfoParams) {
-                $attrs = $platformInfoParams->getAttributes();
+                $attrs = $platformInfoParams->getSafeAttributes();
                 if ($platformInfoParams->id) {
                     $platformInfo = $platformInfoModels[$platformInfoParams->id];
                     $updateIds[] = $platformInfoParams->id;
@@ -166,10 +167,12 @@ class Game extends \app\components\FormFacade
                 $platformInfo->save();
             }
 
+            // delete
             $deleteIds = array_diff(array_keys($platformInfoModels), $updateIds);
-            foreach ($deleteIds as $id) {
-                $platformInfoModels[$id]->delete();
-            }
+            $criteria = new \CDbCriteria();
+            $criteria->addInCondition('id', $deleteIds);
+
+            GameModel\PlatformInfo::model()->deleteAll($criteria);
 
             $transaction->commit();
             return true;
