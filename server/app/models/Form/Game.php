@@ -117,11 +117,11 @@ class Game extends \app\components\FormFacade
             $game->save();
 
             foreach ($this->platformInfoParamsArray as $platformInfoParams) {
-                $attributes = $platformInfoParams->getAttributes();
-                $attributes['game_id'] = $game->id;
-                $platformInfoModel = $this->_createPlatformInfoModel();
-                $platformInfoModel->setAttributes($attributes);
-                $platformInfoModel->save();
+                $attrs = $platformInfoParams->getAttributes();
+                $attrs['game_id'] = $game->id;
+                $platformInfo = $this->_createPlatformInfo();
+                $platformInfo->setAttributes($attrs);
+                $platformInfo->save();
             }
 
             $transaction->commit();
@@ -132,11 +132,6 @@ class Game extends \app\components\FormFacade
             $transaction->rollback();
             throw $e;
         }
-    }
-
-    private function _createPlatformInfoModel()
-    {
-        return new GameModel\PlatformInfo();
     }
 
     protected function _update()
@@ -159,20 +154,21 @@ class Game extends \app\components\FormFacade
             $updateIds = array();
 
             foreach ($this->platformInfoParamsArray as $platformInfoParams) {
-                $attributes = $platformInfoParams->getAttributes();
+                $attrs = $platformInfoParams->getAttributes();
                 if ($platformInfoParams->id) {
-                    $platformInfoModel = $platformInfoModels[$platformInfoParams->id];
+                    $platformInfo = $platformInfoModels[$platformInfoParams->id];
                     $updateIds[] = $platformInfoParams->id;
                 } else {
-                    $platformInfoModel = $this->_createPlatformInfoModel();
-                    $attributes['gameId'] = $game->id;
+                    $platformInfo = $this->_createPlatformInfo();
+                    $attrs['gameId'] = $game->id;
                 }
-                $platformInfoModel->setAttributes($attributes);
-                $platformInfoModel->save();
+                $platformInfo->setAttributes($attrs);
+                $platformInfo->save();
             }
 
-            foreach (array_diff(array_keys($platformInfoModels), $updateIds) as $key) {
-                $platformInfoModels[$key]->delete();
+            $deleteIds = array_diff(array_keys($platformInfoModels), $updateIds);
+            foreach ($deleteIds as $id) {
+                $platformInfoModels[$id]->delete();
             }
 
             $transaction->commit();
@@ -189,11 +185,11 @@ class Game extends \app\components\FormFacade
         // safeOnly = false - чтобы установить значение id
         $this->mainParams->setAttributes($this->_gameModel, false);
 
-        foreach ($this->_gameModel->platforms as $n => $platformModel) {
+        foreach ($this->_gameModel->platformsInfo as $n => $platformInfo) {
             if (!isset($this->platformInfoParamsArray[$n])) {
                 $this->platformInfoParamsArray[$n] = $this->_createPlatformInfoParams();
             }
-            $this->platformInfoParamsArray[$n]->setAttributes($platformModel->getAttributes(), false);
+            $this->platformInfoParamsArray[$n]->setAttributes($platformInfo->getAttributes(), false);
         }
     }
 
@@ -202,9 +198,14 @@ class Game extends \app\components\FormFacade
         return new Game\PlatformInfoParams($this->getScenario());
     }
 
+    private function _createPlatformInfo()
+    {
+        return new GameModel\PlatformInfo();
+    }
+
     private function _getGameModelById($id)
     {
-        $game = GameModel::model()->with(array('platforms'))->findByPk($id);
+        $game = GameModel::model()->with(array('platformsInfo'))->findByPk($id);
         if (!$game) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
