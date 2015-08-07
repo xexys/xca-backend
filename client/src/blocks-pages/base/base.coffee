@@ -8,7 +8,7 @@ class BasePageView extends Marionette.LayoutView
 
   initialize: ->
     @$('select').select2(
-      minimumResultsForSearch: 7
+      minimumResultsForSearch: 10
     )
 
 
