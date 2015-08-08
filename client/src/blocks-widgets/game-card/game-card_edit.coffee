@@ -37,8 +37,7 @@ class GameCardEditWidget extends GameCardWidget
   _getPlatformInfoTemplate: ->
     @_num = @_num || @_getAllPlatformInfo().length
     template = $('#game-card_platform-info-template').html()
-    template.replace(/xxxxx/g, @_num++)
-    return template;
+    return template.replace(/xxxxx/g, @_num++)
 
 
   _getAllPlatformInfo: ->

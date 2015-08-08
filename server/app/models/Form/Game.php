@@ -98,7 +98,7 @@ class Game extends \app\components\FormFacade
 
     public function getPlatformInfoParamsKeys()
     {
-        return reset($this->platformInfoParamsArray)->getSafeAttributeNames();
+        return $this->platformInfoParamsArray[0]->getSafeAttributeNames();
     }
 
     public function getAjaxValidationResponseContent()
