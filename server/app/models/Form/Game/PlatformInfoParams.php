@@ -8,15 +8,18 @@
 
 namespace app\models\Form\Game;
 
+use \app\components\FormModel;
+use \app\models\interfaces\Collectible;
 use \app\models\Game\PlatformInfo as PlatformInfoModel;
 
 
-class PlatformInfoParams extends \app\components\FormModel
+class PlatformInfoParams extends FormModel implements Collectible
 {
     public $platformId = PlatformInfoModel::PLATFORM_ID_PC;
     public $status = PlatformInfoModel::STATUS_RELEASED;
     public $comment;
 
+    private $_collection;
     private static $_platformDictionary;
 
     public function rules()
@@ -25,8 +28,39 @@ class PlatformInfoParams extends \app\components\FormModel
             array('platformId, status', 'required'),
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
+            array('platformId', 'validatePlatformIdUniqueness'),
             array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
         );
+    }
+
+    public function validatePlatformIdUniqueness($key)
+    {
+        $collection = $this->getCollection();
+
+        if ($collection) {
+            $platformIds = array();
+            foreach($collection as $model) {
+                $platformIds[] = $model->platformId;
+            }
+
+            $counts = array_count_values($platformIds);
+
+            foreach($collection as $model) {
+                if ($counts[$model->platformId] > 1) {
+                    $model->addError($key, 'У Вас уже есть такая платформа.');
+                }
+            }
+        }
+    }
+
+    public function getCollection()
+    {
+        return $this->_collection;
+    }
+
+    public function setCollection($collection)
+    {
+        $this->_collection = $collection;
     }
 
     public function getDictionary($key)
@@ -70,6 +104,4 @@ class PlatformInfoParams extends \app\components\FormModel
             PlatformInfoModel::STATUS_RIP => 'Проект закрыт',
         );
     }
-
-
-} 
+}

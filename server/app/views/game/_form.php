@@ -1,7 +1,7 @@
 <?php
 
 // Важно сбросить ключи, чтобы номера начинались с 0
-$platformInfoParamsArray = array_values($model->platformInfoParamsArray);
+$platformInfoParamsArray = array_values($model->platformInfoParamsCollection->toArray());
 $platformInfoParamsArrayCount = count($platformInfoParamsArray);
 
 ?>

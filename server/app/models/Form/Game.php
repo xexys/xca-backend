@@ -15,12 +15,13 @@ use \app\models\Game as GameModel;
 use \app\helpers\Data as DataHelper;
 use \Exception;
 use \CException;
+use \app\components\ObjectCollection;
 
 
 class Game extends \app\components\FormFacade
 {
     public $mainParams;
-    public $platformInfoParamsArray = array();
+    public $platformInfoParamsCollection;
 
     private $_gameModel;
 
@@ -47,7 +48,8 @@ class Game extends \app\components\FormFacade
         $scenario = $this->getScenario();
 
         $this->mainParams = new Game\MainParams($scenario);
-        $this->platformInfoParamsArray[] = $this->_createPlatformInfoParams();
+        $this->platformInfoParamsCollection = new ObjectCollection;
+        $this->platformInfoParamsCollection[] = $this->_createPlatformInfoParams();
 
         if ($scenario === self::SCENARIO_UPDATE) {
             $this->_setAttributesByGameModel();
@@ -57,16 +59,18 @@ class Game extends \app\components\FormFacade
     public function rules()
     {
         return array(
-            array('mainParams, platformInfoParamsArray', 'validateParams'),
+            array('mainParams, platformInfoParamsCollection', 'validateParams'),
         );
     }
 
     public function validateParams($key)
     {
         $models = $this->$key;
-        if (!is_array($models)) {
+
+        if (!is_array($models) && !$models instanceof ObjectCollection) {
             $models = array($models);
         }
+
         foreach ($models as $model) {
             if (!$model->validate()) {
                 $this->addError($key, 'При заполнении формы возникли ошибки.');
@@ -83,12 +87,12 @@ class Game extends \app\components\FormFacade
 
         $platformInfoPostData = Yii::app()->getRequest()->getPost($this->_getPlatformInfoParamsPostKey());
         if ($platformInfoPostData) {
-            $this->platformInfoParamsArray = array();
+            $this->platformInfoParamsCollection->clear();
             foreach ($platformInfoPostData as $n => $data) {
                 $platformInfoParams = $this->_createPlatformInfoParams();
                 $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
                 // Важно сохранить номер, чтобы правильно сработала ajax валидация
-                $this->platformInfoParamsArray[$n] = $platformInfoParams;
+                $this->platformInfoParamsCollection[$n] = $platformInfoParams;
             }
         }
     }
@@ -100,13 +104,13 @@ class Game extends \app\components\FormFacade
 
     public function getPlatformInfoParamsKeys()
     {
-        return reset($this->platformInfoParamsArray)->getSafeAttributeNames();
+        return $this->platformInfoParamsCollection->getFirstItem()->getSafeAttributeNames();
     }
 
     public function getAjaxValidationResponseContent()
     {
         $json1 = json_decode(CActiveForm::validate($this->mainParams, null, false), true);
-        $json2 = json_decode(CActiveForm::validateTabular($this->platformInfoParamsArray, null, false), true);
+        $json2 = json_decode(CActiveForm::validateTabular($this->platformInfoParamsCollection->toArray(), null, false), true);
         return json_encode(array_merge($json1, $json2));
     }
 
@@ -123,7 +127,7 @@ class Game extends \app\components\FormFacade
                 throw new CException($game->getFirstErrorMessage());
             }
 
-            foreach ($this->platformInfoParamsArray as $platformInfoParams) {
+            foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
                 $attrs = $platformInfoParams->getAttributes();
                 $attrs['game_id'] = $game->id;
                 $platformInfo = $this->_createPlatformInfo();
@@ -164,7 +168,7 @@ class Game extends \app\components\FormFacade
                 'params' => array(':game_id' => $game->id),
             ));
 
-            foreach ($this->platformInfoParamsArray as $platformInfoParams) {
+            foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
                 $attrs = $platformInfoParams->getAttributes();
                 if (isset($platformInfoModels[$platformInfoParams->platformId])) {
                     $platformInfo = $platformInfoModels[$platformInfoParams->platformId];
@@ -208,11 +212,11 @@ class Game extends \app\components\FormFacade
 
         $platformsInfo = $this->_gameModel->platformsInfo;
         if ($platformsInfo) {
-            $this->platformInfoParamsArray = array();
+            $this->platformInfoParamsCollection->clear();
             foreach ($platformsInfo as $platformInfo) {
                 $platformInfoParams = $this->_createPlatformInfoParams();
                 $platformInfoParams->setAttributes(DataHelper::trimRecursive($platformInfo->getAttributes()));
-                $this->platformInfoParamsArray[] = $platformInfoParams;
+                $this->platformInfoParamsCollection[] = $platformInfoParams;
             }
         }
     }
@@ -234,7 +238,7 @@ class Game extends \app\components\FormFacade
 
     private function _getPlatformInfoParamsPostKey()
     {
-        return CHtml::modelName(reset($this->platformInfoParamsArray));
+        return CHtml::modelName($this->platformInfoParamsCollection->getFirstItem());
     }
 
     private function _getGameModelById($id)
