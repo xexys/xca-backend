@@ -9,6 +9,7 @@
 namespace app\components;
 
 use Yii;
+use \CHtml;
 use \app\models\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
 
@@ -74,8 +75,8 @@ class FormModel extends \CFormModel implements Collectible
 
             foreach($collection as $model) {
                 if ($counts[$model->$key] > 1) {
-                    // TODO: Придумать сообщение
-                    $model->addError($key, 'У Вас уже есть такая платформа.');
+                    $label = $this->getAttributeLabel($key);
+                    $model->addError($key, $label . ' "' . CHtml::encode($model->$key) . '" уже есть в коллекции.');
                 }
             }
         }
