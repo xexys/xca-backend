@@ -1,6 +1,8 @@
 <?php
 
-$platformInfoParamsCount = count($model->platformInfoParamsArray);
+// Важно сбросить ключи, чтобы номера начинались с 0
+$platformInfoParamsArray = array_values($model->platformInfoParamsArray);
+$platformInfoParamsArrayCount = count($platformInfoParamsArray);
 
 ?>
 
@@ -28,7 +30,7 @@ $platformInfoParamsCount = count($model->platformInfoParamsArray);
                 <div class="game-card_platforms-info">
                     <?php
                         $platformInfoParamsKeys = $model->getPlatformInfoParamsKeys();
-                        foreach ($model->platformInfoParamsArray as $n => $platformInfoParams):
+                        foreach ($platformInfoParamsArray as $n => $platformInfoParams):
                     ?>
                         <div class="game-card_platform-info">
                             <?php foreach ($platformInfoParamsKeys as $key) {
@@ -66,7 +68,7 @@ $platformInfoParamsCount = count($model->platformInfoParamsArray);
                                     </span>
                                 </span>
 
-                                <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $platformInfoParamsCount === 1 ? 'game-card_platform-info-btn_hidden' : '' ?>">
+                                <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $platformInfoParamsArrayCount === 1 ? 'game-card_platform-info-btn_hidden' : '' ?>">
                                     <span class="link link_crud-remove">
                                         <i class="fa fa-plus-circle"></i>
                                         <span href="#" class="link_text">Удалить</span>
