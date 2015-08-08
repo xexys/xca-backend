@@ -175,7 +175,7 @@ class Game extends \app\components\FormFacade
                     $updateIds[] = $platformInfo->id;
                 } else {
                     $platformInfo = $this->_createPlatformInfo();
-                    $attrs['gameId'] = $game->id;
+                    $attrs['game_id'] = $game->id;
                 }
                 $platformInfo->setAttributes($attrs);
                 if (!$platformInfo->save()) {
