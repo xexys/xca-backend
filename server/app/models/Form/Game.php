@@ -117,7 +117,6 @@ class Game extends \app\components\FormFacade
     protected function _create()
     {
         $game = $this->_gameModel;
-
         $game->setAttributes($this->mainParams->getAttributes());
 
         $transaction = $this->getDb()->beginTransaction();
@@ -149,7 +148,6 @@ class Game extends \app\components\FormFacade
     protected function _update()
     {
         $game = $this->_gameModel;
-
         $game->setAttributes($this->mainParams->getSafeAttributes());
 
         $transaction = $this->getDb()->beginTransaction();
