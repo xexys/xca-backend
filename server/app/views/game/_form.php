@@ -61,17 +61,17 @@ $platformInfoParamsArrayCount = count($platformInfoParamsArray);
                             }
                             ?>
                             <div class="game-card_platform-info-btn-panel">
-                                <span class="game-card_platform-info-btn game-card_platform-info-btn_add">
-                                    <span class="link link_crud-add">
-                                        <i class="fa fa-plus-circle"></i>
-                                        <span class="link_text">Добавить</span>
-                                    </span>
-                                </span>
-
                                 <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $platformInfoParamsArrayCount === 1 ? 'game-card_platform-info-btn_hidden' : '' ?>">
                                     <span class="link link_crud-remove">
                                         <i class="fa fa-plus-circle"></i>
                                         <span href="#" class="link_text">Удалить</span>
+                                    </span>
+                                </span>
+
+                                <span class="game-card_platform-info-btn game-card_platform-info-btn_add">
+                                    <span class="link link_crud-add">
+                                        <i class="fa fa-plus-circle"></i>
+                                        <span class="link_text">Добавить</span>
                                     </span>
                                 </span>
                             </div>

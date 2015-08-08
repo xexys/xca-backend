@@ -40,6 +40,13 @@ $formCssId = $form->htmlOptions['id'];
     }
     ?>
     <div class="game-card_platform-info-btn-panel">
+        <span class="game-card_platform-info-btn game-card_platform-info-btn_remove">
+            <span class="link link_crud-remove">
+                <i class="fa fa-plus-circle"></i>
+                <span href="#" class="link_text">Удалить</span>
+            </span>
+        </span>
+
         <span class="game-card_platform-info-btn game-card_platform-info-btn_add">
             <span class="link link_crud-add">
                 <i class="fa fa-plus-circle"></i>
@@ -47,12 +54,6 @@ $formCssId = $form->htmlOptions['id'];
             </span>
         </span>
 
-        <span class="game-card_platform-info-btn game-card_platform-info-btn_remove">
-            <span class="link link_crud-remove">
-                <i class="fa fa-plus-circle"></i>
-                <span href="#" class="link_text">Удалить</span>
-            </span>
-        </span>
     </div>
     <hr>
 </div>
