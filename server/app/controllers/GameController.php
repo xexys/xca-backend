@@ -61,6 +61,7 @@ class GameController extends CrudController
             }
         }
 
+
         $this->render('create', array(
             'model' => $form,
             'backUrl' => $this->_getBackUrl()

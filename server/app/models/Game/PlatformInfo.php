@@ -19,6 +19,8 @@ class PlatformInfo extends ActiveRecord
     const STATUS_FROZEN = 3;
     const STATUS_RIP = 4;
 
+    const PLATFORM_ID_PC = 3;
+
     public function tableName()
     {
         return '{{games_platform_info}}';

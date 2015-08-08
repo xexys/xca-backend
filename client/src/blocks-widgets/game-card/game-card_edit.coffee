@@ -12,16 +12,28 @@ class GameCardEditWidget extends GameCardWidget
     e.preventDefault()
     console.log(e)
 
-# 1. Найти секцию
-# 2. Загрузить шаблон
-# 3. Отрендерить
+    template = @_getTemplate()
 
+    $platformInfo = @_getClosestPlatformInfo(e.target)
+    $platformInfo.after($(template))
 
 
   _removePlatformInfo: (e) ->
     e.preventDefault()
-    console.log(e)
 
+    $platformInfo = @_getClosestPlatformInfo(e.target)
+    $platformInfo.remove()
+
+
+  _getClosestPlatformInfo: (target) ->
+    return @$(target).closest('.game-card_platform-info')
+
+
+  _getTemplate: ->
+    @_num = @_num || @$('.game-card_platform-info').length
+    template = $('#game-card_platform-info-template').html()
+    template.replace(/xxxxx/g, @_num++)
+    return template;
 
 
 module.exports = GameCardEditWidget

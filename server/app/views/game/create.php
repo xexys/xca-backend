@@ -30,5 +30,10 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 <?php
 
-$this->endWidget();
+$this->renderPartial('_template', array(
+    'form' => $form,
+    'model' => $model,
+));
 
+
+$this->endWidget();

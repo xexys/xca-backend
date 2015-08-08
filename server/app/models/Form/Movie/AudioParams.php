@@ -8,18 +8,18 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\Movie\Audio as AudioModel;
+
 
 class AudioParams extends \app\components\FormModel
 {
-    const BIT_RATE_MODE_CONSTANT = 0;
-    const BIT_RATE_MODE_VARIABLE = 1;
     const FORMAT_ID_MP3 = 3;
     const LANGUAGE_ID_ENG = 1;
 
     public $trackNumber;
     public $formatId = self::FORMAT_ID_MP3;
     public $bitRate;
-    public $bitRateMode = self::BIT_RATE_MODE_CONSTANT;
+    public $bitRateMode = AudioModel::BIT_RATE_MODE_CONSTANT;
     public $sampleRate = 44100;
     public $channels = '2.0';
     public $languageId = self::LANGUAGE_ID_ENG;
@@ -69,8 +69,8 @@ class AudioParams extends \app\components\FormModel
     public function getBitRateModeDictionary()
     {
         return array(
-            self::BIT_RATE_MODE_CONSTANT => 'CBR',
-            self::BIT_RATE_MODE_VARIABLE => 'VBR',
+            AudioModel::BIT_RATE_MODE_CONSTANT => 'CBR',
+            AudioModel::BIT_RATE_MODE_VARIABLE => 'VBR',
         );
     }
 

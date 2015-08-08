@@ -8,16 +8,16 @@
 
 namespace app\models\Form\Game;
 
-use \app\models\Game\PlatformInfo as GamePlatformInfoModel;
+use \app\models\Game\PlatformInfo as PlatformInfoModel;
 
 
 class PlatformInfoParams extends \app\components\FormModel
 {
-    private static $_platformDictionary;
-
-    public $platformId;
-    public $status;
+    public $platformId = PlatformInfoModel::PLATFORM_ID_PC;
+    public $status = PlatformInfoModel::STATUS_RELEASED;
     public $comment;
+
+    private static $_platformDictionary;
 
     public function rules()
     {
@@ -64,10 +64,10 @@ class PlatformInfoParams extends \app\components\FormModel
     public function getStatusDictionary()
     {
         return array(
-            GamePlatformInfoModel::STATUS_AWAITING => 'Ожидается выход',
-            GamePlatformInfoModel::STATUS_RELEASED => 'Вышла',
-            GamePlatformInfoModel::STATUS_FROZEN => 'Проект заморожена',
-            GamePlatformInfoModel::STATUS_RIP => 'Проект закрыт',
+            PlatformInfoModel::STATUS_AWAITING => 'Ожидается выход',
+            PlatformInfoModel::STATUS_RELEASED => 'Вышла',
+            PlatformInfoModel::STATUS_FROZEN => 'Проект заморожена',
+            PlatformInfoModel::STATUS_RIP => 'Проект закрыт',
         );
     }
 

@@ -19,7 +19,7 @@ use \Exception;
 class Game extends \app\components\FormFacade
 {
     public $mainParams;
-    public $platformInfoParamsArray;
+    public $platformInfoParamsArray = array();
 
     private $_gameModel;
 
@@ -81,11 +81,13 @@ class Game extends \app\components\FormFacade
         $this->mainParams->setAttributes(DataHelper::trimRecursive($mainPostData));
 
         $platformInfoPostData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->platformInfoParamsArray[0]));
-        $this->platformInfoParamsArray = array();
-        foreach ($platformInfoPostData as $n => $data) {
-            $platformInfoParams = $this->_createPlatformInfoParams();
-            $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
-            $this->platformInfoParamsArray[$n] = $platformInfoParams;
+        if ($platformInfoPostData) {
+            $this->platformInfoParamsArray = array();
+            foreach ($platformInfoPostData as $data) {
+                $platformInfoParams = $this->_createPlatformInfoParams();
+                $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
+                $this->platformInfoParamsArray[] = $platformInfoParams;
+            }
         }
     }
 
@@ -96,7 +98,7 @@ class Game extends \app\components\FormFacade
 
     public function getPlatformInfoParamsKeys()
     {
-        return $this->platformInfoParamsArray[0]->getSafeAttributeNames();
+        return reset($this->platformInfoParamsArray)->getSafeAttributeNames();
     }
 
     public function getAjaxValidationResponseContent()
@@ -126,7 +128,6 @@ class Game extends \app\components\FormFacade
             }
 
             $transaction->commit();
-
             return true;
 
         } catch (Exception $e) {
