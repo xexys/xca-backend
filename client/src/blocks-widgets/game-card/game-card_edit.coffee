@@ -10,12 +10,14 @@ class GameCardEditWidget extends GameCardWidget
 
   _addPlatformInfo: (e) ->
     e.preventDefault()
-    console.log(e)
 
     template = @_getTemplate()
 
     $platformInfo = @_getClosestPlatformInfo(e.target)
     $platformInfo.after($(template))
+
+    @_toggleRemoveBtn()
+
 
 
   _removePlatformInfo: (e) ->
@@ -24,16 +26,28 @@ class GameCardEditWidget extends GameCardWidget
     $platformInfo = @_getClosestPlatformInfo(e.target)
     $platformInfo.remove()
 
-
-  _getClosestPlatformInfo: (target) ->
-    return @$(target).closest('.game-card_platform-info')
+    @_toggleRemoveBtn()
 
 
   _getTemplate: ->
-    @_num = @_num || @$('.game-card_platform-info').length
+    @_num = @_num || @_getAllPlatformInfo().length
     template = $('#game-card_platform-info-template').html()
     template.replace(/xxxxx/g, @_num++)
     return template;
+
+
+  _toggleRemoveBtn: ->
+    $buttons = @$('.game-card_platform-info-btn_remove')
+    state = $buttons.length == 1
+    $buttons.toggleClass('game-card_platform-info-btn_hidden', state)
+
+
+  _getAllPlatformInfo: ->
+    return @$('.game-card_platform-info')
+
+
+  _getClosestPlatformInfo: (selector) ->
+    return @$(selector).closest('.game-card_platform-info')
 
 
 module.exports = GameCardEditWidget

@@ -1,3 +1,9 @@
+<?php
+
+$platformInfoParamsCount = count($model->platformInfoParamsArray);
+
+?>
+
 <div class="game-card_section">
     <div class="row">
         <div class="col-md-6">
@@ -60,7 +66,7 @@
                                     </span>
                                 </span>
 
-                                <span class="game-card_platform-info-btn game-card_platform-info-btn_remove">
+                                <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $platformInfoParamsCount === 1 ? 'game-card_platform-info-btn_hidden' : '' ?>">
                                     <span class="link link_crud-remove">
                                         <i class="fa fa-plus-circle"></i>
                                         <span href="#" class="link_text">Удалить</span>
