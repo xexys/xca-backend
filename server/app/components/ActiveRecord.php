@@ -36,6 +36,8 @@ class ActiveRecord extends \CActiveRecord
             parent::behaviors(),
             array(
                 'ajaxValidation' => '\app\models\behaviors\AjaxValidation',
+                'DAO' => '\app\models\behaviors\DAO',
+                'validationError' => '\app\models\behaviors\ValidationError',
             )
         );
     }

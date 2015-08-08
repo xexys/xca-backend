@@ -14,6 +14,7 @@ use \CActiveForm;
 use \app\models\Game as GameModel;
 use \app\helpers\Data as DataHelper;
 use \Exception;
+use \CException;
 
 
 class Game extends \app\components\FormFacade
@@ -77,16 +78,17 @@ class Game extends \app\components\FormFacade
     {
         $request = Yii::app()->getRequest();
 
-        $mainPostData = $request->getPost(CHtml::modelName($this->mainParams));
+        $mainPostData = $request->getPost($this->_getMainParamsInfoPostKey());
         $this->mainParams->setAttributes(DataHelper::trimRecursive($mainPostData));
 
-        $platformInfoPostData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->platformInfoParamsArray[0]));
+        $platformInfoPostData = Yii::app()->getRequest()->getPost($this->_getPlatformInfoParamsPostKey());
         if ($platformInfoPostData) {
             $this->platformInfoParamsArray = array();
-            foreach ($platformInfoPostData as $data) {
+            foreach ($platformInfoPostData as $n => $data) {
                 $platformInfoParams = $this->_createPlatformInfoParams();
                 $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
-                $this->platformInfoParamsArray[] = $platformInfoParams;
+                // Важно сохранить номер, чтобы правильно сработала ajax валидация
+                $this->platformInfoParamsArray[$n] = $platformInfoParams;
             }
         }
     }
@@ -98,7 +100,7 @@ class Game extends \app\components\FormFacade
 
     public function getPlatformInfoParamsKeys()
     {
-        return $this->platformInfoParamsArray[0]->getSafeAttributeNames();
+        return reset($this->platformInfoParamsArray)->getSafeAttributeNames();
     }
 
     public function getAjaxValidationResponseContent()
@@ -117,14 +119,18 @@ class Game extends \app\components\FormFacade
         $transaction = $this->getDb()->beginTransaction();
 
         try {
-            $game->save();
+            if (!$game->save()) {
+                throw new CException($game->getFirstErrorMessage());
+            }
 
             foreach ($this->platformInfoParamsArray as $platformInfoParams) {
                 $attrs = $platformInfoParams->getAttributes();
                 $attrs['game_id'] = $game->id;
                 $platformInfo = $this->_createPlatformInfo();
                 $platformInfo->setAttributes($attrs);
-                $platformInfo->save();
+                if (!$platformInfo->save()) {
+                    throw new CException($platformInfo->getFirstErrorMessage());
+                }
             }
 
             $transaction->commit();
@@ -145,7 +151,9 @@ class Game extends \app\components\FormFacade
         $transaction = $this->getDb()->beginTransaction();
 
         try {
-            $game->save();
+            if (!$game->save()) {
+                throw new CException($game->getFirstErrorMessage());
+            }
 
             // create + update
             $updateIds = array();
@@ -166,7 +174,9 @@ class Game extends \app\components\FormFacade
                     $attrs['gameId'] = $game->id;
                 }
                 $platformInfo->setAttributes($attrs);
-                $platformInfo->save();
+                if (!$platformInfo->save()) {
+                    throw new CException($platformInfo->getFirstErrorMessage());
+                }
             }
 
             // delete
@@ -215,6 +225,16 @@ class Game extends \app\components\FormFacade
     private function _createPlatformInfo()
     {
         return new GameModel\PlatformInfo();
+    }
+
+    private function _getMainParamsInfoPostKey()
+    {
+        return CHtml::modelName($this->mainParams);
+    }
+
+    private function _getPlatformInfoParamsPostKey()
+    {
+        return CHtml::modelName(reset($this->platformInfoParamsArray));
     }
 
     private function _getGameModelById($id)
