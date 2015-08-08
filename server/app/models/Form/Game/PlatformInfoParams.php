@@ -28,29 +28,9 @@ class PlatformInfoParams extends FormModel implements Collectible
             array('platformId, status', 'required'),
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
-            array('platformId', 'validatePlatformIdUniqueness'),
+            array('platformId', 'validateUniquenessInCollection'),
             array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
         );
-    }
-
-    public function validatePlatformIdUniqueness($key)
-    {
-        $collection = $this->getCollection();
-
-        if ($collection) {
-            $platformIds = array();
-            foreach($collection as $model) {
-                $platformIds[] = $model->platformId;
-            }
-
-            $counts = array_count_values($platformIds);
-
-            foreach($collection as $model) {
-                if ($counts[$model->platformId] > 1) {
-                    $model->addError($key, 'У Вас уже есть такая платформа.');
-                }
-            }
-        }
     }
 
     public function getCollection()

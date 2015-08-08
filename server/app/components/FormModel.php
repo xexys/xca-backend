@@ -47,6 +47,27 @@ class FormModel extends \CFormModel
         $validator->validate($this);
     }
 
+    public function validateUniquenessInCollection($key)
+    {
+        $collection = $this->getCollection();
+
+        if ($collection) {
+            $keys = array();
+            foreach($collection as $model) {
+                $keys[] = $model->$key;
+            }
+
+            $counts = array_count_values($keys);
+
+            foreach($collection as $model) {
+                if ($counts[$model->$key] > 1) {
+                    // TODO: Придумать сообщение
+                    $model->addError($key, 'У Вас уже есть такая платформа.');
+                }
+            }
+        }
+    }
+
     public function setAttributes($values, $safeOnly = true)
     {
         return parent::setAttributes(DataHelper::arrayKeysSnakeToCamel($values), $safeOnly);
