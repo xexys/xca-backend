@@ -35,11 +35,11 @@ class PlatformInfo extends ActiveRecord
         // will receive user inputs.
         return array(
             array('game_id, platform_id', 'required'),
-            array('game_id, platform_id, status', 'numerical', 'integerOnly'=>true),
-            array('comment', 'length', 'max'=>500),
+            array('game_id, platform_id, status', 'numerical', 'integerOnly' => true),
+            array('comment', 'length', 'max' => 500),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, game_id, platform_id, status, comment', 'safe', 'on'=>'search'),
+            array('id, game_id, platform_id, status, comment', 'safe', 'on' => 'search'),
         );
     }
 
@@ -53,7 +53,7 @@ class PlatformInfo extends ActiveRecord
         return array(
             'game' => array(self::BELONGS_TO, '\app\models\Game', 'game_id'),
             'info' => array(self::BELONGS_TO, '\app\models\Dictionary\Platform', 'platform_id'),
-//            'gamesPlatformsMoviesSearches' => array(self::HAS_MANY, 'GamesPlatformsMoviesSearch', 'game_platform_id'),
+            //            'gamesPlatformsMoviesSearches' => array(self::HAS_MANY, 'GamesPlatformsMoviesSearch', 'game_platform_id'),
         );
     }
 
@@ -73,16 +73,16 @@ class PlatformInfo extends ActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('game_id',$this->game_id);
-        $criteria->compare('platform_id',$this->platform_id);
-        $criteria->compare('status',$this->status);
-        $criteria->compare('comment',$this->comment,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('game_id', $this->game_id);
+        $criteria->compare('platform_id', $this->platform_id);
+        $criteria->compare('status', $this->status);
+        $criteria->compare('comment', $this->comment, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 }
