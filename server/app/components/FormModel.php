@@ -9,17 +9,30 @@
 namespace app\components;
 
 use Yii;
+use \app\models\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
 
 
-class FormModel extends \CFormModel
+class FormModel extends \CFormModel implements Collectible
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
 
+    private $_collection;
+
     public function fixCssName($name)
     {
         return strtr(DataHelper::camelToSnake($name), '_', '-');
+    }
+
+    public function getCollection()
+    {
+        return $this->_collection;
+    }
+
+    public function setCollection($collection)
+    {
+        $this->_collection = $collection;
     }
 
     /**

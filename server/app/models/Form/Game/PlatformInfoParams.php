@@ -9,17 +9,15 @@
 namespace app\models\Form\Game;
 
 use \app\components\FormModel;
-use \app\models\interfaces\Collectible;
 use \app\models\Game\PlatformInfo as PlatformInfoModel;
 
 
-class PlatformInfoParams extends FormModel implements Collectible
+class PlatformInfoParams extends FormModel
 {
     public $platformId = PlatformInfoModel::PLATFORM_ID_PC;
     public $status = PlatformInfoModel::STATUS_RELEASED;
     public $comment;
 
-    private $_collection;
     private static $_platformDictionary;
 
     public function rules()
@@ -31,16 +29,6 @@ class PlatformInfoParams extends FormModel implements Collectible
             array('platformId', 'validateUniquenessInCollection'),
             array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
         );
-    }
-
-    public function getCollection()
-    {
-        return $this->_collection;
-    }
-
-    public function setCollection($collection)
-    {
-        $this->_collection = $collection;
     }
 
     public function getDictionary($key)
