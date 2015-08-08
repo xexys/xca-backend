@@ -1,0 +1,16 @@
+@link_color: darken(#428bca, 6.5%);
+@link_hover-color: darken(@link_color, 15%);
+
+.link {
+  color: @link_color;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: @link_hover-color;
+  .link_text {
+    text-decoration: underline;
+  }
+}
+
+// TODO: Обработать active и т.д.

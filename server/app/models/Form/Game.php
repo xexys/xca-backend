@@ -14,7 +14,6 @@ use \CActiveForm;
 use \app\models\Game as GameModel;
 use \app\helpers\Data as DataHelper;
 use \Exception;
-use \CException;
 
 
 class Game extends \app\components\FormFacade
@@ -44,10 +43,12 @@ class Game extends \app\components\FormFacade
     {
         parent::init();
 
-        $this->mainParams = new Game\MainParams($this->getScenario());
+        $scenario = $this->getScenario();
+
+        $this->mainParams = new Game\MainParams($scenario);
         $this->platformInfoParamsArray[] = $this->_createPlatformInfoParams();
 
-        if ($this->_gameModel->id) {
+        if ($scenario === self::SCENARIO_UPDATE) {
             $this->_setAttributesByGameModel();
         }
     }
@@ -80,11 +81,11 @@ class Game extends \app\components\FormFacade
         $this->mainParams->setAttributes(DataHelper::trimRecursive($mainPostData));
 
         $platformInfoPostData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->platformInfoParamsArray[0]));
+        $this->platformInfoParamsArray = array();
         foreach ($platformInfoPostData as $n => $data) {
-            if (!isset($this->platformInfoParamsArray[$n])) {
-                $this->platformInfoParamsArray[$n] = $this->_createPlatformInfoParams();
-            }
-            $this->platformInfoParamsArray[$n]->setAttributes(DataHelper::trimRecursive($data));
+            $platformInfoParams = $this->_createPlatformInfoParams();
+            $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
+            $this->platformInfoParamsArray[$n] = $platformInfoParams;
         }
     }
 
@@ -146,19 +147,19 @@ class Game extends \app\components\FormFacade
             $game->save();
 
             // create + update
+            $updateIds = array();
+
             $platformInfoModels = GameModel\PlatformInfo::model()->findAll(array(
-                'index' => 'id',
+                'index' => 'platform_id',
                 'condition' => 'game_id = :game_id',
                 'params' => array(':game_id' => $game->id),
             ));
 
-            $updateIds = array();
-
             foreach ($this->platformInfoParamsArray as $platformInfoParams) {
-                $attrs = $platformInfoParams->getSafeAttributes();
-                if ($platformInfoParams->id) {
-                    $platformInfo = $platformInfoModels[$platformInfoParams->id];
-                    $updateIds[] = $platformInfoParams->id;
+                $attrs = $platformInfoParams->getAttributes();
+                if (isset($platformInfoModels[$platformInfoParams->platformId])) {
+                    $platformInfo = $platformInfoModels[$platformInfoParams->platformId];
+                    $updateIds[] = $platformInfo->id;
                 } else {
                     $platformInfo = $this->_createPlatformInfo();
                     $attrs['gameId'] = $game->id;
@@ -168,7 +169,13 @@ class Game extends \app\components\FormFacade
             }
 
             // delete
-            $deleteIds = array_diff(array_keys($platformInfoModels), $updateIds);
+            $deleteIds = array();
+            foreach($platformInfoModels as $platformInfo) {
+                if (!in_array($platformInfo->id, $updateIds)) {
+                    $deleteIds[] = $platformInfo->id;
+                }
+            }
+
             $criteria = new \CDbCriteria();
             $criteria->addInCondition('id', $deleteIds);
 
@@ -188,11 +195,14 @@ class Game extends \app\components\FormFacade
         // safeOnly = false - чтобы установить значение id
         $this->mainParams->setAttributes($this->_gameModel, false);
 
-        foreach ($this->_gameModel->platformsInfo as $n => $platformInfo) {
-            if (!isset($this->platformInfoParamsArray[$n])) {
-                $this->platformInfoParamsArray[$n] = $this->_createPlatformInfoParams();
+        $platformsInfo = $this->_gameModel->platformsInfo;
+        if ($platformsInfo) {
+            $this->platformInfoParamsArray = array();
+            foreach ($platformsInfo as $platformInfo) {
+                $platformInfoParams = $this->_createPlatformInfoParams();
+                $platformInfoParams->setAttributes(DataHelper::trimRecursive($platformInfo->getAttributes()));
+                $this->platformInfoParamsArray[] = $platformInfoParams;
             }
-            $this->platformInfoParamsArray[$n]->setAttributes($platformInfo->getAttributes(), false);
         }
     }
 

@@ -1,0 +1,25 @@
+@link_crud-add_color: #47a447;
+@link_crud-remove_color: #db7093;
+
+@link_crud-add_hover-color: darken(@link_crud-add_color, 15%);
+@link_crud-remove_hover-color: darken(@link_crud-remove_color, 15%);
+
+.link {
+  &_crud-add {
+    color: @link_crud-add_color;
+  }
+
+  &_crud-remove {
+    color: @link_crud-remove_color;
+  }
+}
+
+.link:hover {
+  &.link_crud-add {
+    color: @link_crud-add_hover-color;
+  }
+
+  &.link_crud-remove {
+    color: @link_crud-remove_hover-color;
+  }
+}

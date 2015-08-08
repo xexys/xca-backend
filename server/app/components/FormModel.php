@@ -23,9 +23,9 @@ class FormModel extends \CFormModel
     }
 
     /**
-     * Äëÿ èñïîëüçîâàíèÿ ýòîãî âàëèäàòîðà íåîáõîäèìî çàäàòü çíà÷åíèå àòðèáóòà 'id' äëÿ ñöåíàðèÿ 'update'
+     * Ð”Ð»Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ ÑÑ‚Ð¾Ð³Ð¾ Ð²Ð°Ð»Ð¸Ð´Ð°Ñ‚Ð¾Ñ€Ð° Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ Ð·Ð°Ð´Ð°Ñ‚ÑŒ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð°Ñ‚Ñ€Ð¸Ð±ÑƒÑ‚Ð° 'id' Ð´Ð»Ñ ÑÑ†ÐµÐ½Ð°Ñ€Ð¸Ñ 'update'
      *
-     * Ïðèìåð:
+     * ÐŸÑ€Ð¸Ð¼ÐµÑ€:
      *   array('textId', 'validateUnique', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
      *   array('title', 'validateUnique', 'className' => '\app\models\Game'),
      *   array('id', 'required', 'safe' => false, 'on' => self::SCENARIO_UPDATE),

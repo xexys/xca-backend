@@ -3,10 +3,10 @@ MovieCardWidget = require('./movie-card')
 class MovieCardEditWidget extends MovieCardWidget
 
   initialize: ->
-    @initGameTitleAutocomplete()
+    @_initGameTitleAutocomplete()
 
 
-  initGameTitleAutocomplete: ->
+  _initGameTitleAutocomplete: ->
     @$('.movie-card_main-param_game-title').typeahead(
 #      items: 10
 #      minLength: 1

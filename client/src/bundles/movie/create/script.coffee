@@ -1,6 +1,6 @@
 app = require('app')
-MovieCreatePageView = require('blocks-pages/movie_create')
+MovieCreatePage = require('blocks-pages/movie_create')
 
 $ ->
-  app.start(pageView: new MovieCreatePageView)
+  app.start(pageView: new MovieCreatePage)
 

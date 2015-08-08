@@ -15,7 +15,6 @@ class PlatformInfoParams extends \app\components\FormModel
 {
     private static $_platformDictionary;
 
-    public $id;
     public $platformId;
     public $status;
     public $comment;
@@ -27,7 +26,6 @@ class PlatformInfoParams extends \app\components\FormModel
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
             array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
-            array('id', 'required', 'safe' => false, 'on' => self::SCENARIO_UPDATE),
         );
     }
 

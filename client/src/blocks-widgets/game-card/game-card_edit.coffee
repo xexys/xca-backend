@@ -3,12 +3,24 @@ GameCardWidget = require('./game-card')
 class GameCardEditWidget extends GameCardWidget
 
 
-  initialize: ->
-    @initPlatformIdsSelect()
+  events:
+    'click .game-card_platform-info-btn_add': '_addPlatformInfo'
+    'click .game-card_platform-info-btn_remove': '_removePlatformInfo'
 
 
-  initPlatformIdsSelect: ->
-#    @$('.game-card_param_platform-ids').select2()
+  _addPlatformInfo: (e) ->
+    e.preventDefault()
+    console.log(e)
+
+# 1. Найти секцию
+# 2. Загрузить шаблон
+# 3. Отрендерить
+
+
+
+  _removePlatformInfo: (e) ->
+    e.preventDefault()
+    console.log(e)
 
 
 
