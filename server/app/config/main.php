@@ -116,7 +116,7 @@ $config = array(
 
         'clientScript'=>array(
 //            'behaviors'=>array('ClientScriptBehavior'), // Дополнительные методы
-'packages'=> require __DIR__ . '/packages.php'
+            'packages'=> require __DIR__ . '/packages.php'
         ),
 
         'db'=>array(
