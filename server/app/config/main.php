@@ -120,6 +120,7 @@ $config = array(
         ),
 
         'db'=>array(
+            'pdoClass' => '\app\components\PDO',
             'connectionString' => 'mysql:host=127.0.0.1;dbname=xca',
             'emulatePrepare' => true,
             'username' => 'alex',
