@@ -10,6 +10,8 @@ $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
 $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
 
+$deleteConfirmMessage = 'Вы уверены что хотите удалить игру?';
+
 ?>
 
 <div class="game-card game-card_view">
@@ -71,7 +73,7 @@ $this->widget(
     <div class="game-card_section">
         <?= $btnHelper->linkButton(array('label' => 'Добавить ролик', 'gl-icon' => 'plus', 'context' => 'success', 'url' => $createMovieUrl)); ?>
         <?= $btnHelper->linkButton(array('label' => 'Редактировать', 'gl-icon' => 'pencil', 'context' => 'primary', 'url' => $editGameUrl)); ?>
-        <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl)); ?>
+        <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl, 'confirm'=> $deleteConfirmMessage)); ?>
     </div>
 </div>
 

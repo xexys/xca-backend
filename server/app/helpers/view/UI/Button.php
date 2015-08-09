@@ -39,6 +39,12 @@ class Button extends \app\helpers\view\Base
     public function linkButton($params)
     {
         $params['buttonType'] = 'link';
+        if (isset($params['confirm'])) {
+            $htmlOptions = isset($params['htmlOptions']) ? $params['htmlOptions'] : array();
+            $htmlOptions['confirm'] = $params['confirm'];
+            $params['htmlOptions'] = $htmlOptions;
+            unset($params['confirm']);
+        }
         return $this->button($params);
     }
 

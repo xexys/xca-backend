@@ -11,8 +11,8 @@ namespace app\controllers;
 use \app\components\CrudController;
 use \app\models\Form\Movie as MovieForm;
 use \Yii;
-use \CActiveForm;
 use \app\models\Movie;
+use \app\models\Game;
 use \app\components\DataProvider;
 
 
@@ -41,13 +41,18 @@ class MovieController extends CrudController
     }
 
 
-    public function actionCreate()
+    public function actionCreate($gameId = null)
     {
         $form = new MovieForm;
 
         $this->_tryAjaxValidation($form);
 
         $backUrl = $this->_getBackUrl();
+
+        $game = Game::model()->findByPk($gameId);
+        if ($game) {
+            $form->mainParams->gameTitle = $game->title;
+        }
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $form->setAttributesByPost();
@@ -89,7 +94,10 @@ class MovieController extends CrudController
 
     public function actionDelete($id)
     {
-        $this->render('/dummy');
+        $movie = $this->_getModelById($id);
+        $movie->delete();
+        $url = $this->createUrl('index');
+        $this->redirect($url);
     }
 
     private function _getModelById($id, $with = array())
