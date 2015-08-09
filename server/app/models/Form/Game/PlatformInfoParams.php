@@ -16,7 +16,7 @@ use \app\models\Game\PlatformInfo as PlatformInfoModel;
 class PlatformInfoParams extends FormModel
 {
     public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
-    public $issueStatusId = Dictionary\GameIssueStatus::ISSUE_STATUS_ID_RELEASED;
+    public $issueStatusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;
     public $comment;
 
     private static $_platformDictionary;
@@ -29,7 +29,7 @@ class PlatformInfoParams extends FormModel
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
             array('platformId', 'validateUniqueInCollection'),
-            array('issueStatusId', 'in', 'range' => array_keys($this->getIssueStatusDictionary())),
+            array('issueStatusId', 'in', 'range' => array_keys($this->getGameIssueStatusDictionary())),
         );
     }
 
@@ -42,7 +42,7 @@ class PlatformInfoParams extends FormModel
                 $data = $this->getPlatformDictionary();
                 break;
             case 'issueStatusId':
-                $data = $this->getIssueStatusDictionary();
+                $data = $this->getGameIssueStatusDictionary();
                 break;
         }
 
@@ -65,7 +65,7 @@ class PlatformInfoParams extends FormModel
         return self::$_platformDictionary;
     }
 
-    public function getIssueStatusDictionary()
+    public function getGameIssueStatusDictionary()
     {
         if (self::$_issueDictionary === null) {
             self::$_issueDictionary = array();

@@ -7,7 +7,7 @@ use \app\components\ActiveRecord;
 
 class GameIssueStatus extends ActiveRecord
 {
-    const ISSUE_STATUS_ID_RELEASED = 2;
+    const STATUS_ID_RELEASED = 2;
 
     public function tableName()
     {
