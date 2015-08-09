@@ -27,11 +27,11 @@ class PlatformInfo extends ActiveRecord
         // will receive user inputs.
         return array(
             array('game_id, platform_id', 'required'),
-            array('game_id, platform_id, status', 'numerical', 'integerOnly' => true),
+            array('game_id, platform_id, issue_status_id', 'numerical', 'integerOnly' => true),
             array('comment', 'length', 'max' => 500),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, game_id, platform_id, status, comment', 'safe', 'on' => 'search'),
+            array('id, game_id, platform_id, issue_status_id, comment', 'safe', 'on' => 'search'),
         );
     }
 
@@ -70,7 +70,7 @@ class PlatformInfo extends ActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('game_id', $this->game_id);
         $criteria->compare('platform_id', $this->platform_id);
-        $criteria->compare('status', $this->status);
+        $criteria->compare('issue_status_id', $this->status);
         $criteria->compare('comment', $this->comment, true);
 
         return new CActiveDataProvider($this, array(

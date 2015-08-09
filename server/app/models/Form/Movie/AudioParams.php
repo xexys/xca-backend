@@ -13,16 +13,13 @@ use \app\models\Dictionary;
 
 class AudioParams extends \app\components\FormModel
 {
-    const FORMAT_ID_MP3 = 3;
-    const LANGUAGE_ID_ENG = 1;
-
     public $trackNumber;
-    public $formatId = self::FORMAT_ID_MP3;
+    public $formatId = Dictionary\AudioFormat::FORMAT_ID_MP3;
     public $bitRate;
     public $bitRateMode = Dictionary\AudioFormat::BIT_RATE_MODE_CONSTANT;
     public $sampleRate = 44100;
     public $channels = '2.0';
-    public $languageId = self::LANGUAGE_ID_ENG;
+    public $languageId = Dictionary\Language::LANGUAGE_ID_ENG;
 
     private static $_formatDictionary;
     private static $_languageDictionary;
@@ -33,6 +30,7 @@ class AudioParams extends \app\components\FormModel
         return array(
             array('trackNumber, bitRate, bitRateMode, formatId, channels, languageId, sampleRate', 'required'),
             array('bitRate, trackNumber', 'numerical', 'integerOnly' => true),
+            array('trackNumber', 'validateUniqueInCollection'),
             array('bitRateMode', 'in', 'range' => array_keys($this->getBitRateModeDictionary())),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
             array('channels', 'in', 'range' => array_keys($this->getChannelDictionary())),
@@ -100,7 +98,9 @@ class AudioParams extends \app\components\FormModel
         if (self::$_formatDictionary === null) {
             self::$_formatDictionary = array();
 
-            $data = Dictionary\AudioFormat::model()->findAll();
+            $data = Dictionary\AudioFormat::model()->findAll(array(
+                'order'=>'name ASC'
+            ));
 
             foreach ($data as $item) {
                 self::$_formatDictionary[$item->id] = $item->name;
@@ -115,7 +115,7 @@ class AudioParams extends \app\components\FormModel
             self::$_languageDictionary = array();
 
             $data = Dictionary\Language::model()->findAll(array(
-                'order'=>'t.code3 ASC'
+                'order'=>'code3 ASC'
             ));
 
             foreach ($data as $item) {

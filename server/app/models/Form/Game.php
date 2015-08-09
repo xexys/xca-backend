@@ -113,8 +113,8 @@ class Game extends \app\components\FormFacade
 
             foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
                 $attrs = $platformInfoParams->getAttributes();
-                $attrs['game_id'] = $game->id;
-                $platformInfo = $this->_createPlatformInfo();
+                $attrs['gameId'] = $game->id;
+                $platformInfo = new GameModel\PlatformInfo();
                 $platformInfo->setAttributes($attrs);
                 if (!$platformInfo->save()) {
                     throw new CException($platformInfo->getFirstErrorMessage());
@@ -157,8 +157,8 @@ class Game extends \app\components\FormFacade
                     $platformInfo = $platformInfoModels[$platformInfoParams->platformId];
                     $updateIds[] = $platformInfo->id;
                 } else {
-                    $platformInfo = $this->_createPlatformInfo();
-                    $attrs['game_id'] = $game->id;
+                    $platformInfo = new GameModel\PlatformInfo();
+                    $attrs['gameId'] = $game->id;
                 }
                 $platformInfo->setAttributes($attrs);
                 if (!$platformInfo->save()) {
@@ -207,11 +207,6 @@ class Game extends \app\components\FormFacade
     public function createPlatformInfoParams()
     {
         return new Game\PlatformInfoParams($this->getScenario());
-    }
-
-    private function _createPlatformInfo()
-    {
-        return new GameModel\PlatformInfo();
     }
 
     private function _getMainParamsInfoPostKey()

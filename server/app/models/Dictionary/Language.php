@@ -7,6 +7,8 @@ use \app\components\ActiveRecord;
 
 class Language extends ActiveRecord
 {
+    const LANGUAGE_ID_ENG = 1;
+
 	/**
 	 * @return string the associated database table name
 	 */

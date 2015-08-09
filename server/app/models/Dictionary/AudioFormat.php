@@ -7,6 +7,7 @@ use \app\components\ActiveRecord;
 
 class AudioFormat extends ActiveRecord
 {
+    const FORMAT_ID_MP3 = 3;
     const BIT_RATE_MODE_CONSTANT = 0;
     const BIT_RATE_MODE_VARIABLE = 1;
 

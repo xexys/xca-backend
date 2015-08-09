@@ -25,7 +25,7 @@ class MovieController extends CrudController
                 'with' => array('game')
             ),
             'pagination' => array(
-                'pageSize' => 1,
+                'pageSize' => 10,
             ),
         ));
         $this->render('index', array(
@@ -66,6 +66,7 @@ class MovieController extends CrudController
     public function actionEdit($id)
     {
         $form = new MovieForm($id);
+        $movie = $this->_getModelById($id, array('game'));
 
         $this->_tryAjaxValidation($form);
 
@@ -79,8 +80,9 @@ class MovieController extends CrudController
             }
         }
 
-        $this->render('create', array(
+        $this->render('edit', array(
             'model' => $form,
+            'movie' => $movie,
             'backUrl' => $backUrl,
         ));
     }

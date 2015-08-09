@@ -38,7 +38,7 @@ class GameController extends CrudController
                 'condition' => 'game_id = ' . $game->id
             ),
             'pagination' => array(
-                'pageSize' => 1,
+                'pageSize' => 5,
             ),
         ));
         $this->render('view', array(

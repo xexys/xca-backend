@@ -17,10 +17,10 @@ class MainParams extends \app\components\FormModel
     public function rules()
     {
         return array(
-            array('title, gameTitle', 'required'),
+            array('title', 'required'),
             array('title', 'length', 'max' => 100),
-            array('gameTitle', 'length', 'max' => 50),
-            // TODO: Сделать проверку и для UPDATE
+            array('gameTitle', 'required', 'on' => self::SCENARIO_CREATE),
+            array('gameTitle', 'length', 'max' => 50, 'on' => self::SCENARIO_CREATE),
             array('gameTitle', 'validateGameTitleExist', 'on' => self::SCENARIO_CREATE),
         );
     }

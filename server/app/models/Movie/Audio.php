@@ -22,12 +22,12 @@ class Audio extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, bit_rate, bit_rate_mode, chanels, language_id, sample_rate, track_number', 'required'),
+			array('movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'required'),
 			array('movie_id, format_id, bit_rate, bit_rate_mode, language_id, sample_rate, track_number', 'numerical', 'integerOnly'=>true),
-			array('chanels', 'numerical'),
+			array('channels', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, bit_rate, bit_rate_mode, chanels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
+			array('id, movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +56,7 @@ class Audio extends ActiveRecord
 			'format_id' => 'Format',
 			'bit_rate' => 'Bit Rate',
 			'bit_rate_mode' => 'Bit Rate Mode',
-			'chanels' => 'Chanels',
+			'channels' => 'Channels',
 			'language_id' => 'Language',
 			'sample_rate' => 'Sample Rate',
 			'track_number' => 'Track Number',
@@ -86,7 +86,7 @@ class Audio extends ActiveRecord
 		$criteria->compare('format_id',$this->format_id);
 		$criteria->compare('bit_rate',$this->bit_rate);
 		$criteria->compare('bit_rate_mode',$this->bit_rate_mode);
-		$criteria->compare('chanels',$this->chanels);
+		$criteria->compare('channels',$this->channels);
 		$criteria->compare('language_id',$this->language_id);
 		$criteria->compare('sample_rate',$this->sample_rate);
 		$criteria->compare('track_number',$this->track_number);

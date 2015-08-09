@@ -22,13 +22,12 @@ class Movie extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('game_id, title, filename, filesize, duration, format_id', 'required'),
-            array('game_id, filesize, duration, format_id', 'numerical', 'integerOnly' => true),
+            array('game_id, title', 'required'),
+            array('game_id', 'numerical', 'integerOnly' => true),
             array('title', 'length', 'max' => 100),
-            array('filename', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, game_id, title, filename, filesize, duration, format_id', 'safe', 'on' => 'search'),
+            array('id, game_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -47,22 +46,6 @@ class Movie extends ActiveRecord
             'mediaInfo' => array(self::HAS_ONE, '\app\models\Movie\MediaInfo', 'movie_id'),
             'storage' => array(self::HAS_ONE, '\app\models\Movie\Storage', 'movie_id'),
             'images' => array(self::HAS_MANY, '\app\models\Movie\Image', 'movie_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'game_id' => 'Game',
-            'title' => 'Title',
-            'filename' => 'Filename',
-            'filesize' => 'Filesize',
-            'duration' => 'Duration',
-            'format_id' => 'Format',
         );
     }
 
@@ -87,10 +70,6 @@ class Movie extends ActiveRecord
         $criteria->compare('id', $this->id);
         $criteria->compare('game_id', $this->game_id);
         $criteria->compare('title', $this->title, true);
-        $criteria->compare('filename', $this->filename, true);
-        $criteria->compare('filesize', $this->filesize);
-        $criteria->compare('duration', $this->duration);
-        $criteria->compare('format_id', $this->format_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
