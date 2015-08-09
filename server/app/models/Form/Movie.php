@@ -139,44 +139,33 @@ class Movie extends \app\components\FormFacade
         $movie = $this->_movieModel;
         $movie->setAttributes($attrs);
 
-        $transaction = $this->getDb()->beginTransaction();
-
-        try {
-            if (!$movie->save()) {
-                throw new CException($movie->getFirstErrorMessage());
-            }
-
-            // file
-            $attrs = $this->fileParams->getAttributes();
-            $attrs['movieId'] = $movie->id;
-            $movieFile = new MovieModel\File();
-            $movieFile->setAttributes($attrs);
-
-            if (!$movieFile->save()) {
-                throw new CException($movieFile->getFirstErrorMessage());
-            }
-
-            // TODO: Посчитать frame_quality
-            // video
-            $attrs = $this->videoParams->getAttributes();
-            $attrs['movieId'] = $movie->id;
-            $movieVideo = new MovieModel\Video();
-            $movieVideo->setAttributes($attrs);
-
-            if (!$movieVideo->save()) {
-                throw new CException($movieVideo->getFirstErrorMessage());
-            }
-
-            // audio
-            $this->_createAndSaveAudioModels();
-
-            $transaction->commit();
-            return true;
-
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
+        if (!$movie->save()) {
+            throw new CException($movie->getFirstErrorMessage());
         }
+
+        // file
+        $attrs = $this->fileParams->getAttributes();
+        $attrs['movieId'] = $movie->id;
+        $movieFile = new MovieModel\File();
+        $movieFile->setAttributes($attrs);
+
+        if (!$movieFile->save()) {
+            throw new CException($movieFile->getFirstErrorMessage());
+        }
+
+        // TODO: Посчитать frame_quality
+        // video
+        $attrs = $this->videoParams->getAttributes();
+        $attrs['movieId'] = $movie->id;
+        $movieVideo = new MovieModel\Video();
+        $movieVideo->setAttributes($attrs);
+
+        if (!$movieVideo->save()) {
+            throw new CException($movieVideo->getFirstErrorMessage());
+        }
+
+        // audio
+        $this->_createAndSaveAudioModels();
     }
 
     protected function _update()
@@ -184,41 +173,30 @@ class Movie extends \app\components\FormFacade
         $movie = $this->_movieModel;
         $movie->setAttributes($this->mainParams->getAttributes());
 
-        $transaction = $this->getDb()->beginTransaction();
-
-        try {
-            if (!$movie->save()) {
-                throw new CException($movie->getFirstErrorMessage());
-            }
-
-            // file
-            $attrs = $this->fileParams->getAttributes();
-            $movie->file->setAttributes($attrs);
-
-            if (!$movie->file->save()) {
-                throw new CException($movie->file->getFirstErrorMessage());
-            }
-
-            // TODO: Посчитать frame_quality
-            // video
-            $attrs = $this->videoParams->getAttributes();
-            $movie->video->setAttributes($attrs);
-
-            if (!$movie->video->save()) {
-                throw new CException($movie->video->getFirstErrorMessage());
-            }
-
-            // audio
-            MovieModel\Audio::model()->deleteAllByAttributes(array('movie_id'=> $movie->id));
-            $this->_createAndSaveAudioModels();
-
-            $transaction->commit();
-            return true;
-
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
+        if (!$movie->save()) {
+            throw new CException($movie->getFirstErrorMessage());
         }
+
+        // file
+        $attrs = $this->fileParams->getAttributes();
+        $movie->file->setAttributes($attrs);
+
+        if (!$movie->file->save()) {
+            throw new CException($movie->file->getFirstErrorMessage());
+        }
+
+        // TODO: Посчитать frame_quality
+        // video
+        $attrs = $this->videoParams->getAttributes();
+        $movie->video->setAttributes($attrs);
+
+        if (!$movie->video->save()) {
+            throw new CException($movie->video->getFirstErrorMessage());
+        }
+
+        // audio
+        MovieModel\Audio::model()->deleteAllByAttributes(array('movie_id'=> $movie->id));
+        $this->_createAndSaveAudioModels();
     }
 
     public function createAudioParams()

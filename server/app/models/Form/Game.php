@@ -104,29 +104,18 @@ class Game extends \app\components\FormFacade
         $game = $this->_gameModel;
         $game->setAttributes($this->mainParams->getAttributes());
 
-        $transaction = $this->getDb()->beginTransaction();
+        if (!$game->save()) {
+            throw new CException($game->getFirstErrorMessage());
+        }
 
-        try {
-            if (!$game->save()) {
-                throw new CException($game->getFirstErrorMessage());
+        foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
+            $attrs = $platformInfoParams->getAttributes();
+            $attrs['gameId'] = $game->id;
+            $platformInfo = new GameModel\PlatformInfo();
+            $platformInfo->setAttributes($attrs);
+            if (!$platformInfo->save()) {
+                throw new CException($platformInfo->getFirstErrorMessage());
             }
-
-            foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
-                $attrs = $platformInfoParams->getAttributes();
-                $attrs['gameId'] = $game->id;
-                $platformInfo = new GameModel\PlatformInfo();
-                $platformInfo->setAttributes($attrs);
-                if (!$platformInfo->save()) {
-                    throw new CException($platformInfo->getFirstErrorMessage());
-                }
-            }
-
-            $transaction->commit();
-            return true;
-
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
         }
     }
 
@@ -135,57 +124,45 @@ class Game extends \app\components\FormFacade
         $game = $this->_gameModel;
         $game->setAttributes($this->mainParams->getSafeAttributes());
 
-        $transaction = $this->getDb()->beginTransaction();
-
-        try {
-            if (!$game->save()) {
-                throw new CException($game->getFirstErrorMessage());
-            }
-
-            // create + update
-            $updateIds = array();
-
-            $platformInfoModels = GameModel\PlatformInfo::model()->findAll(array(
-                'index' => 'platform_id',
-                'condition' => 'game_id = :game_id',
-                'params' => array(':game_id' => $game->id),
-            ));
-
-            foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
-                $attrs = $platformInfoParams->getAttributes();
-                if (isset($platformInfoModels[$platformInfoParams->platformId])) {
-                    $platformInfo = $platformInfoModels[$platformInfoParams->platformId];
-                    $updateIds[] = $platformInfo->id;
-                } else {
-                    $platformInfo = new GameModel\PlatformInfo();
-                    $attrs['gameId'] = $game->id;
-                }
-                $platformInfo->setAttributes($attrs);
-                if (!$platformInfo->save()) {
-                    throw new CException($platformInfo->getFirstErrorMessage());
-                }
-            }
-
-            // delete
-            $deleteIds = array();
-            foreach($platformInfoModels as $platformInfo) {
-                if (!in_array($platformInfo->id, $updateIds)) {
-                    $deleteIds[] = $platformInfo->id;
-                }
-            }
-
-            $criteria = new \CDbCriteria();
-            $criteria->addInCondition('id', $deleteIds);
-
-            GameModel\PlatformInfo::model()->deleteAll($criteria);
-
-            $transaction->commit();
-            return true;
-
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
+        if (!$game->save()) {
+            throw new CException($game->getFirstErrorMessage());
         }
+
+        // create + update
+        $updateIds = array();
+
+        $platformInfoModels = GameModel\PlatformInfo::model()->findAll(array(
+            'index' => 'platform_id',
+            'condition' => 'game_id = :game_id',
+            'params' => array(':game_id' => $game->id),
+        ));
+
+        foreach ($this->platformInfoParamsCollection as $platformInfoParams) {
+            $attrs = $platformInfoParams->getAttributes();
+            if (isset($platformInfoModels[$platformInfoParams->platformId])) {
+                $platformInfo = $platformInfoModels[$platformInfoParams->platformId];
+                $updateIds[] = $platformInfo->id;
+            } else {
+                $platformInfo = new GameModel\PlatformInfo();
+                $attrs['gameId'] = $game->id;
+            }
+            $platformInfo->setAttributes($attrs);
+            if (!$platformInfo->save()) {
+                throw new CException($platformInfo->getFirstErrorMessage());
+            }
+        }
+
+        // delete
+        $deleteIds = array();
+        foreach($platformInfoModels as $platformInfo) {
+            if (!in_array($platformInfo->id, $updateIds)) {
+                $deleteIds[] = $platformInfo->id;
+            }
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->addInCondition('id', $deleteIds);
+        GameModel\PlatformInfo::model()->deleteAll($criteria);
     }
 
     private function _setAttributesByGameModel()

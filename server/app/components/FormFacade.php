@@ -40,8 +40,16 @@ abstract class FormFacade extends FormModel
     public function save()
     {
         if ($this->validate()) {
-            return $this->getScenario() == self::SCENARIO_CREATE ? $this->_create() : $this->_update();
-        }else {
+            $transaction = $this->getDb()->beginTransaction();
+            try {
+                $this->getScenario() === self::SCENARIO_CREATE ? $this->_create() : $this->_update();
+                $transaction->commit();
+                return true;
+            } catch (Exception $e) {
+                $transaction->rollback();
+                throw $e;
+            }
+        } else {
             return false;
         }
     }
