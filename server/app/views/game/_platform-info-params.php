@@ -1,31 +1,22 @@
-<script type="text/x-template" id="game-card_platform-info-template">
-<?php
-
-//dd($form);
-
-$platformInfoParams = new \app\models\Form\Game\PlatformInfoParams;
-$platformInfoParamsKeys = $platformInfoParams->getSafeAttributeNames();
-$n = 'xxxxx';
-
-$formCssId = $form->htmlOptions['id'];
-
-?>
-
 <div class="game-card_platform-info">
-    <?php foreach ($platformInfoParamsKeys as $key) {
-        $cssClass = 'game-card_platform-info-param_' . $model->fixCssName($key);
-        $name = '[' . $n . ']' . $key;
-        $placeholder = $platformInfoParams->getAttributeLabel($key);
+    <?php if ($paramsArrayIndex !== 0): ?>
+        <hr>
+    <?php endif; ?>
+
+    <?php foreach ($paramsKeys as $key) {
+        $cssClass = 'game-card_platform-info-param_' . $params->fixCssName($key);
+        $name = '[' . $paramsArrayIndex . ']' . $key;
+        $placeholder = $params->getAttributeLabel($key);
 
         if (in_array($key, array('platformId', 'status'))) {
             $options = array('widgetOptions' => array(
-                'data'=> $platformInfoParams->getDictionary($key),
+                'data'=> $params->getDictionary($key),
                 'htmlOptions'=>array(
                     'placeholder' => $placeholder,
                     'class' => $cssClass,
                 )
             ));
-            echo $form->dropDownListGroup($platformInfoParams, $name, $options);
+            echo $form->dropDownListGroup($params, $name, $options);
         } else {
             $options = array('widgetOptions' => array(
                 'htmlOptions'=>array(
@@ -35,15 +26,15 @@ $formCssId = $form->htmlOptions['id'];
                     'rows' => 3,
                 )
             ));
-            echo $form->textAreaGroup($platformInfoParams, $name, $options);
+            echo $form->textAreaGroup($params, $name, $options);
         }
     }
     ?>
     <div class="game-card_platform-info-btn-panel">
-        <span class="game-card_platform-info-btn game-card_platform-info-btn_remove">
+        <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $isHideRemoveBtn ? 'game-card_platform-info-btn_hidden' : '' ?>">
             <span class="link link_crud-remove">
                 <i class="fa fa-minus-circle"></i>
-                <span href="#" class="link_text">Удалить</span>
+                <span class="link_text">Удалить</span>
             </span>
         </span>
 
@@ -53,9 +44,5 @@ $formCssId = $form->htmlOptions['id'];
                 <span class="link_text">Добавить</span>
             </span>
         </span>
-
     </div>
-    <hr>
 </div>
-
-</script>

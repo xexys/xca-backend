@@ -8,8 +8,6 @@
 
 namespace app\components;
 
-use Yii;
-
 
 abstract class FormFacade extends FormModel
 {
@@ -22,6 +20,21 @@ abstract class FormFacade extends FormModel
                 'DAO' => '\app\models\behaviors\DAO',
             )
         );
+    }
+
+    public function validateModels($key)
+    {
+        $models = $this->$key;
+
+        if (!is_array($models) && !$models instanceof ObjectCollection) {
+            $models = array($models);
+        }
+
+        foreach ($models as $model) {
+            if (!$model->validate()) {
+                $this->addError($key, 'В моделях были найдены ошибки.');
+            }
+        }
     }
 
     public function save()

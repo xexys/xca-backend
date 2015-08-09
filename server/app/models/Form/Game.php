@@ -11,10 +11,10 @@ namespace app\models\Form;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
-use \app\models\Game as GameModel;
-use \app\helpers\Data as DataHelper;
 use \Exception;
 use \CException;
+use \app\models\Game as GameModel;
+use \app\helpers\Data as DataHelper;
 use \app\components\ObjectCollection;
 
 
@@ -49,7 +49,7 @@ class Game extends \app\components\FormFacade
 
         $this->mainParams = new Game\MainParams($scenario);
         $this->platformInfoParamsCollection = new ObjectCollection;
-        $this->platformInfoParamsCollection[] = $this->_createPlatformInfoParams();
+        $this->platformInfoParamsCollection[] = $this->createPlatformInfoParams();
 
         if ($scenario === self::SCENARIO_UPDATE) {
             $this->_setAttributesByGameModel();
@@ -59,23 +59,8 @@ class Game extends \app\components\FormFacade
     public function rules()
     {
         return array(
-            array('mainParams, platformInfoParamsCollection', 'validateParams'),
+            array('mainParams, platformInfoParamsCollection', 'validateModels'),
         );
-    }
-
-    public function validateParams($key)
-    {
-        $models = $this->$key;
-
-        if (!is_array($models) && !$models instanceof ObjectCollection) {
-            $models = array($models);
-        }
-
-        foreach ($models as $model) {
-            if (!$model->validate()) {
-                $this->addError($key, 'При заполнении формы возникли ошибки.');
-            }
-        }
     }
 
     public function setAttributesByPost()
@@ -89,7 +74,7 @@ class Game extends \app\components\FormFacade
         if ($platformInfoPostData) {
             $this->platformInfoParamsCollection->clear();
             foreach ($platformInfoPostData as $n => $data) {
-                $platformInfoParams = $this->_createPlatformInfoParams();
+                $platformInfoParams = $this->createPlatformInfoParams();
                 $platformInfoParams->setAttributes(DataHelper::trimRecursive($data));
                 // Важно сохранить номер, чтобы правильно сработала ajax валидация
                 $this->platformInfoParamsCollection[$n] = $platformInfoParams;
@@ -212,14 +197,14 @@ class Game extends \app\components\FormFacade
         if ($platformsInfo) {
             $this->platformInfoParamsCollection->clear();
             foreach ($platformsInfo as $platformInfo) {
-                $platformInfoParams = $this->_createPlatformInfoParams();
+                $platformInfoParams = $this->createPlatformInfoParams();
                 $platformInfoParams->setAttributes(DataHelper::trimRecursive($platformInfo->getAttributes()));
                 $this->platformInfoParamsCollection[] = $platformInfoParams;
             }
         }
     }
 
-    private function _createPlatformInfoParams()
+    public function createPlatformInfoParams()
     {
         return new Game\PlatformInfoParams($this->getScenario());
     }

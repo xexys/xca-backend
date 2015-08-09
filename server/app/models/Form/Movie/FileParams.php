@@ -8,6 +8,8 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\Dictionary;
+
 
 class FileParams extends \app\components\FormModel
 {
@@ -36,7 +38,7 @@ class FileParams extends \app\components\FormModel
         if (self::$_formatDictionary === null) {
             self::$_formatDictionary = array();
 
-            $data = \app\models\Dictionary\FileFormat::model()->findAll(array(
+            $data = Dictionary\FileFormat::model()->findAll(array(
                 'order'=>'t.extension ASC'
             ));
 

@@ -18,8 +18,12 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 ?>
 
 <div class="game-card game-card_edit">
-
-    <?php include('_form.php'); ?>
+    <?php
+        $this->renderPartial('_form', array(
+            'form' => $form,
+            'model' => $model,
+        ));
+    ?>
 
     <div class="game-card_section">
         <?= $btnHelper->submitButton(array('label' => 'Добавить', 'gl-icon' => 'plus', 'context' => 'success')); ?>
@@ -30,10 +34,9 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 <?php
 
-$this->renderPartial('_template', array(
+$this->endWidget();
+
+$this->renderPartial('_platform-info-params-template', array(
     'form' => $form,
     'model' => $model,
 ));
-
-
-$this->endWidget();

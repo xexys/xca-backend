@@ -16,9 +16,7 @@ class ObjectCollection extends CMap
 {
     public function add($key, $item)
     {
-        if (!$item instanceof Collectible) {
-            throw new \CException('Item must be instanceof Collectible');
-        }
+        $this->_checkItemInstanceof($item);
         parent::add($key, $item);
         $item->setCollection($this);
     }
@@ -37,6 +35,7 @@ class ObjectCollection extends CMap
         parent::mergeWith($data, $recursive);
         if ($recursive) {
             foreach ($this as $item) {
+                $this->_checkItemInstanceof($item);
                 $item->setCollection($this);
             }
         }
@@ -47,6 +46,13 @@ class ObjectCollection extends CMap
         $keys = $this->getKeys();
         if ($keys) {
             return $this->itemAt(reset($keys));
+        }
+    }
+
+    private function _checkItemInstanceof($item)
+    {
+        if (!$item instanceof Collectible) {
+            throw new \CException('Item must be instanceof Collectible');
         }
     }
 }

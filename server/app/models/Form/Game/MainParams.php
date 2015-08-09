@@ -8,8 +8,6 @@
 
 namespace app\models\Form\Game;
 
-use \Yii;
-
 
 class MainParams extends \app\components\FormModel
 {
@@ -22,8 +20,8 @@ class MainParams extends \app\components\FormModel
         return array(
             array('textId, title', 'required'),
             array('textId', 'length', 'max' => 10),
-            array('textId', 'validateUnique', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
-            array('title', 'validateUnique', 'className' => '\app\models\Game'),
+            array('textId', 'validateUniqueInDatabase', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
+            array('title', 'validateUniqueInDatabase', 'className' => '\app\models\Game'),
             array('textId', 'match', 'pattern' => '/^\s*[a-z][a-z0-9_]+\s*$/',),
             array('title', 'length', 'max' => 50),
             array('id', 'required', 'safe' => false, 'on' => self::SCENARIO_UPDATE),

@@ -9,6 +9,7 @@
 namespace app\models\Form\Game;
 
 use \app\components\FormModel;
+use \app\models\Dictionary;
 use \app\models\Game\PlatformInfo as PlatformInfoModel;
 
 
@@ -26,7 +27,7 @@ class PlatformInfoParams extends FormModel
             array('platformId, status', 'required'),
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
-            array('platformId', 'validateUniquenessInCollection'),
+            array('platformId', 'validateUniqueInCollection'),
             array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
         );
     }
@@ -52,7 +53,7 @@ class PlatformInfoParams extends FormModel
         if (self::$_platformDictionary === null) {
             self::$_platformDictionary = array();
 
-            $data = \app\models\Dictionary\Platform::model()->findAll(array(
+            $data = Dictionary\Platform::model()->findAll(array(
                 'order'=>'t.full_name ASC'
             ));
 

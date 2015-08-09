@@ -16,6 +16,7 @@ use \CHtml;
 use \CActiveForm;
 use \app\helpers\Data as DataHelper;
 use \app\models\Movie as MovieModel;
+use \app\components\ObjectCollection;
 
 
 class Movie extends \app\components\FormFacade
@@ -23,7 +24,7 @@ class Movie extends \app\components\FormFacade
     public $mainParams;
     public $fileParams;
     public $videoParams;
-    public $audioParamsArray = array();
+    public $audioParamsCollection;
 
     private $_movieModel;
 
@@ -47,12 +48,15 @@ class Movie extends \app\components\FormFacade
     {
         parent::init();
 
-        $this->mainParams = new Movie\MainParams($this->getScenario());
-        $this->fileParams = new Movie\FileParams($this->getScenario());
-        $this->videoParams = new Movie\VideoParams($this->getScenario());
-        $this->audioParamsArray[] = $this->_createAudioParams();
+        $scenarion = $this->getScenario();
 
-        if ($this->_movieModel->id) {
+        $this->mainParams = new Movie\MainParams($scenarion);
+        $this->fileParams = new Movie\FileParams($scenarion);
+        $this->videoParams = new Movie\VideoParams($scenarion);
+        $this->audioParamsCollection = new ObjectCollection();
+        $this->audioParamsCollection[] = $this->_createAudioParams();
+
+        if ($scenarion === self::SCENARIO_UPDATE) {
             $this->_setAttributesByMovieModel();
         }
     }
@@ -61,7 +65,7 @@ class Movie extends \app\components\FormFacade
     public function rules()
     {
         return array(
-            array('mainParams, fileParams, videoParams, audioParamsArray', 'validateParams'),
+            array('mainParams, fileParams, videoParams, audioParamsCollection', 'validateModels'),
         );
     }
 
@@ -81,33 +85,24 @@ class Movie extends \app\components\FormFacade
     
     private function _setAudioParamsByPost()
     {
-        $postData = Yii::app()->getRequest()->getPost(CHtml::modelName($this->audioParamsArray[0]));
-        foreach ($postData as $n => $data) {
-            if (!isset($this->audioParamsArray[$n])) {
-                $this->audioParamsArray[$n] = $this->_createAudioParams();
+        $postKey = CHtml::modelName($this->audioParamsCollection->getFirstItem());
+        $postData = Yii::app()->getRequest()->getPost($postKey);
+        if ($postData) {
+            $this->audioParamsCollection->clear();
+            foreach ($postData as $n => $data) {
+                $audioParams = $this->_createAudioParams();
+                $audioParams->setAttributes(DataHelper::trimRecursive($data));
+                // Важно сохранить номер, чтобы правильно сработала ajax валидация
+                $this->audioParamsCollection[$n] = $audioParams;
             }
-            $this->audioParamsArray[$n]->setAttributes(DataHelper::trimRecursive($data));
         }
     }
 
     public function getAjaxValidationResponseContent()
     {
         $json1 = json_decode(CActiveForm::validate(array($this->mainParams, $this->fileParams, $this->videoParams), null, false), true);
-        $json2 = json_decode(CActiveForm::validateTabular($this->audioParamsArray, null, false), true);
+        $json2 = json_decode(CActiveForm::validateTabular($this->audioParamsCollection, null, false), true);
         return json_encode(array_merge($json1, $json2));
-    }
-
-    public function validateParams($key)
-    {
-        $models = $this->$key;
-        if (!is_array($models)) {
-            $models = array($models);
-        }
-        foreach ($models as $model) {
-            if (!$model->validate()) {
-                $this->addError($key, 'При заполнении формы возникли ошибки.');
-            }
-        }
     }
 
     public function getMainParamsKeys()
@@ -127,7 +122,7 @@ class Movie extends \app\components\FormFacade
 
     public function getAudioParamsKeys()
     {
-        return $this->audioParamsArray[0]->attributeNames();
+        return $this->audioParamsCollection->getFirstItem()->attributeNames();
     }
 
     protected function _create()
@@ -154,11 +149,14 @@ class Movie extends \app\components\FormFacade
 
         $this->videoParams->setAttributes($this->_movieModel->video->getAttributes());
 
-        foreach ($this->_movieModel->audio as $n => $audio) {
-            if (!isset($this->audioParamsArray[$n])) {
-                $this->audioParamsArray[$n] = $this->_createAudioParams();
+        $audioArray = $this->_movieModel->audio;
+        if ($audioArray) {
+            $this->audioParamsCollection->clear();
+            foreach ($audioArray as $audio) {
+                $audioParams = $this->_createAudioParams();
+                $audioParams->setAttributes(DataHelper::trimRecursive($audio->getAttributes()));
+                $this->audioParamsCollection[] = $audioParams;
             }
-            $this->audioParamsArray[$n]->setAttributes($audio->getAttributes());
         }
     }
 

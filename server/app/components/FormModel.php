@@ -8,7 +8,6 @@
 
 namespace app\components;
 
-use Yii;
 use \CHtml;
 use \app\models\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
@@ -40,18 +39,19 @@ class FormModel extends \CFormModel implements Collectible
      * Для использования этого валидатора необходимо задать значение атрибута 'id' для сценария 'update'
      *
      * Пример:
-     *   array('textId', 'validateUnique', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
-     *   array('title', 'validateUnique', 'className' => '\app\models\Game'),
+     *   array('textId', 'validateUniqueInDatabase', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
+     *   array('title', 'validateUniqueInDatabase', 'className' => '\app\models\Game'),
      *   array('id', 'required', 'safe' => false, 'on' => self::SCENARIO_UPDATE),
      *
      * @param string $attribute
      * @param array $params
      */
-    public function validateUnique($attribute, $params)
+    public function validateUniqueInDatabase($attribute, $params)
     {
         if ($this->getScenario() === self::SCENARIO_UPDATE) {
+            $idAttributeName = isset($params['idAttributeName']) ? $params['idAttributeName'] : 'id';
             $findKey = isset($params['attributeName']) ? $params['attributeName'] : $attribute;
-            $current = \CActiveRecord::model($params['className'])->findByPk($this->id);
+            $current = \CActiveRecord::model($params['className'])->findByPk($this->$idAttributeName);
             if (strtolower($current->$findKey) === strtolower($this->$attribute)) {
                 return;
             }
@@ -61,7 +61,7 @@ class FormModel extends \CFormModel implements Collectible
         $validator->validate($this);
     }
 
-    public function validateUniquenessInCollection($key)
+    public function validateUniqueInCollection($key)
     {
         $collection = $this->getCollection();
 

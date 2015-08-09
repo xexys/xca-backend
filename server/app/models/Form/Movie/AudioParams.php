@@ -8,6 +8,7 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\Dictionary;
 use \app\models\Movie\Audio as AudioModel;
 
 
@@ -100,7 +101,7 @@ class AudioParams extends \app\components\FormModel
         if (self::$_formatDictionary === null) {
             self::$_formatDictionary = array();
 
-            $data = \app\models\Dictionary\AudioFormat::model()->findAll();
+            $data = Dictionary\AudioFormat::model()->findAll();
 
             foreach ($data as $item) {
                 self::$_formatDictionary[$item->id] = $item->name;
@@ -114,7 +115,7 @@ class AudioParams extends \app\components\FormModel
         if (self::$_languageDictionary === null) {
             self::$_languageDictionary = array();
 
-            $data = \app\models\Dictionary\Language::model()->findAll(array(
+            $data = Dictionary\Language::model()->findAll(array(
                 'order'=>'t.code3 ASC'
             ));
 

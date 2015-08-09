@@ -16,7 +16,7 @@ $form = $this->beginWidget(
 $mainParams = $model->mainParams;
 $fileParams = $model->fileParams;
 $videoParams = $model->videoParams;
-$audioParamsArray = $model->audioParamsArray;
+$audioParamsArray = array_values($model->audioParamsCollection->toArray());
 
 echo CHtml::hiddenField('backUrl', $backUrl);
 
