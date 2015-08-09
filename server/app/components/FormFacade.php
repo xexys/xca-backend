@@ -46,6 +46,11 @@ abstract class FormFacade extends FormModel
         }
     }
 
+    public function delete()
+    {
+        throw new \Exception('delete');
+    }
+
     abstract protected function _create();
 
     abstract protected function _update();

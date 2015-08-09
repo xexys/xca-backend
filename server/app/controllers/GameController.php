@@ -94,9 +94,8 @@ class GameController extends CrudController
 
     public function actionDelete($id)
     {
-        // TODO: Сделать удаление через FormFacade чтбы удалить зависимые таблицы
-        $game = $this->_getModelById($id);
-        $game->delete();
+        $form = new GameForm($id);
+        $form->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }

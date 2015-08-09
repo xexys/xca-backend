@@ -94,8 +94,8 @@ class MovieController extends CrudController
 
     public function actionDelete($id)
     {
-        $movie = $this->_getModelById($id);
-        $movie->delete();
+        $form = new MovieForm($id);
+        $form->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
