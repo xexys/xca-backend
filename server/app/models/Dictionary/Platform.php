@@ -7,6 +7,8 @@ use \app\components\ActiveRecord;
 
 class Platform extends ActiveRecord
 {
+    const PLATFORM_ID_PC = 3;
+
     /**
      * @return string the associated database table name
      */

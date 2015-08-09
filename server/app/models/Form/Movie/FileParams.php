@@ -13,13 +13,10 @@ use \app\models\Dictionary;
 
 class FileParams extends \app\components\FormModel
 {
-    const FORMAT_ID_AVI = 1;
-    const FORMAT_ID_MP4 = 3;
-
     public $name;
     public $size;
     public $duration;
-    public $formatId = self::FORMAT_ID_AVI;
+    public $formatId = Dictionary\FileFormat::FORMAT_ID_AVI;
 
     private static $_formatDictionary;
 

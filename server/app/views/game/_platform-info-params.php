@@ -8,7 +8,7 @@
         $name = '[' . $paramsArrayIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
-        if (in_array($key, array('platformId', 'status'))) {
+        if (in_array($key, array('platformId', 'issueStatusId'))) {
             $options = array('widgetOptions' => array(
                 'data'=> $params->getDictionary($key),
                 'htmlOptions'=>array(

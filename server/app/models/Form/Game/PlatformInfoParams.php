@@ -15,20 +15,21 @@ use \app\models\Game\PlatformInfo as PlatformInfoModel;
 
 class PlatformInfoParams extends FormModel
 {
-    public $platformId = PlatformInfoModel::PLATFORM_ID_PC;
-    public $status = PlatformInfoModel::STATUS_RELEASED;
+    public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
+    public $issueStatusId = Dictionary\GameIssueStatus::ISSUE_STATUS_ID_RELEASED;
     public $comment;
 
     private static $_platformDictionary;
+    private static $_issueDictionary;
 
     public function rules()
     {
         return array(
-            array('platformId, status', 'required'),
+            array('platformId, issueStatusId', 'required'),
             array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
             array('platformId', 'validateUniqueInCollection'),
-            array('status', 'in', 'range' => array_keys($this->getStatusDictionary())),
+            array('issueStatusId', 'in', 'range' => array_keys($this->getIssueStatusDictionary())),
         );
     }
 
@@ -40,8 +41,8 @@ class PlatformInfoParams extends FormModel
             case 'platformId':
                 $data = $this->getPlatformDictionary();
                 break;
-            case 'status':
-                $data = $this->getStatusDictionary();
+            case 'issueStatusId':
+                $data = $this->getIssueStatusDictionary();
                 break;
         }
 
@@ -54,7 +55,7 @@ class PlatformInfoParams extends FormModel
             self::$_platformDictionary = array();
 
             $data = Dictionary\Platform::model()->findAll(array(
-                'order'=>'t.full_name ASC'
+                'order'=>'full_name ASC'
             ));
 
             foreach ($data as $item) {
@@ -64,13 +65,19 @@ class PlatformInfoParams extends FormModel
         return self::$_platformDictionary;
     }
 
-    public function getStatusDictionary()
+    public function getIssueStatusDictionary()
     {
-        return array(
-            PlatformInfoModel::STATUS_AWAITING => 'Ожидается выход',
-            PlatformInfoModel::STATUS_RELEASED => 'Вышла',
-            PlatformInfoModel::STATUS_FROZEN => 'Проект заморожена',
-            PlatformInfoModel::STATUS_RIP => 'Проект закрыт',
-        );
+        if (self::$_issueDictionary === null) {
+            self::$_issueDictionary = array();
+
+            $data = Dictionary\GameIssueStatus::model()->findAll(array(
+                'order'=>'id ASC'
+            ));
+
+            foreach ($data as $item) {
+                self::$_issueDictionary[$item->id] = $item->name;
+            }
+        }
+        return self::$_issueDictionary;
     }
 }

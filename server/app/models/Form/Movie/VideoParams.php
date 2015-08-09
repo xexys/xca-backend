@@ -8,14 +8,15 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\Dictionary;
+
 
 class VideoParams extends \app\components\FormModel
 {
     const FRAME_RATE_MODE_CONSTANT = 0;
     const FRAME_RATE_MODE_VARIABLE = 1;
-    const FORMAT_ID_FOURCC_H264 = 3;
 
-    public $formatId = self::FORMAT_ID_FOURCC_H264;
+    public $formatId = Dictionary\VideoFormat::FORMAT_ID_FOURCC_H264;
     public $width;
     public $height;
     public $bitRate;
@@ -78,7 +79,7 @@ class VideoParams extends \app\components\FormModel
         if (self::$_formatDictionary === null) {
             self::$_formatDictionary = array();
 
-            $data = \app\models\Dictionary\VideoFormat::model()->findAll(array(
+            $data = Dictionary\VideoFormat::model()->findAll(array(
                 'order'=>'t.name ASC'
             ));
 

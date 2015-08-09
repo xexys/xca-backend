@@ -7,7 +7,10 @@ use \app\components\ActiveRecord;
 
 class FileFormat extends ActiveRecord
 {
-	/**
+    const FORMAT_ID_AVI = 1;
+    const FORMAT_ID_MP4 = 3;
+
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()

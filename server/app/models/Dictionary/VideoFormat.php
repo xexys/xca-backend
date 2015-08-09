@@ -7,6 +7,8 @@ use \app\components\ActiveRecord;
 
 class VideoFormat extends ActiveRecord
 {
+    const FORMAT_ID_FOURCC_H264 = 3;
+
 	/**
 	 * @return string the associated database table name
 	 */

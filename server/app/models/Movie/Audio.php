@@ -6,9 +6,6 @@ use \app\components\ActiveRecord;
 
 class Audio extends ActiveRecord
 {
-    const BIT_RATE_MODE_CONSTANT = 0;
-    const BIT_RATE_MODE_VARIABLE = 1;
-
 	/**
 	 * @return string the associated database table name
 	 */
