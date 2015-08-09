@@ -134,9 +134,10 @@ class Movie extends \app\components\FormFacade
     {
         $game = GameModel::model()->findByAttributes(array('title'=> $this->mainParams->gameTitle));
 
+        $attrs = $this->mainParams->getAttributes();
+        $attrs['gameId'] = $game->id;
         $movie = $this->_movieModel;
-        $movie->setAttributes($this->mainParams->getAttributes());
-        $movie->game_id = $game->id;
+        $movie->setAttributes($attrs);
 
         $transaction = $this->getDb()->beginTransaction();
 
