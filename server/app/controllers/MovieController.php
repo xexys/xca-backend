@@ -18,6 +18,8 @@ use \app\components\DataProvider;
 
 class MovieController extends CrudController
 {
+    const INDEX_PAGE_SIZE = 15;
+
     function actionIndex()
     {
         $dataProvider = new DataProvider\Movie(array(
@@ -25,7 +27,7 @@ class MovieController extends CrudController
                 'with' => array('game')
             ),
             'pagination' => array(
-                'pageSize' => 10,
+                'pageSize' => self::INDEX_PAGE_SIZE,
             ),
         ));
         $this->render('index', array(

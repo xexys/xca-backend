@@ -18,11 +18,14 @@ use \app\components\DataProvider;
 
 class GameController extends CrudController
 {
+    const INDEX_PAGE_SIZE = 15;
+    const VIEW_MOVIES_PAGE_SIZE = 10;
+
     public function actionIndex()
     {
         $gameDataProvider = new DataProvider\Game(array(
             'pagination' => array(
-                'pageSize' => 10,
+                'pageSize' => self::INDEX_PAGE_SIZE,
             ),
         ));
         $this->render('index', array(
@@ -38,7 +41,7 @@ class GameController extends CrudController
                 'condition' => 'game_id = ' . $game->id
             ),
             'pagination' => array(
-                'pageSize' => 5,
+                'pageSize' => self::VIEW_MOVIES_PAGE_SIZE,
             ),
         ));
         $this->render('view', array(
