@@ -75,7 +75,7 @@ class PlatformInfoParams extends FormFacade
         }
     }
 
-    public function getFormKeys()
+    public function getParamsKeys()
     {
         return $this->items->getFirstItem()->getSafeAttributeNames();
     }

@@ -53,7 +53,7 @@ class MainParams extends FormFacade
         );
     }
 
-    public function getFormKeys()
+    public function getParamsKeys()
     {
         return $this->getSafeAttributeNames();
     }

@@ -3,7 +3,7 @@
 $platformInfoParams = $formSet->itemAt('platformInfoParams');
 
 $item = $platformInfoParams->createItem();
-$formKeys = $platformInfoParams->getFormKeys();
+$formKeys = $platformInfoParams->getParamsKeys();
 $itemIndex = md5(__FILE__);
 
 //$formCssId = $form->htmlOptions['id'];
