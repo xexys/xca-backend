@@ -9,7 +9,7 @@
 namespace app\components;
 
 
-abstract class Model extends BaseModel
+abstract class FacadeModel extends BaseModel
 {
     public function behaviors()
     {
@@ -40,7 +40,7 @@ abstract class Model extends BaseModel
 
     public function delete()
     {
-        throw new \CException('You have to implement method delete.');
+        throw new \CException('You have to implement method delete for ' . get_class($this) . ' class.');
     }
 
     abstract protected function _create();

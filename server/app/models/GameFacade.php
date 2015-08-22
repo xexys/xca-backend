@@ -9,17 +9,25 @@
 namespace app\models;
 
 use \CException;
-use \app\components\Model;
-use \app\models\AR\Game\PlatformInfo as GamePlatformInfoAR;
+use \app\components\FacadeModel;
+use \app\models\AR\Game;
 
 
-class Game extends Model
+class GameFacade extends FacadeModel
 {
     public $mainParams;
     public $platformInfoParams;
 
-    private $_gameModel;
+    private $_game;
 
+    public function __construct($game)
+    {
+        $scenario = $game->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
+        $this->setScenario($scenario);
+        $this->_game = $game;
+
+        parent::__construct($scenario);
+    }
 
     public function rules()
     {
@@ -27,25 +35,6 @@ class Game extends Model
             array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
             array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
         );
-    }
-
-    public function __construct($game)
-    {
-        if ($game->getIsNewRecord()) {
-            $scenario = self::SCENARIO_CREATE;
-        } else {
-            $scenario = self::SCENARIO_UPDATE;
-        }
-
-        $this->setScenario($scenario);
-        $this->_gameModel = $game;
-
-        parent::__construct($scenario);
-    }
-
-    public function getModel()
-    {
-        return $this->_gameModel;
     }
 
     protected function _create()
@@ -66,11 +55,10 @@ class Game extends Model
 
     private function _createMainParams()
     {
-        $game = $this->_gameModel;
-        $game->setAttributes($this->mainParams->getAttributes());
+        $this->_game->setAttributes($this->mainParams->getAttributes());
 
-        if (!$game->save()) {
-            throw new CException($game->getFirstErrorMessage());
+        if (!$this->_game->save()) {
+            throw new CException($this->_game->getFirstErrorMessage());
         }
     }
 
@@ -81,14 +69,14 @@ class Game extends Model
 
     private function _createPlatformInfoParams()
     {
-        if ($this->_gameModel->getIsNewRecord()) {
+        if ($this->_game->getIsNewRecord()) {
             throw new CException('The game must not be a new.');
         }
 
         foreach ($this->platformInfoParams->items as $item) {
             $attrs = $item->getAttributes();
-            $attrs['gameId'] = $this->_gameModel->id;
-            $platformInfo = new GamePlatformInfoAR;
+            $attrs['gameId'] = $this->_game->id;
+            $platformInfo = new Game\PlatformInfo;
             $platformInfo->setAttributes($attrs);
             if (!$platformInfo->save()) {
                 throw new CException($platformInfo->getFirstErrorMessage());
@@ -98,12 +86,12 @@ class Game extends Model
 
     private function _updatePlatformInfoParams()
     {
-        $game = $this->_gameModel;
+        $game = $this->_game;
 
         // create + update
         $updateIds = array();
 
-        $platformInfoModels = GamePlatformInfoAR::model()->findAll(array(
+        $platformInfoModels = Game\PlatformInfo::model()->findAll(array(
             'index' => 'platform_id',
             'condition' => 'game_id = :game_id',
             'params' => array(':game_id' => $game->id),
@@ -115,7 +103,7 @@ class Game extends Model
                 $platformInfo = $platformInfoModels[$item->platformId];
                 $updateIds[] = $platformInfo->id;
             } else {
-                $platformInfo = new GamePlatformInfoAR;
+                $platformInfo = new Game\PlatformInfo;
                 $attrs['gameId'] = $game->id;
             }
             $platformInfo->setAttributes($attrs);
@@ -134,6 +122,6 @@ class Game extends Model
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('id', $deleteIds);
-        GamePlatformInfoAR::model()->deleteAll($criteria);
+        Game\PlatformInfo::model()->deleteAll($criteria);
     }
 }

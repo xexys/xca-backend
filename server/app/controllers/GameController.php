@@ -12,8 +12,8 @@ use \app\components\CrudController;
 use \app\helpers;
 use \app\models\Form\Game as GameForm;
 use \Yii;
-use \app\models\AR\Game as GameAR;
-use \app\models\Game;
+use \app\models\AR\Game;
+use \app\models\GameFacade;
 use \app\components\DataProvider;
 use \app\components\FormCollection;
 use \app\models\Form;
@@ -38,7 +38,7 @@ class GameController extends CrudController
 
     public function actionView($id)
     {
-        $game = $this->_getARModelById($id);
+        $game = $this->_getModelById($id);
         $gameMovieDataProvider = new DataProvider\Movie(array(
             'criteria' => array(
                 'condition' => 'game_id = ' . $game->id
@@ -55,18 +55,18 @@ class GameController extends CrudController
 
     public function actionCreate()
     {
-        $gameAR = new GameAR;
-        $gameParams = $this->_createGameFormParams($gameAR);
+        $game = new Game;
+        $gameParams = $this->_createGameFormParams($game);
 
         $this->_tryAjaxValidation($gameParams);
 
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $game = new Game($gameAR);
-            $game->setAttributes($gameParams->toArray());
+            $gameFacade = new GameFacade($game);
+            $gameFacade->setAttributes($gameParams->toArray());
 
-            if ($game->save()) {
+            if ($gameFacade->save()) {
                 $this->redirect('index');
             }
         }
@@ -79,8 +79,8 @@ class GameController extends CrudController
 
     public function actionEdit($id)
     {
-        $gameAR = $this->_getARModelById($id, array('platformsInfo'));
-        $gameParams = $this->_createGameFormParams($gameAR);
+        $game = $this->_getModelById($id, array('platformsInfo'));
+        $gameParams = $this->_createGameFormParams($game);
 
         $this->_tryAjaxValidation($gameParams);
 
@@ -89,33 +89,34 @@ class GameController extends CrudController
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $game = new Game($gameAR);
-            $game->setAttributes($gameParams->toArray());
+            $gameFacade = new GameFacade($game);
+            $gameFacade->setAttributes($gameParams->toArray());
 
-            if ($game->save()) {
+            if ($gameFacade->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
             'gameParams' => $gameParams,
-            'gameTitle' => $gameAR->title,
+            'gameTitle' => $game->title,
             'backUrl' => $backUrl
         ));
     }
 
     public function actionDelete($id)
     {
-        $game = $this->_getARModelById($id);
+        $game = $this->_getModelById($id);
+        $game = new Game($game);
         $game->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
-    private function _createGameFormParams($gameAR)
+    private function _createGameFormParams($game)
     {
-        $mainParams = new Form\Game\MainParams($gameAR);
-        $platformInfoParams = new Form\Game\PlatformInfoParams($gameAR);
+        $mainParams = new Form\Game\MainParams($game);
+        $platformInfoParams = new Form\Game\PlatformInfoParams($game);
 
         $params = new FormCollection();
         $params->add('mainParams', $mainParams);
@@ -124,9 +125,9 @@ class GameController extends CrudController
         return $params;
     }
 
-    private function _getARModelById($id, $with = array())
+    private function _getModelById($id, $with = array())
     {
-        $model = GameAR::model()->with($with)->findByPk($id);
+        $model = Game::model()->with($with)->findByPk($id);
         if (!$model) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');

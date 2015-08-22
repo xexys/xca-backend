@@ -21,12 +21,7 @@ class MainParams extends FormModel
 
     public function __construct($game)
     {
-        if ($game->getIsNewRecord()) {
-            $scenario = self::SCENARIO_CREATE;
-        } else {
-            $scenario = self::SCENARIO_UPDATE;
-        }
-
+        $scenario = $game->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
         $this->setScenario($scenario);
         $this->_gameModel = $game;
 
