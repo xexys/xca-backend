@@ -11,7 +11,7 @@ namespace app\models\Form\Movie;
 use \app\models\Dictionary;
 
 
-class FileParams extends \app\components\FormModel
+class FileParams extends \app\components\Params
 {
     public $name;
     public $size;

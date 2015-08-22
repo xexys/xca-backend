@@ -1,6 +1,6 @@
 <?php
 
-$platformInfoParamsKeys = $platformInfoParams->getParamsKeys();
+$platformInfoParamsKeys = $platformInfoParams->getFormKeys();
 
 // Важно сбросить ключи, чтобы номера начинались с 0
 $platformInfoParamsItems = array_values($platformInfoParams->items->toArray());

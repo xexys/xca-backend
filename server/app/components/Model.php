@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: Alex
- * Date: 25.07.15
- * Time: 22:01
+ * Date: 22.08.15
+ * Time: 23:39
  */
 
 namespace app\components;
 
 
-abstract class FormFacade extends FormModel
+abstract class Model extends FormModel
 {
     public function behaviors()
     {
@@ -19,21 +19,6 @@ abstract class FormFacade extends FormModel
                 'DAO' => '\app\components\behaviors\DAO',
             )
         );
-    }
-
-    public function validateModels($key)
-    {
-        $models = $this->$key;
-
-        if (!is_array($models) && !$models instanceof ObjectCollection) {
-            $models = array($models);
-        }
-
-        foreach ($models as $model) {
-            if (!$model->validate()) {
-                $this->addError($key, 'В моделях были найдены ошибки.');
-            }
-        }
     }
 
     public function save()
@@ -53,14 +38,12 @@ abstract class FormFacade extends FormModel
         }
     }
 
+    public function delete()
+    {
+        throw new \CException(__METHOD__);
+    }
+
     abstract protected function _create();
 
     abstract protected function _update();
-
-    protected function _filterParamsKeys($keys, $invalidKeys)
-    {
-        return array_filter($keys, function ($val) use ($invalidKeys) {
-            return !in_array($val, $invalidKeys, true);
-        });
-    }
 }

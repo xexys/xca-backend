@@ -24,7 +24,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     <?php
     $this->renderPartial('_form', array(
         'formWidget' => $formWidget,
-        'formSet' => $formSet,
+        'gameParams' => $gameParams,
     ));
     ?>
 
@@ -41,5 +41,5 @@ $this->endWidget();
 
 $this->renderPartial('_form/platform-info-params-item-template', array(
     'formWidget' => $formWidget,
-    'formSet' => $formSet,
+    'gameParams' => $gameParams,
 ));

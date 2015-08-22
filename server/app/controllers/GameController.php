@@ -13,8 +13,9 @@ use \app\helpers;
 use \app\models\Form\Game as GameForm;
 use \Yii;
 use \app\models\Game;
+use \app\models\GameFacade;
 use \app\components\DataProvider;
-use \app\components\FormFacadeCollection;
+use \app\components\ParamsCollection;
 use \app\models\Form;
 
 
@@ -56,25 +57,28 @@ class GameController extends CrudController
     {
         $game = new Game;
 
-        $formMainParams = new Form\Game\MainParams($game);
-        $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
+        $gameMainParams = new Form\Game\MainParams($game);
+        $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
-        $formSet = new FormFacadeCollection();
-        $formSet->add('mainParams', $formMainParams);
-        $formSet->add('platformInfoParams', $formPlatformInfoParams);
+        $gameParams = new ParamsCollection();
+        $gameParams->add('mainParams', $gameMainParams);
+        $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
 
-        $this->_tryAjaxValidation($formSet);
+        $this->_tryAjaxValidation($gameParams);
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $formSet->setAttributesByPost();
+            $gameParams->setAttributesByPost();
 
-            if ($formSet->save()) {
+            $gameFacade = new GameFacade($game);
+            $gameFacade->setAttributes($gameParams->toArray());
+
+            if ($gameFacade->save()) {
                 $this->redirect('index');
             }
         }
 
         $this->render('create', array(
-            'formSet' => $formSet,
+            'gameParams' => $gameParams,
             'backUrl' => $this->_getBackUrl()
         ));
     }
@@ -83,27 +87,30 @@ class GameController extends CrudController
     {
         $game = $this->_getModelById($id, array('platformsInfo'));
 
-        $formMainParams = new Form\Game\MainParams($game);
-        $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
+        $gameMainParams = new Form\Game\MainParams($game);
+        $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
-        $formSet = new FormFacadeCollection();
-        $formSet->add('mainParams', $formMainParams);
-        $formSet->add('platformInfoParams', $formPlatformInfoParams);
+        $gameParams = new ParamsCollection();
+        $gameParams->add('mainParams', $gameMainParams);
+        $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
 
-        $this->_tryAjaxValidation($formSet);
+        $this->_tryAjaxValidation($gameParams);
 
         $backUrl = $this->_getBackUrl();
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $formSet->setAttributesByPost();
+            $gameParams->setAttributesByPost();
 
-            if ($formSet->save()) {
+            $gameFacade = new GameFacade($game);
+            $gameFacade->setAttributes($gameParams->toArray());
+
+            if ($gameFacade->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'formSet' => $formSet,
+            'gameParams' => $gameParams,
             'game' => $game,
             'backUrl' => $backUrl
         ));

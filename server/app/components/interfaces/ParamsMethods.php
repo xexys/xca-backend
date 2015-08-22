@@ -9,10 +9,12 @@
 namespace app\components\interfaces;
 
 
-interface FormMethods
+interface ParamsMethods
 {
     public function setAttributesByPost($postData = array());
 
     public function getAjaxValidationResponseContent();
 
-} 
+    public function validate($attributes = null, $clearErrors = true);
+
+}

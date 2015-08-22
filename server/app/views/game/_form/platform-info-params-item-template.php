@@ -1,9 +1,9 @@
 <?php
 
-$platformInfoParams = $formSet->itemAt('platformInfoParams');
+$platformInfoParams = $gameParams->itemAt('platformInfoParams');
 
 $item = $platformInfoParams->createItem();
-$formKeys = $platformInfoParams->getParamsKeys();
+$formKeys = $platformInfoParams->getFormKeys();
 $itemIndex = md5(__FILE__);
 
 //$formCssId = $form->htmlOptions['id'];

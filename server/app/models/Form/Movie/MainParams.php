@@ -9,7 +9,7 @@
 namespace app\models\Form\Movie;
 
 
-class MainParams extends \app\components\FormModel
+class MainParams extends \app\components\Params
 {
     public $gameTitle;
     public $title;

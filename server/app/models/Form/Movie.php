@@ -20,7 +20,7 @@ use \app\models\Movie as MovieModel;
 use \app\components\ObjectCollection;
 
 
-class Movie extends \app\components\FormFacade
+class Movie extends \app\components\Params
 {
     public $mainParams;
     public $fileParams;
@@ -66,11 +66,11 @@ class Movie extends \app\components\FormFacade
     public function rules()
     {
         return array(
-            array('mainParams, fileParams, videoParams, audioParamsCollection', 'validateModels'),
+            array('mainParams, fileParams, videoParams, audioParamsCollection', '\app\components\validators\ParamsValidator'),
         );
     }
 
-    public function setAttributesByPost()
+    public function setAttributesByPost($postData = array())
     {
         $this->_setParamsByPost($this->mainParams);
         $this->_setParamsByPost($this->fileParams);

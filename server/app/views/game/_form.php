@@ -6,7 +6,7 @@
                     <?php
                     $this->renderPartial('_form/main-params', array(
                         'formWidget' => $formWidget,
-                        'mainParams' => $formSet->itemAt('mainParams'),
+                        'mainParams' => $gameParams->itemAt('mainParams'),
                     ));
                     ?>
                 </div>
@@ -17,7 +17,7 @@
                     <?php
                     $this->renderPartial('_form/platform-info-params', array(
                         'formWidget' => $formWidget,
-                        'platformInfoParams' => $formSet->itemAt('platformInfoParams'),
+                        'platformInfoParams' => $gameParams->itemAt('platformInfoParams'),
                     ));
                     ?>
                 </div>

@@ -8,10 +8,10 @@
 
 namespace app\models\Form\Game;
 
-use \app\components\FormFacade;
+use \app\components\Params;
 
 
-class MainParams extends FormFacade
+class MainParams extends Params
 {
     public $id;
     public $textId;
@@ -53,24 +53,9 @@ class MainParams extends FormFacade
         );
     }
 
-    public function getParamsKeys()
+    public function getFormKeys()
     {
         return $this->getSafeAttributeNames();
-    }
-
-    protected function _create()
-    {
-        $game = $this->_gameModel;
-        $game->setAttributes($this->getAttributes());
-
-        if (!$game->save()) {
-            throw new CException($game->getFirstErrorMessage());
-        }
-    }
-
-    protected function _update()
-    {
-        $this->_create();
     }
 
     private function _setAttributesByGameModel()

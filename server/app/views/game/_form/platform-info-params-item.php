@@ -30,6 +30,7 @@
         }
     }
     ?>
+
     <div class="game-card_platform-info-btn-panel">
         <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $isHideRemoveBtn ? 'game-card_platform-info-btn_hidden' : '' ?>">
             <span class="link link_crud-remove">
