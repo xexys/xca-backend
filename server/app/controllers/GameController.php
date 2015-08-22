@@ -107,8 +107,8 @@ class GameController extends CrudController
     public function actionDelete($id)
     {
         $game = $this->_getModelById($id);
-        $game = new Game($game);
-        $game->delete();
+        $gameFacade = new GameFacade($game);
+        $gameFacade->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
