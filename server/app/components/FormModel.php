@@ -87,11 +87,15 @@ class FormModel extends \CFormModel implements Collectible, FormMethods
 
     public function setAttributesByPost($postData = array())
     {
-        if (!$postData) {
-            $postKey = CHtml::modelName($this);
-            $postData = Yii::app()->getRequest()->getPost($postKey);
+        $postKey = CHtml::modelName($this);
+        $postData = $postData ?: $_POST;
+
+        $data = array();
+        if (!empty($postData[$postKey])) {
+            $data = $postData[$postKey];
         }
-        $this->setAttributes(DataHelper::trimRecursive($postData));
+
+        $this->setAttributes(DataHelper::trimRecursive($data));
     }
 
     public function getAjaxValidationResponseContent()
