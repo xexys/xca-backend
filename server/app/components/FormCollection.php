@@ -9,10 +9,10 @@
 namespace app\components;
 
 use \Yii;
-use \app\components\interfaces\ParamsFormMethods;
+use \app\components\interfaces\FormMethods;
 
 
-class ParamsFormCollection extends ObjectCollection implements ParamsFormMethods
+class FormCollection extends ObjectCollection implements FormMethods
 {
     public function validate($attributes = null, $clearErrors = true)
     {
@@ -43,8 +43,8 @@ class ParamsFormCollection extends ObjectCollection implements ParamsFormMethods
     {
         parent::_checkItemInstanceof($item);
 
-        if (!$item instanceof ParamsForm) {
-            throw new \CException('Item must be instanceof ParamsForm');
+        if (!$item instanceof FormModel) {
+            throw new \CException('Item must be instanceof FormModel');
         }
     }
 

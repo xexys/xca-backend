@@ -28,7 +28,7 @@ class ParamsValidator extends CValidator
             return;
         }
 
-        if (!is_array($params) && !$params instanceof ParamsFormCollection) {
+        if (!is_array($params) && !$params instanceof FormCollection) {
             $params = array($params);
         }
 

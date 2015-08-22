@@ -9,7 +9,7 @@
 namespace app\components\interfaces;
 
 
-interface ParamsFormMethods
+interface FormMethods
 {
     public function setAttributesByPost($postData = array());
 

@@ -11,7 +11,7 @@ namespace app\models\Form\Movie;
 use \app\models\Dictionary;
 
 
-class VideoParams extends \app\components\ParamsForm
+class VideoParams extends \app\components\FormModel
 {
     const FRAME_RATE_MODE_CONSTANT = 0;
     const FRAME_RATE_MODE_VARIABLE = 1;

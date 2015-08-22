@@ -11,7 +11,7 @@ namespace app\models\Form\Movie;
 use \app\models\Dictionary;
 
 
-class AudioParams extends \app\components\ParamsForm
+class AudioParams extends \app\components\FormModel
 {
     public $trackNumber;
     public $formatId = Dictionary\AudioFormat::FORMAT_ID_MP3;

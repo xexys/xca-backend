@@ -15,7 +15,7 @@ use \Yii;
 use \app\models\Game;
 use \app\models\GameFacade;
 use \app\components\DataProvider;
-use \app\components\ParamsFormCollection;
+use \app\components\FormCollection;
 use \app\models\Form;
 
 
@@ -60,7 +60,7 @@ class GameController extends CrudController
         $gameMainParams = new Form\Game\MainParams($game);
         $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
-        $gameParams = new ParamsFormCollection();
+        $gameParams = new FormCollection();
         $gameParams->add('mainParams', $gameMainParams);
         $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
 
@@ -90,7 +90,7 @@ class GameController extends CrudController
         $gameMainParams = new Form\Game\MainParams($game);
         $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
-        $gameParams = new ParamsFormCollection();
+        $gameParams = new FormCollection();
         $gameParams->add('mainParams', $gameMainParams);
         $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
 

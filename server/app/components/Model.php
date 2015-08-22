@@ -9,7 +9,7 @@
 namespace app\components;
 
 
-abstract class Model extends FormModel
+abstract class Model extends BaseModel
 {
     public function behaviors()
     {
