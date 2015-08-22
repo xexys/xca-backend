@@ -40,7 +40,7 @@ abstract class Model extends BaseModel
 
     public function delete()
     {
-        throw new \CException(__METHOD__);
+        throw new \CException('You have to implement method delete.');
     }
 
     abstract protected function _create();
