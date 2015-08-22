@@ -12,8 +12,8 @@ use \app\components\CrudController;
 use \app\helpers;
 use \app\models\Form\Game as GameForm;
 use \Yii;
-use \app\models\AR\Game;
-use \app\models\AR\GameFacade;
+use \app\models\AR\Game as GameAR;
+use \app\models\Game;
 use \app\components\DataProvider;
 use \app\components\FormCollection;
 use \app\models\Form;
@@ -38,7 +38,7 @@ class GameController extends CrudController
 
     public function actionView($id)
     {
-        $game = $this->_getModelById($id);
+        $game = $this->_getARModelById($id);
         $gameMovieDataProvider = new DataProvider\Movie(array(
             'criteria' => array(
                 'condition' => 'game_id = ' . $game->id
@@ -55,24 +55,18 @@ class GameController extends CrudController
 
     public function actionCreate()
     {
-        $game = new Game;
-
-        $gameMainParams = new Form\Game\MainParams($game);
-        $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
-
-        $gameParams = new FormCollection();
-        $gameParams->add('mainParams', $gameMainParams);
-        $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
+        $gameAR = new GameAR;
+        $gameParams = $this->_createGameFormParams($gameAR);
 
         $this->_tryAjaxValidation($gameParams);
 
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $gameFacade = new GameFacade($game);
-            $gameFacade->setAttributes($gameParams->toArray());
+            $game = new Game($gameAR);
+            $game->setAttributes($gameParams->toArray());
 
-            if ($gameFacade->save()) {
+            if ($game->save()) {
                 $this->redirect('index');
             }
         }
@@ -85,14 +79,8 @@ class GameController extends CrudController
 
     public function actionEdit($id)
     {
-        $game = $this->_getModelById($id, array('platformsInfo'));
-
-        $gameMainParams = new Form\Game\MainParams($game);
-        $gamePlatformInfoParams = new Form\Game\PlatformInfoParams($game);
-
-        $gameParams = new FormCollection();
-        $gameParams->add('mainParams', $gameMainParams);
-        $gameParams->add('platformInfoParams', $gamePlatformInfoParams);
+        $gameAR = $this->_getARModelById($id, array('platformsInfo'));
+        $gameParams = $this->_createGameFormParams($gameAR);
 
         $this->_tryAjaxValidation($gameParams);
 
@@ -101,32 +89,44 @@ class GameController extends CrudController
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $gameFacade = new GameFacade($game);
-            $gameFacade->setAttributes($gameParams->toArray());
+            $game = new Game($gameAR);
+            $game->setAttributes($gameParams->toArray());
 
-            if ($gameFacade->save()) {
+            if ($game->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
             'gameParams' => $gameParams,
-            'game' => $game,
+            'gameTitle' => $gameAR->title,
             'backUrl' => $backUrl
         ));
     }
 
     public function actionDelete($id)
     {
-        $game = $this->_getModelById($id);
+        $game = $this->_getARModelById($id);
         $game->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
-    private function _getModelById($id, $with = array())
+    private function _createGameFormParams($gameAR)
     {
-        $model = Game::model()->with($with)->findByPk($id);
+        $mainParams = new Form\Game\MainParams($gameAR);
+        $platformInfoParams = new Form\Game\PlatformInfoParams($gameAR);
+
+        $params = new FormCollection();
+        $params->add('mainParams', $mainParams);
+        $params->add('platformInfoParams', $platformInfoParams);
+
+        return $params;
+    }
+
+    private function _getARModelById($id, $with = array())
+    {
+        $model = GameAR::model()->with($with)->findByPk($id);
         if (!$model) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
@@ -134,5 +134,3 @@ class GameController extends CrudController
         return $model;
     }
 }
-
-

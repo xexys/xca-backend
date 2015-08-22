@@ -6,13 +6,14 @@
  * Time: 0:30
  */
 
-namespace app\models\AR;
+namespace app\models;
 
 use \CException;
 use \app\components\Model;
+use \app\models\AR\Game\PlatformInfo as GamePlatformInfoAR;
 
 
-class GameFacade extends Model
+class Game extends Model
 {
     public $mainParams;
     public $platformInfoParams;
@@ -40,6 +41,11 @@ class GameFacade extends Model
         $this->_gameModel = $game;
 
         parent::__construct($scenario);
+    }
+
+    public function getModel()
+    {
+        return $this->_gameModel;
     }
 
     protected function _create()
@@ -82,7 +88,7 @@ class GameFacade extends Model
         foreach ($this->platformInfoParams->items as $item) {
             $attrs = $item->getAttributes();
             $attrs['gameId'] = $this->_gameModel->id;
-            $platformInfo = new Game\PlatformInfo;
+            $platformInfo = new GamePlatformInfoAR;
             $platformInfo->setAttributes($attrs);
             if (!$platformInfo->save()) {
                 throw new CException($platformInfo->getFirstErrorMessage());
@@ -97,7 +103,7 @@ class GameFacade extends Model
         // create + update
         $updateIds = array();
 
-        $platformInfoModels = Game\PlatformInfo::model()->findAll(array(
+        $platformInfoModels = GamePlatformInfoAR::model()->findAll(array(
             'index' => 'platform_id',
             'condition' => 'game_id = :game_id',
             'params' => array(':game_id' => $game->id),
@@ -109,7 +115,7 @@ class GameFacade extends Model
                 $platformInfo = $platformInfoModels[$item->platformId];
                 $updateIds[] = $platformInfo->id;
             } else {
-                $platformInfo = new Game\PlatformInfo;
+                $platformInfo = new GamePlatformInfoAR;
                 $attrs['gameId'] = $game->id;
             }
             $platformInfo->setAttributes($attrs);
@@ -128,6 +134,6 @@ class GameFacade extends Model
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('id', $deleteIds);
-        Game\PlatformInfo::model()->deleteAll($criteria);
+        GamePlatformInfoAR::model()->deleteAll($criteria);
     }
 }
