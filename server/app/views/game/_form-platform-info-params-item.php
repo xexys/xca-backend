@@ -1,11 +1,11 @@
 <div class="game-card_platform-info">
-    <?php if ($paramsArrayIndex !== 0): ?>
+    <?php if ($paramsItemIndex !== 0): ?>
         <hr>
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
         $cssClass = 'game-card_platform-info-param_' . $params->fixCssName($key);
-        $name = '[' . $paramsArrayIndex . ']' . $key;
+        $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
         if (in_array($key, array('platformId', 'issueStatusId'))) {
@@ -16,7 +16,7 @@
                     'class' => $cssClass,
                 )
             ));
-            echo $form->dropDownListGroup($params, $name, $options);
+            echo $formWidget->dropDownListGroup($params, $name, $options);
         } else {
             $options = array('widgetOptions' => array(
                 'htmlOptions'=>array(
@@ -26,7 +26,7 @@
                     'rows' => 3,
                 )
             ));
-            echo $form->textAreaGroup($params, $name, $options);
+            echo $formWidget->textAreaGroup($params, $name, $options);
         }
     }
     ?>

@@ -4,16 +4,10 @@
             <div class="game-card_section">
                 <div>
                     <?php
-                    foreach ($model->getMainParamsKeys() as $key) {
-                        $cssClass = 'game-card_main-param_' . $model->fixCssName($key);
-                        $options = array('widgetOptions' => array(
-                            'htmlOptions'=>array(
-                                'autocomplete' => 'off',
-                                'class' => $cssClass
-                            )
-                        ));
-                        echo $form->textFieldGroup($model->mainParams, $key, $options);
-                    }
+                    $this->renderPartial('_form-main-params', array(
+                        'formWidget' => $formWidget,
+                        'mainParams' => $formSet->itemAt('mainParams'),
+                    ));
                     ?>
                 </div>
             </div>
@@ -21,20 +15,10 @@
                 <h4 class="game-card_title">Выход на платформах</h4>
                 <div class="game-card_platforms-info">
                     <?php
-                        $platformInfoParamsKeys = $model->getPlatformInfoParamsKeys();
-                        // Важно сбросить ключи, чтобы номера начинались с 0
-                        $platformInfoParamsArray = array_values($model->platformInfoParamsCollection->toArray());
-                        $platformInfoParamsArrayCount = count($platformInfoParamsArray);
-
-                        foreach ($platformInfoParamsArray as $n => $platformInfoParams) {
-                            $this->renderPartial('_platform-info-params', array(
-                                'form' => $form,
-                                'params' => $platformInfoParams,
-                                'paramsKeys' => $platformInfoParamsKeys,
-                                'paramsArrayIndex' => $n,
-                                'isHideRemoveBtn' => $platformInfoParamsArrayCount === 1,
-                            ));
-                        }
+                    $this->renderPartial('_form-platform-info-params', array(
+                        'formWidget' => $formWidget,
+                        'platformInfoParams' => $formSet->itemAt('platformInfoParams'),
+                    ));
                     ?>
                 </div>
             </div>

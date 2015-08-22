@@ -14,6 +14,8 @@ use \app\models\Form\Game as GameForm;
 use \Yii;
 use \app\models\Game;
 use \app\components\DataProvider;
+use \app\components\FormFacadeCollection;
+use \app\models\Form;
 
 
 class GameController extends CrudController
@@ -52,45 +54,56 @@ class GameController extends CrudController
 
     public function actionCreate()
     {
-        $form = new GameForm;
+        $game = new Game;
+        $formMainParams = new Form\Game\MainParams($game);
+        $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
-        $this->_tryAjaxValidation($form);
+        $formSet = new FormFacadeCollection();
+        $formSet->add('mainParams', $formMainParams);
+        $formSet->add('platformInfoParams', $formPlatformInfoParams);
+
+        $this->_tryAjaxValidation($formSet);
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $form->setAttributesByPost();
+            $formSet->setAttributesByPost();
 
-            if ($form->save()) {
+            if ($formSet->save()) {
                 $this->redirect('index');
             }
         }
 
-
         $this->render('create', array(
-            'model' => $form,
+            'formSet' => $formSet,
             'backUrl' => $this->_getBackUrl()
         ));
     }
 
     public function actionEdit($id)
     {
-        $form = new GameForm($id);
-        $gameTitle = $form->mainParams->title;
+        $game = $this->_getModelById($id);
 
-        $this->_tryAjaxValidation($form);
+        $formMainParams = new Form\Game\MainParams($game);
+        $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
+
+        $formSet = new FormFacadeCollection();
+        $formSet->add('mainParams', $formMainParams);
+        $formSet->add('platformInfoParams', $formPlatformInfoParams);
+
+        $this->_tryAjaxValidation($formSet);
 
         $backUrl = $this->_getBackUrl();
 
         if ($this->_getRequest()->getIsPostRequest()) {
-            $form->setAttributesByPost();
+            $formSet->setAttributesByPost();
 
-            if ($form->save()) {
+            if ($formSet->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'model' => $form,
-            'gameTitle' => $gameTitle,
+            'formSet' => $formSet,
+            'game' => $game,
             'backUrl' => $backUrl
         ));
     }

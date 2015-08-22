@@ -8,7 +8,7 @@
  *
  */
 
-namespace app\models\behaviors;
+namespace app\components\behaviors;
 
 use \Yii;
 use \CDbConnection;

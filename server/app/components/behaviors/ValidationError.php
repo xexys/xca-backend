@@ -6,7 +6,7 @@
  * Time: 17:09
  */
 
-namespace app\models\behaviors;
+namespace app\components\behaviors;
 
 
 class ValidationError extends \CBehavior

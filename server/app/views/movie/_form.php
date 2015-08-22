@@ -96,7 +96,7 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
                             'form' => $form,
                             'params' => $audioParams,
                             'paramsKeys' => $audioParamsKeys,
-                            'paramsArrayIndex' => $n,
+                            'paramsItemIndex' => $n,
                             'isHideRemoveBtn' => $audioParamsArrayCount === 1,
                         ));
                     }

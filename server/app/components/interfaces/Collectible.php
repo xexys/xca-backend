@@ -6,7 +6,7 @@
  * Time: 0:55
  */
 
-namespace app\models\interfaces;
+namespace app\components\interfaces;
 
 
 interface Collectible

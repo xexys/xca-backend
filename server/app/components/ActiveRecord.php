@@ -35,9 +35,8 @@ class ActiveRecord extends \CActiveRecord
         return \CMap::mergeArray(
             parent::behaviors(),
             array(
-                'ajaxValidation' => '\app\models\behaviors\AjaxValidation',
-                'DAO' => '\app\models\behaviors\DAO',
-                'validationError' => '\app\models\behaviors\ValidationError',
+                'DAO' => '\app\components\behaviors\DAO',
+                'validationError' => '\app\components\behaviors\ValidationError',
             )
         );
     }

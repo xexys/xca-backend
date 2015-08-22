@@ -16,8 +16,7 @@ abstract class FormFacade extends FormModel
         return \CMap::mergeArray(
             parent::behaviors(),
             array(
-                'ajaxValidation' => '\app\models\behaviors\AjaxValidation',
-                'DAO' => '\app\models\behaviors\DAO',
+                'DAO' => '\app\components\behaviors\DAO',
             )
         );
     }

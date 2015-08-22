@@ -3,11 +3,11 @@
 $uiHelper = $this->getViewHelper('UI');
 $btnHelper = $uiHelper->getButtonHelper();
 
-$this->pageTitle = $gameTitle;
+$this->pageTitle = $game->title;
 $this->pageTitleIconClass = 'glyphicon glyphicon-pencil';
 
 
-$form = $this->beginWidget(
+$formWidget = $this->beginWidget(
     'booster.widgets.TbActiveForm',
     array(
         'enableAjaxValidation' => true,
@@ -23,8 +23,8 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 <div class="game-card game-card_edit">
     <?php
     $this->renderPartial('_form', array(
-        'form' => $form,
-        'model' => $model,
+        'formWidget' => $formWidget,
+        'formSet' => $formSet,
     ));
     ?>
 
@@ -39,7 +39,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 $this->endWidget();
 
-$this->renderPartial('_platform-info-params-template', array(
-    'form' => $form,
-    'model' => $model,
+$this->renderPartial('_form-platform-info-params-item-template', array(
+    'formWidget' => $formWidget,
+    'formSet' => $formSet,
 ));

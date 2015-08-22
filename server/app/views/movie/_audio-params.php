@@ -1,11 +1,11 @@
 <div class="movie-card_audio">
-    <?php if ($paramsArrayIndex !== 0): ?>
+    <?php if ($paramsItemIndex !== 0): ?>
         <hr>
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
         $cssClass = 'movie-card_audio-param_' . $params->fixCssName($key);
-        $name = '[' . $paramsArrayIndex . ']' . $key;
+        $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
         if (in_array($key, array('formatId', 'bitRateMode', 'channels', 'languageId', 'sampleRate'))) {

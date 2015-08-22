@@ -8,12 +8,15 @@
 
 namespace app\components;
 
+use \Yii;
 use \CHtml;
-use \app\models\interfaces\Collectible;
+use \CActiveForm;
+use \app\components\interfaces\FormMethods;
+use \app\components\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
 
 
-class FormModel extends \CFormModel implements Collectible
+class FormModel extends \CFormModel implements Collectible, FormMethods
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -80,6 +83,20 @@ class FormModel extends \CFormModel implements Collectible
                 }
             }
         }
+    }
+
+    public function setAttributesByPost($postData = array())
+    {
+        if (!$postData) {
+            $postKey = CHtml::modelName($this);
+            $postData = Yii::app()->getRequest()->getPost($postKey);
+        }
+        $this->setAttributes(DataHelper::trimRecursive($postData));
+    }
+
+    public function getAjaxValidationResponseContent()
+    {
+        return CActiveForm::validate($this, null, false);
     }
 
     public function setAttributes($values, $safeOnly = true)

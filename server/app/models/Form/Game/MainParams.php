@@ -8,12 +8,37 @@
 
 namespace app\models\Form\Game;
 
+use \app\components\FormFacade;
 
-class MainParams extends \app\components\FormModel
+
+class MainParams extends FormFacade
 {
     public $id;
     public $textId;
     public $title;
+
+    private $_gameModel;
+
+    public function __construct($game)
+    {
+        if ($game->getIsNewRecord()) {
+            $scenario = self::SCENARIO_CREATE;
+        } else {
+            $scenario = self::SCENARIO_UPDATE;
+        }
+
+        $this->setScenario($scenario);
+        $this->_gameModel = $game;
+
+        parent::__construct($scenario);
+    }
+
+    public function init()
+    {
+        if ($this->getScenario() === self::SCENARIO_UPDATE) {
+            $this->_setAttributesByGameModel();
+        }
+    }
 
     public function rules()
     {
@@ -28,10 +53,29 @@ class MainParams extends \app\components\FormModel
         );
     }
 
-    protected function _prepareErrorMessage($attribute, $message, $params)
+    public function getFormKeys()
     {
-        $params['{attribute}'] = $this->getAttributeLabel($attribute);
-        return strtr($message, $params);
+        return $this->getSafeAttributeNames();
     }
 
-} 
+    protected function _create()
+    {
+        $game = $this->_gameModel;
+        $game->setAttributes($this->getAttributes());
+
+        if (!$game->save()) {
+            throw new CException($game->getFirstErrorMessage());
+        }
+    }
+
+    protected function _update()
+    {
+        $this->_create();
+    }
+
+    private function _setAttributesByGameModel()
+    {
+        // safeOnly = false - чтобы установить значение id
+        $this->setAttributes($this->_gameModel->getAttributes(), false);
+    }
+}

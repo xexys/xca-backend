@@ -9,11 +9,27 @@
 namespace app\components;
 
 use \CMap;
-use \app\models\interfaces\Collectible;
+use \app\components\interfaces\Collectible;
 
 
 class ObjectCollection extends CMap
 {
+    public function __construct()
+    {
+        $this->init();
+        $this->attachBehaviors($this->behaviors());
+    }
+
+    public function init()
+    {
+
+    }
+
+    public function behaviors()
+    {
+        return array();
+    }
+
     public function add($key, $item)
     {
         $this->_checkItemInstanceof($item);
@@ -49,7 +65,7 @@ class ObjectCollection extends CMap
         }
     }
 
-    private function _checkItemInstanceof($item)
+    protected function _checkItemInstanceof($item)
     {
         if (!$item instanceof Collectible) {
             throw new \CException('Item must be instanceof Collectible');

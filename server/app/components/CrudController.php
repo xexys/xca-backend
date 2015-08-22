@@ -17,7 +17,7 @@ abstract class CrudController extends HtmlController
     public function init()
     {
         // Инициализация конвертера префикса используемого в формах для редактирования и создания модели
-        if (!PROD_MODE) {
+        if (PROD_MODE) {
             CHtml::setModelNameConverter(array($this, '_friendGetFormElementsNamePrefix'));
         }
 
@@ -61,12 +61,12 @@ abstract class CrudController extends HtmlController
         return $request->getIsPostRequest() && $request->getIsAjaxRequest() && $request->getPost('ajax');
     }
 
-    protected function _tryAjaxValidation($model)
+    protected function _tryAjaxValidation($form, $postData = array())
     {
         if ($this->_isAjaxValidationRequest()) {
             header('Content-Type: application/json');
-            $model->setAttributesByPost();
-            echo $model->getAjaxValidationResponseContent();
+            $form->setAttributesByPost($postData);
+            echo $form->getAjaxValidationResponseContent();
             Yii::app()->end();
         }
     }
