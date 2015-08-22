@@ -39,21 +39,21 @@ class GameFacade extends FacadeModel
 
     protected function _create()
     {
-        $this->_createMainParams();
-        $this->_createPlatformsInfoParams();
+        $this->_createByMainParams();
+        $this->_createByPlatformsInfoParams();
     }
 
     protected function _update()
     {
         if ($this->mainParams) {
-            $this->_updateMainParams();
+            $this->_updateByMainParams();
         }
         if ($this->platformsInfoParams) {
-            $this->_updatePlatformsInfoParams();
+            $this->_updateByPlatformsInfoParams();
         }
     }
 
-    private function _createMainParams()
+    private function _createByMainParams()
     {
         $this->_game->setAttributes($this->mainParams->getAttributes());
 
@@ -62,12 +62,12 @@ class GameFacade extends FacadeModel
         }
     }
 
-    private function _updateMainParams()
+    private function _updateByMainParams()
     {
-        $this->_createMainParams();
+        $this->_createByMainParams();
     }
 
-    private function _createPlatformsInfoParams()
+    private function _createByPlatformsInfoParams()
     {
         if ($this->_game->getIsNewRecord()) {
             throw new CException('The game must not be a new.');
@@ -84,7 +84,7 @@ class GameFacade extends FacadeModel
         }
     }
 
-    private function _updatePlatformsInfoParams()
+    private function _updateByPlatformsInfoParams()
     {
         $game = $this->_game;
 
