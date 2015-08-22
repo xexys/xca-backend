@@ -23,8 +23,8 @@ class GameFacade extends Model
     public function rules()
     {
         return array(
-            array('mainParams, platformInfoParams', '\app\components\validators\ParamsValidator', 'on' => self::SCENARIO_CREATE),
-            array('mainParams, platformInfoParams', '\app\components\validators\ParamsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
+            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
+            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
         );
     }
 

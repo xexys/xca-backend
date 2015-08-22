@@ -66,7 +66,7 @@ class Movie extends \app\components\FormModel
     public function rules()
     {
         return array(
-            array('mainParams, fileParams, videoParams, audioParamsCollection', '\app\components\validators\ParamsValidator'),
+            array('mainParams, fileParams, videoParams, audioParamsCollection', '\app\components\validators\ModelsValidator'),
         );
     }
 

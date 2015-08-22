@@ -54,7 +54,7 @@ class PlatformInfoParams extends FormModel
     public function rules()
     {
         return array(
-            array('items', '\app\components\validators\ParamsValidator'),
+            array('items', '\app\components\validators\ModelsValidator'),
         );
     }
 
