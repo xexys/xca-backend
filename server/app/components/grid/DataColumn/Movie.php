@@ -14,7 +14,7 @@ use \CHtml;
 class Movie extends \app\components\grid\DataColumn
 {
     /**
-     * @param \app\models\Movie $movie
+     * @param \app\models\AR\Movie $movie
      */
     public function title($movie)
     {

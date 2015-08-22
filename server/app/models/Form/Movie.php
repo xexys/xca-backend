@@ -15,8 +15,8 @@ use \Yii;
 use \CHtml;
 use \CActiveForm;
 use \app\helpers\Data as DataHelper;
-use \app\models\Game as GameModel;
-use \app\models\Movie as MovieModel;
+use \app\models\AR\Game as GameModel;
+use \app\models\AR\Movie as MovieModel;
 use \app\components\ObjectCollection;
 
 

@@ -9,7 +9,7 @@
 namespace app\models\Form\Game;
 
 use \app\components\FormModel;
-use \app\models\Dictionary;
+use \app\models\AR\Dictionary;
 
 
 class PlatformInfoParamsItem extends FormModel

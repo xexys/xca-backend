@@ -1,17 +1,21 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Alex
+ * Date: 07.08.15
+ * Time: 14:28
+ */
 
-namespace app\models\Dictionary;
+namespace app\models\AR\Game;
 
 use \app\components\ActiveRecord;
 
 
-class GameIssueStatus extends ActiveRecord
+class PlatformInfo extends ActiveRecord
 {
-    const STATUS_ID_RELEASED = 2;
-
     public function tableName()
     {
-        return '{{dic_game_issue_status}}';
+        return '{{games_platform_info}}';
     }
 
     /**
@@ -22,12 +26,26 @@ class GameIssueStatus extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id', 'required'),
-            array('id', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 50),
+            array('game_id, platform_id', 'required'),
+            array('game_id, platform_id, issue_status_id', 'numerical', 'integerOnly' => true),
+            array('comment', 'length', 'max' => 500),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name', 'safe', 'on' => 'search'),
+            array('id, game_id, platform_id, issue_status_id, comment', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'game' => array(self::BELONGS_TO, '\app\models\AR\Game', 'game_id'),
+            'info' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Platform', 'platform_id'),
+            //            'gamesPlatformsMoviesSearches' => array(self::HAS_MANY, 'GamesPlatformsMoviesSearch', 'game_platform_id'),
         );
     }
 
@@ -50,11 +68,13 @@ class GameIssueStatus extends ActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name, true);
+        $criteria->compare('game_id', $this->game_id);
+        $criteria->compare('platform_id', $this->platform_id);
+        $criteria->compare('issue_status_id', $this->status);
+        $criteria->compare('comment', $this->comment, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
     }
-
 }

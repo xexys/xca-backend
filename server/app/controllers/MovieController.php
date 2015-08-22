@@ -11,8 +11,8 @@ namespace app\controllers;
 use \app\components\CrudController;
 use \app\models\Form\Movie as MovieForm;
 use \Yii;
-use \app\models\Movie;
-use \app\models\Game;
+use \app\models\AR\Movie;
+use \app\models\AR\Game;
 use \app\components\DataProvider;
 
 

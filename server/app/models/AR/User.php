@@ -1,31 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Alex
- * Date: 07.08.15
- * Time: 12:52
- */
 
-namespace app\models\Movie;
+namespace app\models\AR;
 use \app\components\ActiveRecord;
 
-
-class File extends ActiveRecord
+class User extends ActiveRecord
 {
+    /**
+     * @return string the associated database table name
+     */
     public function tableName()
     {
-        return '{{movies_file_params}}';
+        return '{{users}}';
     }
 
+    /**
+     * @return array validation rules for model attributes.
+     */
     public function rules()
     {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
         return array(
-            array('movie_id, format_id', 'required'),
-            array('movie_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>50),
+            array('email, password', 'required'),
+            array('role_id', 'numerical', 'integerOnly'=>true),
+            array('email', 'length', 'max'=>20),
+            array('password', 'length', 'max'=>11),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, movie_id, name, size, duration, format_id', 'safe', 'on'=>'search'),
+            array('id, role_id, email, password', 'safe', 'on'=>'search'),
         );
     }
 
@@ -37,8 +39,7 @@ class File extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'movie' => array(self::BELONGS_TO, 'app\models\Movie', 'movie_id'),
-            'format' => array(self::BELONGS_TO, 'app\models\Dictionary\FileFormat', 'format_id'),
+            'role' => array(self::BELONGS_TO, '\app\models\AR\User\Role', 'role_id'),
         );
     }
 
@@ -49,11 +50,9 @@ class File extends ActiveRecord
     {
         return array(
             'id' => 'ID',
-            'movie_id' => 'Movie',
-            'name' => 'Name',
-            'size' => 'Size',
-            'duration' => 'Duration',
-            'format_id' => 'Format',
+            'role_id' => 'Role',
+            'email' => 'Email',
+            'password' => 'Password',
         );
     }
 
@@ -76,15 +75,12 @@ class File extends ActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
-        $criteria->compare('movie_id',$this->movie_id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('size',$this->size);
-        $criteria->compare('duration',$this->duration);
-        $criteria->compare('format_id',$this->format_id);
+        $criteria->compare('role_id',$this->role_id);
+        $criteria->compare('email',$this->email,true);
+        $criteria->compare('password',$this->password,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
     }
-
 }

@@ -1,17 +1,17 @@
 <?php
 
-namespace app\models\Movie;
+namespace app\models\AR\Movie;
 use \app\components\ActiveRecord;
 
 
-class Storage extends ActiveRecord
+class MediaInfo extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_storage}}';
+		return '{{movies_media_info}}';
 	}
 
 	/**
@@ -22,23 +22,12 @@ class Storage extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id', 'numerical', 'integerOnly'=>true),
-			array('yandex_disk_link, dropbox_link, google_disk_link', 'length', 'max'=>100),
+			array('id', 'required'),
+			array('id, movie_id', 'numerical', 'integerOnly'=>true),
+			array('data', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, yandex_disk_link, dropbox_link, google_disk_link', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'movie' => array(self::BELONGS_TO, '\app\models\Movie', 'movie_id'),
+			array('id, movie_id, data', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,9 +39,7 @@ class Storage extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'movie_id' => 'Movie',
-			'yandex_disk_link' => 'Yandex Disk Link',
-			'dropbox_link' => 'Dropbox Link',
-			'google_disk_link' => 'Google Disk Link',
+			'data' => 'Data',
 		);
 	}
 
@@ -76,9 +63,7 @@ class Storage extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('movie_id',$this->movie_id);
-		$criteria->compare('yandex_disk_link',$this->yandex_disk_link,true);
-		$criteria->compare('dropbox_link',$this->dropbox_link,true);
-		$criteria->compare('google_disk_link',$this->google_disk_link,true);
+		$criteria->compare('data',$this->data,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +74,7 @@ class Storage extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Storage the static model class
+	 * @return MediaInfo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

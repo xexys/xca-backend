@@ -39,8 +39,8 @@ class FormModel extends BaseModel implements FormMethods, Collectible
      * Для использования этого валидатора необходимо задать значение атрибута 'id' для сценария 'update'
      *
      * Пример:
-     *   array('textId', 'validateUniqueInDatabase', 'className' => '\app\models\Game', 'attributeName' => 'text_id'),
-     *   array('title', 'validateUniqueInDatabase', 'className' => '\app\models\Game'),
+     *   array('textId', 'validateUniqueInDatabase', 'className' => '\app\models\AR\Game', 'attributeName' => 'text_id'),
+     *   array('title', 'validateUniqueInDatabase', 'className' => '\app\models\AR\Game'),
      *   array('id', 'required', 'safe' => false, 'on' => self::SCENARIO_UPDATE),
      *
      * @param string $attribute

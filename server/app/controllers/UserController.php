@@ -10,7 +10,7 @@ namespace app\controllers;
 
 use \Yii;
 use \app\components\auth\UserIdentity;
-use \app\models\User;
+use \app\models\AR\User;
 
 class UserController extends \app\components\HtmlController
 {

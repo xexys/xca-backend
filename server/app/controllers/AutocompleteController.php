@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use \Yii;
 use \CDbCriteria;
-use \app\models\Game;
+use \app\models\AR\Game;
 
 
 class AutocompleteController extends \app\components\JsonController

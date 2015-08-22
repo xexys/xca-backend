@@ -8,7 +8,7 @@
 
 namespace app\models\Form\Movie;
 
-use \app\models\Dictionary;
+use \app\models\AR\Dictionary;
 
 
 class AudioParams extends \app\components\FormModel

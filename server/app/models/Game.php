@@ -1,86 +1,133 @@
 <?php
-
 /**
- * This is the model class for table "games".
- *
- * The followings are the available columns in table 'game_list':
- * @property integer $id
- * @property string $title
- *
+ * Created by PhpStorm.
+ * User: Alex
+ * Date: 23.08.15
+ * Time: 0:30
  */
 
-namespace app\models;
+namespace app\models\AR;
 
-use \app\components\ActiveRecord;
+use \CException;
+use \app\components\Model;
 
 
-class Game extends ActiveRecord
+class GameFacade extends Model
 {
-    public function findByTextId($textId)
-    {
-        return $this->findByAttributes(array('text_id' => $textId));
-    }
+    public $mainParams;
+    public $platformInfoParams;
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return '{{games}}';
-    }
+    private $_gameModel;
 
-    /**
-     * @return array validation rules for model attributes.
-     */
+
     public function rules()
     {
         return array(
-            array('text_id, title', 'required'),
-            array('text_id, title', 'unique'),
-            array('text_id', 'length', 'max' => 10),
-            array('title', 'length', 'max' => 50),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, title', 'safe', 'on' => 'search'),
+            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
+            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
+    public function __construct($game)
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'movies' => array(self::HAS_MANY, '\app\models\Movie', 'game_id'),
-            'platformsInfo' => array(self::HAS_MANY, '\app\models\Game\PlatformInfo', 'game_id'),
-        );
+        if ($game->getIsNewRecord()) {
+            $scenario = self::SCENARIO_CREATE;
+        } else {
+            $scenario = self::SCENARIO_UPDATE;
+        }
+
+        $this->setScenario($scenario);
+        $this->_gameModel = $game;
+
+        parent::__construct($scenario);
     }
 
-    /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
-     *
-     * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
-     */
-    public function search()
+    protected function _create()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
+        $this->_createMainParams();
+        $this->_createPlatformInfoParams();
+    }
 
-        $criteria = new CDbCriteria;
+    protected function _update()
+    {
+        if ($this->mainParams) {
+            $this->_updateMainParams();
+        }
+        if ($this->platformInfoParams) {
+            $this->_updatePlatformInfoParams();
+        }
+    }
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('title', $this->title, true);
+    private function _createMainParams()
+    {
+        $game = $this->_gameModel;
+        $game->setAttributes($this->mainParams->getAttributes());
 
-        return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
+        if (!$game->save()) {
+            throw new CException($game->getFirstErrorMessage());
+        }
+    }
+
+    private function _updateMainParams()
+    {
+        $this->_createMainParams();
+    }
+
+    private function _createPlatformInfoParams()
+    {
+        if ($this->_gameModel->getIsNewRecord()) {
+            throw new CException('The game must not be a new.');
+        }
+
+        foreach ($this->platformInfoParams->items as $item) {
+            $attrs = $item->getAttributes();
+            $attrs['gameId'] = $this->_gameModel->id;
+            $platformInfo = new Game\PlatformInfo;
+            $platformInfo->setAttributes($attrs);
+            if (!$platformInfo->save()) {
+                throw new CException($platformInfo->getFirstErrorMessage());
+            }
+        }
+    }
+
+    private function _updatePlatformInfoParams()
+    {
+        $game = $this->_gameModel;
+
+        // create + update
+        $updateIds = array();
+
+        $platformInfoModels = Game\PlatformInfo::model()->findAll(array(
+            'index' => 'platform_id',
+            'condition' => 'game_id = :game_id',
+            'params' => array(':game_id' => $game->id),
         ));
+
+        foreach ($this->platformInfoParams->items as $item) {
+            $attrs = $item->getAttributes();
+            if (isset($platformInfoModels[$item->platformId])) {
+                $platformInfo = $platformInfoModels[$item->platformId];
+                $updateIds[] = $platformInfo->id;
+            } else {
+                $platformInfo = new Game\PlatformInfo;
+                $attrs['gameId'] = $game->id;
+            }
+            $platformInfo->setAttributes($attrs);
+            if (!$platformInfo->save()) {
+                throw new CException($platformInfo->getFirstErrorMessage());
+            }
+        }
+
+        // delete
+        $deleteIds = array();
+        foreach ($platformInfoModels as $platformInfo) {
+            if (!in_array($platformInfo->id, $updateIds)) {
+                $deleteIds[] = $platformInfo->id;
+            }
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->addInCondition('id', $deleteIds);
+        Game\PlatformInfo::model()->deleteAll($criteria);
     }
 }

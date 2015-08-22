@@ -13,7 +13,7 @@ class Game extends \CActiveDataProvider
 {
     public function __construct($config)
     {
-        parent::__construct('\app\models\Game', $config);
+        parent::__construct('\app\models\AR\Game', $config);
     }
 
 }

@@ -1,16 +1,17 @@
 <?php
 
-namespace app\models;
+namespace app\models\AR;
 use \app\components\ActiveRecord;
 
-class User extends ActiveRecord
+
+class Movie extends ActiveRecord
 {
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return '{{users}}';
+        return '{{movies}}';
     }
 
     /**
@@ -21,13 +22,12 @@ class User extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('email, password', 'required'),
-            array('role_id', 'numerical', 'integerOnly'=>true),
-            array('email', 'length', 'max'=>20),
-            array('password', 'length', 'max'=>11),
+            array('game_id, title', 'required'),
+            array('game_id', 'numerical', 'integerOnly' => true),
+            array('title', 'length', 'max' => 100),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, role_id, email, password', 'safe', 'on'=>'search'),
+            array('id, game_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -39,20 +39,13 @@ class User extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'role' => array(self::BELONGS_TO, '\app\models\User\Role', 'role_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'role_id' => 'Role',
-            'email' => 'Email',
-            'password' => 'Password',
+            'game' => array(self::BELONGS_TO, '\app\models\AR\Game', 'game_id'),
+            'file' => array(self::HAS_ONE, '\app\models\AR\Movie\File', 'movie_id'),
+            'video' => array(self::HAS_ONE, '\app\models\AR\Movie\Video', 'movie_id'),
+            'audio' => array(self::HAS_MANY, '\app\models\AR\Movie\Audio', 'movie_id'),
+            'mediaInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\MediaInfo', 'movie_id'),
+            'storage' => array(self::HAS_ONE, '\app\models\AR\Movie\Storage', 'movie_id'),
+            'images' => array(self::HAS_MANY, '\app\models\AR\Movie\Image', 'movie_id'),
         );
     }
 
@@ -72,15 +65,14 @@ class User extends ActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('role_id',$this->role_id);
-        $criteria->compare('email',$this->email,true);
-        $criteria->compare('password',$this->password,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('game_id', $this->game_id);
+        $criteria->compare('title', $this->title, true);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 }

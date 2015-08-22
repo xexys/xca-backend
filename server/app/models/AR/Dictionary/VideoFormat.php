@@ -1,21 +1,20 @@
 <?php
 
-namespace app\models\Dictionary;
+namespace app\models\AR\Dictionary;
 
 use \app\components\ActiveRecord;
 
 
-class FileFormat extends ActiveRecord
+class VideoFormat extends ActiveRecord
 {
-    const FORMAT_ID_AVI = 1;
-    const FORMAT_ID_MP4 = 3;
+    const FORMAT_ID_FOURCC_H264 = 3;
 
-    /**
+	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{dic_file_formats}}';
+		return '{{dic_video_formats}}';
 	}
 
 	/**
@@ -26,13 +25,13 @@ class FileFormat extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, extension, name', 'required'),
+			array('id, fourcc', 'required'),
 			array('id', 'numerical', 'integerOnly'=>true),
-			array('extension', 'length', 'max'=>3),
-			array('name', 'length', 'max'=>20),
+			array('fourcc', 'length', 'max'=>4),
+			array('name', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, extension, name', 'safe', 'on'=>'search'),
+			array('id, fourcc, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +54,7 @@ class FileFormat extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('extension',$this->extension,true);
+		$criteria->compare('fourcc',$this->fourcc,true);
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(

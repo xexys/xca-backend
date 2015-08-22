@@ -1,17 +1,20 @@
 <?php
 
-namespace app\models\Movie;
+namespace app\models\AR\Dictionary;
+
 use \app\components\ActiveRecord;
 
 
-class MediaInfo extends ActiveRecord
+class Language extends ActiveRecord
 {
+    const LANGUAGE_ID_ENG = 1;
+
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_media_info}}';
+		return '{{dic_languages}}';
 	}
 
 	/**
@@ -22,24 +25,13 @@ class MediaInfo extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id, movie_id', 'numerical', 'integerOnly'=>true),
-			array('data', 'safe'),
+			array('id, code2, code3', 'required'),
+			array('id', 'numerical', 'integerOnly'=>true),
+			array('code2', 'length', 'max'=>2),
+			array('code3', 'length', 'max'=>3),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, data', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'movie_id' => 'Movie',
-			'data' => 'Data',
+			array('id, code2, code3', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,22 +54,11 @@ class MediaInfo extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('movie_id',$this->movie_id);
-		$criteria->compare('data',$this->data,true);
+		$criteria->compare('code2',$this->code2,true);
+		$criteria->compare('code3',$this->code3,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return MediaInfo the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
 	}
 }

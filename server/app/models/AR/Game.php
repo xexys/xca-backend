@@ -1,20 +1,32 @@
 <?php
 
-namespace app\models\Dictionary;
+/**
+ * This is the model class for table "games".
+ *
+ * The followings are the available columns in table 'game_list':
+ * @property integer $id
+ * @property string $title
+ *
+ */
+
+namespace app\models\AR;
 
 use \app\components\ActiveRecord;
 
 
-class Platform extends ActiveRecord
+class Game extends ActiveRecord
 {
-    const PLATFORM_ID_PC = 3;
+    public function findByTextId($textId)
+    {
+        return $this->findByAttributes(array('text_id' => $textId));
+    }
 
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return '{{dic_platforms}}';
+        return '{{games}}';
     }
 
     /**
@@ -22,16 +34,27 @@ class Platform extends ActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
-            array('id, full_name, short_name', 'required'),
-            array('id', 'numerical', 'integerOnly' => true),
-            array('short_name', 'length', 'max' => 20),
-            array('full_name', 'length', 'max' => 50),
+            array('text_id, title', 'required'),
+            array('text_id, title', 'unique'),
+            array('text_id', 'length', 'max' => 10),
+            array('title', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, full_name, short_name', 'safe', 'on' => 'search'),
+            array('id, title', 'safe', 'on' => 'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'movies' => array(self::HAS_MANY, '\app\models\AR\Movie', 'game_id'),
+            'platformsInfo' => array(self::HAS_MANY, '\app\models\AR\Game\PlatformInfo', 'game_id'),
         );
     }
 
@@ -54,8 +77,7 @@ class Platform extends ActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('full_name', $this->full_name, true);
-        $criteria->compare('short_name', $this->short_name, true);
+        $criteria->compare('title', $this->title, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

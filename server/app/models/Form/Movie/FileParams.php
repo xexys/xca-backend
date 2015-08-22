@@ -8,7 +8,7 @@
 
 namespace app\models\Form\Movie;
 
-use \app\models\Dictionary;
+use \app\models\AR\Dictionary;
 
 
 class FileParams extends \app\components\FormModel

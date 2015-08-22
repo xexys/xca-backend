@@ -13,7 +13,7 @@ use \CHtml;
 use \CActiveForm;
 use \app\components\FormModel;
 use \app\components\FormCollection;
-use \app\models\Game;
+use \app\models\AR\Game;
 use \app\helpers\Data as DataHelper;
 
 

@@ -8,7 +8,7 @@
 
 namespace app\components\auth;
 
-use \app\models\User;
+use \app\models\AR\User;
 
 class UserIdentity extends \CUserIdentity
 {

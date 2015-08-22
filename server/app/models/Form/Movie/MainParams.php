@@ -28,7 +28,7 @@ class MainParams extends \app\components\FormModel
     public function validateGameTitleExist($key)
     {
         $gameTitle = $this->gameTitle;
-        $game = \app\models\Game::model()->findByAttributes(array('title' => $gameTitle));
+        $game = \app\models\AR\Game::model()->findByAttributes(array('title' => $gameTitle));
 
         if ($game && strtolower($game->title) == strtolower($gameTitle)) {
             return;

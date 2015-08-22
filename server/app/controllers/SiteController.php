@@ -11,11 +11,11 @@ namespace app\controllers;
 use \app\components\HtmlController;
 use \Yii;
 use \DateTime;
-use \app\models\Game;
-use \app\models\Movie;
-use \app\models\Dictionary;
+use \app\models\AR\Game;
+use \app\models\AR\Movie;
+use \app\models\AR\Dictionary;
 
-use \app\models\User;
+use \app\models\AR\User;
 
 
 class SiteController extends HtmlController

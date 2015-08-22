@@ -1,17 +1,17 @@
 <?php
 
-namespace app\models\Movie;
+namespace app\models\AR\Movie;
 use \app\components\ActiveRecord;
 
 
-class Video extends ActiveRecord
+class Audio extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_video_params}}';
+		return '{{movies_audio_params}}';
 	}
 
 	/**
@@ -22,12 +22,12 @@ class Video extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode', 'required'),
-			array('movie_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
-			array('frame_rate, frame_quality', 'numerical'),
+			array('movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'required'),
+			array('movie_id, format_id, bit_rate, bit_rate_mode, language_id, sample_rate, track_number', 'numerical', 'integerOnly'=>true),
+			array('channels', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode, frame_quality', 'safe', 'on'=>'search'),
+			array('id, movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -39,8 +39,9 @@ class Video extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'format' => array(self::BELONGS_TO, '\app\models\Dictionary\VideoFormat', 'format_id'),
-			'movie' => array(self::BELONGS_TO, '\app\models\Movie', 'movie_id'),
+			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
+			'format' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\AudioFormat', 'format_id'),
+			'lang' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Language', 'language_id'),
 		);
 	}
 
@@ -53,12 +54,12 @@ class Video extends ActiveRecord
 			'id' => 'ID',
 			'movie_id' => 'Movie',
 			'format_id' => 'Format',
-			'width' => 'Width',
-			'height' => 'Height',
 			'bit_rate' => 'Bit Rate',
-			'frame_rate' => 'Frame Rate',
-			'frame_rate_mode' => 'Frame Rate Mode',
-			'frame_quality' => 'Frame Quality',
+			'bit_rate_mode' => 'Bit Rate Mode',
+			'channels' => 'Channels',
+			'language_id' => 'Language',
+			'sample_rate' => 'Sample Rate',
+			'track_number' => 'Track Number',
 		);
 	}
 
@@ -83,12 +84,12 @@ class Video extends ActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('movie_id',$this->movie_id);
 		$criteria->compare('format_id',$this->format_id);
-		$criteria->compare('width',$this->width);
-		$criteria->compare('height',$this->height);
 		$criteria->compare('bit_rate',$this->bit_rate);
-		$criteria->compare('frame_rate',$this->frame_rate);
-		$criteria->compare('frame_rate_mode',$this->frame_rate_mode);
-		$criteria->compare('frame_quality',$this->frame_quality);
+		$criteria->compare('bit_rate_mode',$this->bit_rate_mode);
+		$criteria->compare('channels',$this->channels);
+		$criteria->compare('language_id',$this->language_id);
+		$criteria->compare('sample_rate',$this->sample_rate);
+		$criteria->compare('track_number',$this->track_number);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -99,7 +100,7 @@ class Video extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return VideoParams the static model class
+	 * @return AudioParams the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

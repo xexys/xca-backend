@@ -1,17 +1,22 @@
 <?php
 
-namespace app\models\Movie;
+namespace app\models\AR\Dictionary;
+
 use \app\components\ActiveRecord;
 
 
-class Image extends ActiveRecord
+class AudioFormat extends ActiveRecord
 {
-	/**
+    const FORMAT_ID_MP3 = 3;
+    const BIT_RATE_MODE_CONSTANT = 0;
+    const BIT_RATE_MODE_VARIABLE = 1;
+
+    /**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_images}}';
+		return '{{dic_audio_formats}}';
 	}
 
 	/**
@@ -22,36 +27,12 @@ class Image extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, name', 'required'),
-			array('movie_id', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>36),
+			array('id, name', 'required'),
+			array('id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, name', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'movie' => array(self::BELONGS_TO, '\app\models\Movie', 'movie_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'movie_id' => 'Movie',
-			'name' => 'Name',
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,22 +55,10 @@ class Image extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('movie_id',$this->movie_id);
 		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Images the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
 	}
 }

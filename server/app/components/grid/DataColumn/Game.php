@@ -14,7 +14,7 @@ use \CHtml;
 class Game extends \app\components\grid\DataColumn
 {
     /**
-     * @param \app\models\Game $game
+     * @param \app\models\AR\Game $game
      */
     public function title($game)
     {

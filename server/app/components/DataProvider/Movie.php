@@ -13,7 +13,7 @@ class Movie extends \CActiveDataProvider
 {
     public function __construct($config)
     {
-        parent::__construct('\app\models\Movie', $config);
+        parent::__construct('\app\models\AR\Movie', $config);
     }
 
 }
