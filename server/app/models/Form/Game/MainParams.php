@@ -8,10 +8,10 @@
 
 namespace app\models\Form\Game;
 
-use \app\components\Params;
+use \app\components\ParamsForm;
 
 
-class MainParams extends Params
+class MainParams extends ParamsForm
 {
     public $id;
     public $textId;

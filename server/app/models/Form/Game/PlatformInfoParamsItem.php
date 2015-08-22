@@ -8,11 +8,11 @@
 
 namespace app\models\Form\Game;
 
-use \app\components\Params;
+use \app\components\ParamsForm;
 use \app\models\Dictionary;
 
 
-class PlatformInfoParamsItem extends Params
+class PlatformInfoParamsItem extends ParamsForm
 {
     public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
     public $issueStatusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;

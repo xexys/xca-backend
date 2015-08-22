@@ -11,12 +11,12 @@ namespace app\components;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
-use \app\components\interfaces\ParamsMethods;
+use \app\components\interfaces\ParamsFormMethods;
 use \app\components\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
 
 
-class Params extends FormModel implements ParamsMethods, Collectible
+class ParamsForm extends FormModel implements ParamsFormMethods, Collectible
 {
     private $_collection;
 

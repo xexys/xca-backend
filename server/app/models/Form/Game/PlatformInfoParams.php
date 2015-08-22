@@ -11,14 +11,13 @@ namespace app\models\Form\Game;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
-use \CException;
-use \app\components\Params;
-use \app\components\ParamsCollection;
+use \app\components\ParamsForm;
+use \app\components\ParamsFormCollection;
 use \app\models\Game;
 use \app\helpers\Data as DataHelper;
 
 
-class PlatformInfoParams extends Params
+class PlatformInfoParams extends ParamsForm
 {
     public $items;
     
@@ -44,7 +43,7 @@ class PlatformInfoParams extends Params
 
         $scenario = $this->getScenario();
 
-        $this->items = new ParamsCollection;
+        $this->items = new ParamsFormCollection;
         $this->items[] = $this->createItem();
 
         if ($scenario === self::SCENARIO_UPDATE) {

@@ -20,7 +20,7 @@ use \app\models\Movie as MovieModel;
 use \app\components\ObjectCollection;
 
 
-class Movie extends \app\components\Params
+class Movie extends \app\components\ParamsForm
 {
     public $mainParams;
     public $fileParams;
