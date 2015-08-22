@@ -116,11 +116,11 @@ class GameController extends CrudController
     private function _createGameFormParams($game)
     {
         $mainParams = new Form\Game\MainParams($game);
-        $platformInfoParams = new Form\Game\PlatformInfoParams($game);
+        $platformsInfoParams = new Form\Game\PlatformsInfoParams($game);
 
         $params = new FormCollection();
         $params->add('mainParams', $mainParams);
-        $params->add('platformInfoParams', $platformInfoParams);
+        $params->add('platformsInfoParams', $platformsInfoParams);
 
         return $params;
     }

@@ -12,7 +12,7 @@ use \app\components\FormModel;
 use \app\models\AR\Dictionary;
 
 
-class PlatformInfoParamsItem extends FormModel
+class PlatformsInfoParamsItem extends FormModel
 {
     public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
     public $issueStatusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;

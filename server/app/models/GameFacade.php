@@ -16,7 +16,7 @@ use \app\models\AR\Game;
 class GameFacade extends FacadeModel
 {
     public $mainParams;
-    public $platformInfoParams;
+    public $platformsInfoParams;
 
     private $_game;
 
@@ -32,15 +32,15 @@ class GameFacade extends FacadeModel
     public function rules()
     {
         return array(
-            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
-            array('mainParams, platformInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
+            array('mainParams, platformsInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
+            array('mainParams, platformsInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
         );
     }
 
     protected function _create()
     {
         $this->_createMainParams();
-        $this->_createPlatformInfoParams();
+        $this->_createPlatformsInfoParams();
     }
 
     protected function _update()
@@ -48,8 +48,8 @@ class GameFacade extends FacadeModel
         if ($this->mainParams) {
             $this->_updateMainParams();
         }
-        if ($this->platformInfoParams) {
-            $this->_updatePlatformInfoParams();
+        if ($this->platformsInfoParams) {
+            $this->_updatePlatformsInfoParams();
         }
     }
 
@@ -67,13 +67,13 @@ class GameFacade extends FacadeModel
         $this->_createMainParams();
     }
 
-    private function _createPlatformInfoParams()
+    private function _createPlatformsInfoParams()
     {
         if ($this->_game->getIsNewRecord()) {
             throw new CException('The game must not be a new.');
         }
 
-        foreach ($this->platformInfoParams->items as $item) {
+        foreach ($this->platformsInfoParams->items as $item) {
             $attrs = $item->getAttributes();
             $attrs['gameId'] = $this->_game->id;
             $platformInfo = new Game\PlatformInfo;
@@ -84,7 +84,7 @@ class GameFacade extends FacadeModel
         }
     }
 
-    private function _updatePlatformInfoParams()
+    private function _updatePlatformsInfoParams()
     {
         $game = $this->_game;
 
@@ -97,7 +97,7 @@ class GameFacade extends FacadeModel
             'params' => array(':game_id' => $game->id),
         ));
 
-        foreach ($this->platformInfoParams->items as $item) {
+        foreach ($this->platformsInfoParams->items as $item) {
             $attrs = $item->getAttributes();
             if (isset($platformInfoModels[$item->platformId])) {
                 $platformInfo = $platformInfoModels[$item->platformId];

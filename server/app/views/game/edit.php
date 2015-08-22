@@ -39,7 +39,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 $this->endWidget();
 
-$this->renderPartial('_form/platform-info-params-item-template', array(
+$this->renderPartial('_form/platforms-info-params-item-template', array(
     'formWidget' => $formWidget,
     'gameParams' => $gameParams,
 ));

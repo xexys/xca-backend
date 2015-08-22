@@ -17,7 +17,7 @@ use \app\models\AR\Game;
 use \app\helpers\Data as DataHelper;
 
 
-class PlatformInfoParams extends FormModel
+class PlatformsInfoParams extends FormModel
 {
     public $items;
     
@@ -80,7 +80,7 @@ class PlatformInfoParams extends FormModel
 
     public function createItem()
     {
-        return new PlatformInfoParamsItem($this->getScenario());
+        return new PlatformsInfoParamsItem($this->getScenario());
     }
 
     private function _getPostKey()

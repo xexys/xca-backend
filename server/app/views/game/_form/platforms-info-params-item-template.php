@@ -1,14 +1,14 @@
 <?php
 
-$platformInfoParams = $gameParams->itemAt('platformInfoParams');
+$platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
 
-$item = $platformInfoParams->createItem();
-$formKeys = $platformInfoParams->getFormKeys();
+$item = $platformsInfoParams->createItem();
+$formKeys = $platformsInfoParams->getFormKeys();
 $itemIndex = md5(__FILE__);
 
 //$formCssId = $form->htmlOptions['id'];
 
-$content = $this->renderPartial('_form/platform-info-params-item', array(
+$content = $this->renderPartial('_form/platforms-info-params-item', array(
     'formWidget' => $formWidget,
     'params' => $item,
     'paramsKeys' => $formKeys,

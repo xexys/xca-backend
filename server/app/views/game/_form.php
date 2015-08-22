@@ -15,9 +15,9 @@
                 <h4 class="game-card_title">Выход на платформах</h4>
                 <div class="game-card_platforms-info">
                     <?php
-                    $this->renderPartial('_form/platform-info-params', array(
+                    $this->renderPartial('_form/platforms-info-params', array(
                         'formWidget' => $formWidget,
-                        'platformInfoParams' => $gameParams->itemAt('platformInfoParams'),
+                        'platformsInfoParams' => $gameParams->itemAt('platformsInfoParams'),
                     ));
                     ?>
                 </div>
