@@ -80,7 +80,7 @@ class GameController extends CrudController
 
     public function actionEdit($id)
     {
-        $game = $this->_getModelById($id);
+        $game = $this->_getModelById($id, array('platformsInfo'));
 
         $formMainParams = new Form\Game\MainParams($game);
         $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
@@ -116,14 +116,14 @@ class GameController extends CrudController
         $this->redirect($url);
     }
 
-    private function _getModelById($id)
+    private function _getModelById($id, $with = array())
     {
-        $game = Game::model()->findByPk($id);
-        if (!$game) {
+        $model = Game::model()->with($with)->findByPk($id);
+        if (!$model) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
         }
-        return $game;
+        return $model;
     }
 }
 

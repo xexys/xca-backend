@@ -7,7 +7,7 @@ $platformInfoParamsItems = array_values($platformInfoParams->items->toArray());
 $platformInfoParamsItemsCount = count($platformInfoParamsItems);
 
 foreach ($platformInfoParamsItems as $n => $platformInfoParamsItem) {
-    $this->renderPartial('_form-platform-info-params-item', array(
+    $this->renderPartial('_form/platform-info-params-item', array(
         'formWidget' => $formWidget,
         'params' => $platformInfoParamsItem,
         'paramsKeys' => $platformInfoParamsKeys,

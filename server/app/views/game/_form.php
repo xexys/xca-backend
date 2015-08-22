@@ -4,7 +4,7 @@
             <div class="game-card_section">
                 <div>
                     <?php
-                    $this->renderPartial('_form-main-params', array(
+                    $this->renderPartial('_form/main-params', array(
                         'formWidget' => $formWidget,
                         'mainParams' => $formSet->itemAt('mainParams'),
                     ));
@@ -15,7 +15,7 @@
                 <h4 class="game-card_title">Выход на платформах</h4>
                 <div class="game-card_platforms-info">
                     <?php
-                    $this->renderPartial('_form-platform-info-params', array(
+                    $this->renderPartial('_form/platform-info-params', array(
                         'formWidget' => $formWidget,
                         'platformInfoParams' => $formSet->itemAt('platformInfoParams'),
                     ));

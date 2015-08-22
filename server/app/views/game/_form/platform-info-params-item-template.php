@@ -8,7 +8,7 @@ $itemIndex = md5(__FILE__);
 
 //$formCssId = $form->htmlOptions['id'];
 
-$content = $this->renderPartial('_form-platform-info-params-item', array(
+$content = $this->renderPartial('_form/platform-info-params-item', array(
     'formWidget' => $formWidget,
     'params' => $item,
     'paramsKeys' => $formKeys,
