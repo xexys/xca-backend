@@ -55,6 +55,7 @@ class GameController extends CrudController
     public function actionCreate()
     {
         $game = new Game;
+
         $formMainParams = new Form\Game\MainParams($game);
         $formPlatformInfoParams = new Form\Game\PlatformInfoParams($game);
 
@@ -110,8 +111,8 @@ class GameController extends CrudController
 
     public function actionDelete($id)
     {
-        $form = new GameForm($id);
-        $form->delete();
+        $game = $this->_getModelById($id);
+        $game->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
