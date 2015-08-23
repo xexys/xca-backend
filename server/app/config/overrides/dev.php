@@ -62,11 +62,11 @@ return array(
                     'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов
                 ),
 
-//                array(
-//                    'class'=>'CProfileLogRoute',
-//                    'levels'=>'profile',
-//                    'enabled'=>true,
-//                ),
+                array(
+                    'class'=>'CProfileLogRoute',
+                    'levels'=>'profile',
+                    'enabled'=>true,
+                ),
 
             ),
         ),

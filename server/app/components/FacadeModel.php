@@ -8,12 +8,16 @@
 
 namespace app\components;
 
+use \CMap;
+use \Exception;
+use \CException;
+
 
 abstract class FacadeModel extends BaseModel
 {
     public function behaviors()
     {
-        return \CMap::mergeArray(
+        return CMap::mergeArray(
             parent::behaviors(),
             array(
                 'DAO' => '\app\components\behaviors\DAO',
@@ -40,10 +44,22 @@ abstract class FacadeModel extends BaseModel
 
     public function delete()
     {
-        throw new \CException('You have to implement method delete for ' . get_class($this) . ' class.');
+        $transaction = $this->getDb()->beginTransaction();
+        try {
+            $this->_delete();
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
     }
 
     abstract protected function _create();
 
     abstract protected function _update();
+
+    protected function _delete()
+    {
+        throw new CException('You have to implement method _delete for ' . get_class($this) . ' class.');
+    }
 }

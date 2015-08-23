@@ -32,28 +32,41 @@ class GameFacade extends FacadeModel
     public function rules()
     {
         return array(
-            array('mainParams, platformsInfoParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
-            array('mainParams, platformsInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
+            array('mainParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
+            array('mainParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
+            array('platformsInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true),
         );
     }
 
+// ----- PROTECTED ----------------------------------------------------------------------------------------------------
+
     protected function _create()
     {
-        $this->_createByMainParams();
-        $this->_createByPlatformsInfoParams();
+        $this->_createMainParams();
+        if ($this->platformsInfoParams) {
+            $this->_createPlatformsInfoParams();
+        }
     }
 
     protected function _update()
     {
         if ($this->mainParams) {
-            $this->_updateByMainParams();
+            $this->_updateMainParams();
         }
         if ($this->platformsInfoParams) {
-            $this->_updateByPlatformsInfoParams();
+            $this->_updatePlatformsInfoParams();
         }
     }
 
-    private function _createByMainParams()
+    protected function _delete()
+    {
+        $this->_deletePlatformsInfoParams();
+        $this->_deleteMainParams();
+    }
+
+// ----- PRIVATE ------------------------------------------------------------------------------------------------------
+
+    private function _createMainParams()
     {
         $this->_game->setAttributes($this->mainParams->getAttributes());
 
@@ -62,12 +75,7 @@ class GameFacade extends FacadeModel
         }
     }
 
-    private function _updateByMainParams()
-    {
-        $this->_createByMainParams();
-    }
-
-    private function _createByPlatformsInfoParams()
+    private function _createPlatformsInfoParams()
     {
         if ($this->_game->getIsNewRecord()) {
             throw new CException('The game must not be a new.');
@@ -84,7 +92,12 @@ class GameFacade extends FacadeModel
         }
     }
 
-    private function _updateByPlatformsInfoParams()
+    private function _updateMainParams()
+    {
+        $this->_createMainParams();
+    }
+
+    private function _updatePlatformsInfoParams()
     {
         $game = $this->_game;
 
@@ -124,4 +137,22 @@ class GameFacade extends FacadeModel
         $criteria->addInCondition('id', $deleteIds);
         Game\PlatformInfo::model()->deleteAll($criteria);
     }
+
+    private function _deleteMainParams()
+    {
+        Game::model()->deleteByPk($this->_game->id);
+    }
+
+    private function _deletePlatformsInfoParams()
+    {
+        if ($this->_game->getIsNewRecord()) {
+            throw new CException('The game must not be a new.');
+        }
+
+        Game\PlatformInfo::model()->deleteAll(array(
+            'condition' => 'game_id = :game_id',
+            'params' => array(':game_id' => $this->_game->id),
+        ));
+    }
+
 }
