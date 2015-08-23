@@ -73,7 +73,7 @@ class MovieController extends CrudController
 
     public function actionEdit($id)
     {
-        $movie = $this->_getModelById($id, array('game'));
+        $movie = $this->_getModelById($id, array('game', 'file', 'video', 'audio'));
         $movieParams = $this->_createMovieFormParams($movie);
 
         $this->_tryAjaxValidation($movieParams);

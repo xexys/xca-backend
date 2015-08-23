@@ -44,23 +44,11 @@ class Video extends ActiveRecord
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'movie_id' => 'Movie',
-			'format_id' => 'Format',
-			'width' => 'Width',
-			'height' => 'Height',
-			'bit_rate' => 'Bit Rate',
-			'frame_rate' => 'Frame Rate',
-			'frame_rate_mode' => 'Frame Rate Mode',
-			'frame_quality' => 'Frame Quality',
-		);
-	}
+    public function beforeSave()
+    {
+        $this->_setFrameQuality();
+        return parent::beforeSave();
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -95,14 +83,17 @@ class Video extends ActiveRecord
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return VideoParams the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    protected function _getCastAttributeTypes()
+    {
+        return array(
+            'frame_rate' => 'float'
+        );
+    }
+
+    private function _setFrameQuality()
+    {
+        $frameQuality = ($this->bit_rate * 1000) / ($this->width * $this->height * $this->frame_rate);
+        $frameQuality = round($frameQuality, 3);
+        $this->frame_quality  = $frameQuality;
+    }
 }

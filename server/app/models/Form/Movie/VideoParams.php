@@ -22,7 +22,6 @@ class VideoParams extends Params
     public $bitRate;
     public $frameRate;
     public $frameRateMode = self::FRAME_RATE_MODE_CONSTANT;
-    public $frameQuality;
 
     private static $_formatDictionary;
 
@@ -31,7 +30,6 @@ class VideoParams extends Params
         return array(
             array('width, height, bitRate, frameRate, frameRateMode, formatId', 'required'),
             array('width, height, bitRate', 'numerical', 'integerOnly' => true),
-            array('frameQuality', 'numerical'),
             array('frameRate', 'in', 'range' => array_keys($this->getFrameRateDictionary())),
             array('frameRateMode', 'in', 'range' => array_keys($this->getFrameRateModeDictionary())),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
@@ -59,11 +57,12 @@ class VideoParams extends Params
 
     public function getFrameRateDictionary()
     {
-        return array(
+        $frameRates = array(
             '24',
             '29.97',
             '30',
         );
+        return array_combine($frameRates, $frameRates);
     }
 
     public function getFrameRateModeDictionary()

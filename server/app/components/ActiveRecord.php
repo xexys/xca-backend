@@ -46,6 +46,27 @@ class ActiveRecord extends \CActiveRecord
         return parent::setAttributes(DataHelper::arrayKeysCamelToSnake($values), $safeOnly);
     }
 
+    public function setAttribute($name, $value)
+    {
+        parent::setAttribute(DataHelper::camelToSnake($name), $value);
+    }
+
+    protected function afterFind()
+    {
+        foreach($this->_getCastAttributeTypes() as $key => $type) {
+            $value = $this->getAttribute($key);
+            settype($value, $type);
+            $this->setAttribute($key, $value);
+        }
+
+        parent::afterFind();
+    }
+
+    protected function _getCastAttributeTypes()
+    {
+        return array();
+    }
+
 //    /**
 //     * Возвращает модель найденную по одному из атрибутов в списке
 //     * Последовательно пытается найти записи по каждому атрибуту
@@ -63,15 +84,4 @@ class ActiveRecord extends \CActiveRecord
 //        }
 //        return $model;
 //    }
-
-//    public function getAttributesInCamelCase($names = null)
-//    {
-//        return DataHelper::arrayKeysSnakeToCamel($this->getAttributes($names));
-//    }
-
-//    public function setAttributesInCamelCase($values, $safeOnly = true)
-//    {
-//        return $this->setAttributes($values, $safeOnly);
-//    }
-
 }
