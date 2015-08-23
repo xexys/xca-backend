@@ -8,32 +8,12 @@
 
 namespace app\models\Form\Game;
 
-use \app\components\FormModel;
 
-
-class MainParams extends FormModel
+class MainParams extends Params
 {
     public $id;
     public $textId;
     public $title;
-
-    private $_gameModel;
-
-    public function __construct($game)
-    {
-        $scenario = $game->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
-        $this->setScenario($scenario);
-        $this->_gameModel = $game;
-
-        parent::__construct($scenario);
-    }
-
-    public function init()
-    {
-        if ($this->getScenario() === self::SCENARIO_UPDATE) {
-            $this->_setAttributesByGameModel();
-        }
-    }
 
     public function rules()
     {
@@ -48,12 +28,7 @@ class MainParams extends FormModel
         );
     }
 
-    public function getFormKeys()
-    {
-        return $this->getSafeAttributeNames();
-    }
-
-    private function _setAttributesByGameModel()
+    protected function _setAttributesByGameModel()
     {
         // safeOnly = false - чтобы установить значение id
         $this->setAttributes($this->_gameModel->getAttributes(), false);

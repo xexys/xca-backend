@@ -1,13 +1,13 @@
 <?php
-$audioParams = $model->createAudioParams();
-$audioParamsKeys = $model->getAudioParamsKeys();
+$audioParams = $movieParams->itemAt('audioParams');
+$audioParamsKeys = $audioParams->getFormKeys();
 $paramsItemIndex = md5(__FILE__);
 
-//$formCssId = $form->htmlOptions['id'];
+//$formWidgetCssId = $formWidget->htmlOptions['id'];
 
-$content = $this->renderPartial('_audio-params', array(
-    'form' => $form,
-    'params' => $audioParams,
+$content = $this->renderPartial('_form/audio-params', array(
+    'formWidget' => $formWidget,
+    'params' => $audioParams->createItem(),
     'paramsKeys' => $audioParamsKeys,
     'paramsItemIndex' => $paramsItemIndex,
     'isHideRemoveBtn' => false

@@ -4,7 +4,7 @@ $this->pageTitle = 'Новый ролик';
 
 $btnHelper = $this->getViewHelper('UI\Button');
 
-$form = $this->beginWidget(
+$formWidget = $this->beginWidget(
     'booster.widgets.TbActiveForm',
     array(
         'enableAjaxValidation' => true,
@@ -20,8 +20,8 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 <div class="movie-card movie-card_edit">
     <?php
     $this->renderPartial('_form', array(
-        'form' => $form,
-        'model' => $model,
+        'formWidget' => $formWidget,
+        'movieParams' => $movieParams,
     ));
     ?>
 
@@ -34,7 +34,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 <?php
 $this->endWidget();
 
-$this->renderPartial('_audio-params-template', array(
-    'form' => $form,
-    'model' => $model,
+$this->renderPartial('_form/audio-params-template', array(
+    'formWidget' => $formWidget,
+    'movieParams' => $movieParams,
 ));

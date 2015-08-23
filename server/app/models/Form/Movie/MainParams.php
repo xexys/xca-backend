@@ -9,7 +9,7 @@
 namespace app\models\Form\Movie;
 
 
-class MainParams extends \app\components\FormModel
+class MainParams extends Params
 {
     public $gameTitle;
     public $title;
@@ -35,4 +35,11 @@ class MainParams extends \app\components\FormModel
         }
         $this->addError($key, 'Игры с таким названием не существует в базе данных.');
     }
+
+    protected function _setAttributesByMovieModel()
+    {
+        $this->setAttributes($this->_movieModel->getAttributes());
+
+    }
+
 }

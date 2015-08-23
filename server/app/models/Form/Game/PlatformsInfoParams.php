@@ -11,39 +11,21 @@ namespace app\models\Form\Game;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
-use \app\components\FormModel;
 use \app\components\FormCollection;
 use \app\models\AR\Game;
 use \app\helpers\Data as DataHelper;
 
 
-class PlatformsInfoParams extends FormModel
+class PlatformsInfoParams extends Params
 {
     public $items;
     
-    private $_gameModel;
-
-    public function __construct($game)
-    {
-        $scenario = $game->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
-        $this->setScenario($scenario);
-        $this->_gameModel = $game;
-
-        parent::__construct($scenario);
-    }
-
     public function init()
     {
-        parent::init();
-
-        $scenario = $this->getScenario();
-
         $this->items = new FormCollection;
         $this->items[] = $this->createItem();
 
-        if ($scenario === self::SCENARIO_UPDATE) {
-            $this->_setAttributesByGameModel();
-        }
+        parent::init();
     }
 
     public function rules()
@@ -88,7 +70,7 @@ class PlatformsInfoParams extends FormModel
         return CHtml::modelName($this->items->getFirstItem());
     }
 
-    private function _setAttributesByGameModel()
+    protected function _setAttributesByGameModel()
     {
         $platformsInfo = $this->_gameModel->platformsInfo;
         if ($platformsInfo) {

@@ -16,7 +16,7 @@
                     'class' => $cssClass,
                 )
             ));
-            echo $form->dropDownListGroup($params, $name, $options);
+            echo $formWidget->dropDownListGroup($params, $name, $options);
         } else {
             $options = array('widgetOptions' => array(
                 'htmlOptions'=>array(
@@ -25,7 +25,7 @@
                     'class' => $cssClass
                 )
             ));
-            echo $form->textFieldGroup($params, $name, $options);
+            echo $formWidget->textFieldGroup($params, $name, $options);
         }
     }
     ?>

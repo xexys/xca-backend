@@ -2,127 +2,84 @@
 /**
  * Created by PhpStorm.
  * User: Alex
- * Date: 25.07.15
- * Time: 15:56
+ * Date: 07.08.15
+ * Time: 19:02
  */
 
 namespace app\models\Form\Movie;
 
-use \app\models\AR\Dictionary;
+use \Yii;
+use \CHtml;
+use \CActiveForm;
+use \app\components\FormCollection;
+use \app\models\AR\Game;
+use \app\helpers\Data as DataHelper;
 
 
-class AudioParams extends \app\components\FormModel
+class AudioParams extends Params
 {
-    public $trackNumber;
-    public $formatId = Dictionary\AudioFormat::FORMAT_ID_MP3;
-    public $bitRate;
-    public $bitRateMode = Dictionary\AudioFormat::BIT_RATE_MODE_CONSTANT;
-    public $sampleRate = 44100;
-    public $channels = '2.0';
-    public $languageId = Dictionary\Language::LANGUAGE_ID_ENG;
+    public $items;
+    
+    public function init()
+    {
+        $this->items = new FormCollection;
+        $this->items[] = $this->createItem();
 
-    private static $_formatDictionary;
-    private static $_languageDictionary;
-
+        parent::init();
+    }
 
     public function rules()
     {
         return array(
-            array('trackNumber, bitRate, bitRateMode, formatId, channels, languageId, sampleRate', 'required'),
-            array('bitRate, trackNumber', 'numerical', 'integerOnly' => true),
-            array('trackNumber', 'validateUniqueInCollection'),
-            array('bitRateMode', 'in', 'range' => array_keys($this->getBitRateModeDictionary())),
-            array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
-            array('channels', 'in', 'range' => array_keys($this->getChannelDictionary())),
-            array('languageId', 'in', 'range' => array_keys($this->getLanguageDictionary())),
-            array('sampleRate', 'in', 'range' => array_keys($this->getSampleRateDictionary())),
+            array('items', '\app\components\validators\ModelsValidator'),
         );
     }
 
-    public function getDictionary($key)
+    public function setAttributesByPost($postData = array())
     {
-        $data = array();
+        $postData = Yii::app()->getRequest()->getPost($this->_getPostKey());
 
-        switch ($key) {
-            case 'formatId':
-                $data = $this->getFormatDictionary();
-                break;
-            case 'bitRateMode':
-                $data = $this->getBitRateModeDictionary();
-                break;
-            case 'channels':
-                $data = $this->getChannelDictionary();
-                break;
-            case 'languageId':
-                $data = $this->getLanguageDictionary();
-                break;
-            case 'sampleRate':
-                $data = $this->getSampleRateDictionary();
-                break;
-        }
-
-        return $data;
-    }
-
-    public function getBitRateModeDictionary()
-    {
-        return array(
-            Dictionary\AudioFormat::BIT_RATE_MODE_CONSTANT => 'CBR',
-            Dictionary\AudioFormat::BIT_RATE_MODE_VARIABLE => 'VBR',
-        );
-    }
-
-    /**
-     * @link https://en.wikipedia.org/wiki/DVD-Audio
-     */
-    public function getChannelDictionary()
-    {
-        return array(
-            '1.0' => 'Mono',
-            '2.0' => 'Stereo',
-            '5.1' => '5.1',
-        );
-    }
-
-    /**
-     * @link https://en.wikipedia.org/wiki/Sampling_(signal_processing)#Sampling_rate
-     */
-    public function getSampleRateDictionary()
-    {
-        $sampleRates = array(11025, 22050, 44100, 48000);
-        return array_combine($sampleRates, $sampleRates);
-    }
-
-    public function getFormatDictionary()
-    {
-        if (self::$_formatDictionary === null) {
-            self::$_formatDictionary = array();
-
-            $data = Dictionary\AudioFormat::model()->findAll(array(
-                'order'=>'name ASC'
-            ));
-
-            foreach ($data as $item) {
-                self::$_formatDictionary[$item->id] = $item->name;
+        if ($postData) {
+            $this->items->clear();
+            foreach ($postData as $n => $data) {
+                $item = $this->createItem();
+                $item->setAttributes(DataHelper::trimRecursive($data));
+                // Важно сохранить номер, чтобы правильно сработала ajax валидация
+                $this->items[$n] = $item;
             }
         }
-        return self::$_formatDictionary;
     }
 
-    public function getLanguageDictionary()
+    public function getFormKeys()
     {
-        if (self::$_languageDictionary === null) {
-            self::$_languageDictionary = array();
+        return $this->items->getFirstItem()->getSafeAttributeNames();
+    }
 
-            $data = Dictionary\Language::model()->findAll(array(
-                'order'=>'code3 ASC'
-            ));
+    public function getAjaxValidationResponseContent()
+    {
+        return CActiveForm::validateTabular($this->items->toArray(), null, false);
+    }
 
-            foreach ($data as $item) {
-                self::$_languageDictionary[$item->id] = $item->code3;
+    public function createItem()
+    {
+        return new AudioParamsItem($this->getScenario());
+    }
+
+    private function _getPostKey()
+    {
+        return CHtml::modelName($this->items->getFirstItem());
+    }
+
+    protected function _setAttributesByMovieModel()
+    {
+        $audioArray = $this->_movieModel->audio;
+        if ($audioArray) {
+            $this->items->clear();
+            foreach ($audioArray as $audio) {
+                $item = $this->createItem();
+                $item->setAttributes($audio->getAttributes());
+                $this->items[] = $item;
             }
         }
-        return self::$_languageDictionary;
     }
-
 }

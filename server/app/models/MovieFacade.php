@@ -1,29 +1,35 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Форма для создания и редактировния ролика
+ *
+ * Фасадный объект для работы с несколькими формами и моделями AR
+ *
  * User: Alex
- * Date: 23.08.15
- * Time: 0:30
+ * Date: 21.06.15
+ * Time: 1:22
  */
 
 namespace app\models;
 
+use \Yii;
 use \app\components\FacadeModel;
-use app\models\GameFacade\ParamsCrudHelper;
+use \app\models\MovieFacade\ParamsCrudHelper;
 
 
-class GameFacade extends FacadeModel
+class MovieFacade extends FacadeModel
 {
     public $mainParams;
-    public $platformsInfoParams;
+    public $fileParams;
+    public $videoParams;
+    public $audioParams;
 
-    private $_game;
+    private $_movie;
 
-    public function __construct($game)
+    public function __construct($movie)
     {
-        $scenario = $game->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
+        $scenario = $movie->getIsNewRecord() ? self::SCENARIO_CREATE : self::SCENARIO_UPDATE;
         $this->setScenario($scenario);
-        $this->_game = $game;
+        $this->_movie = $movie;
 
         parent::__construct($scenario);
     }
@@ -31,9 +37,7 @@ class GameFacade extends FacadeModel
     public function rules()
     {
         return array(
-            array('mainParams', '\app\components\validators\ModelsValidator', 'on' => self::SCENARIO_CREATE),
-            array('mainParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true, 'on' => self::SCENARIO_UPDATE),
-            array('platformsInfoParams', '\app\components\validators\ModelsValidator', 'allowEmpty' => true),
+            array('mainParams, fileParams, videoParams, audioParams', '\app\components\validators\ModelsValidator'),
         );
     }
 
@@ -58,7 +62,7 @@ class GameFacade extends FacadeModel
 
     private function _getParamsCrudHelper()
     {
-        return new ParamsCrudHelper($this->_game, $this->getAttributes());
+        return new ParamsCrudHelper($this->_movie, $this->getAttributes());
     }
 
 }

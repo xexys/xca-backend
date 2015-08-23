@@ -11,7 +11,7 @@ namespace app\models\Form\Movie;
 use \app\models\AR\Dictionary;
 
 
-class VideoParams extends \app\components\FormModel
+class VideoParams extends Params
 {
     const FRAME_RATE_MODE_CONSTANT = 0;
     const FRAME_RATE_MODE_VARIABLE = 1;
@@ -99,5 +99,10 @@ class VideoParams extends \app\components\FormModel
             }
         }
         return self::$_formatDictionary;
+    }
+
+    protected function _setAttributesByMovieModel()
+    {
+        $this->setAttributes($this->_movieModel->video->getAttributes());
     }
 }

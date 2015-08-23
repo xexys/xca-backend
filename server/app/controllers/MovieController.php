@@ -8,12 +8,14 @@
 
 namespace app\controllers;
 
-use \app\components\CrudController;
-use \app\models\Form\Movie as MovieForm;
 use \Yii;
+use \app\components\CrudController;
+use \app\components\FormCollection;
+use \app\components\DataProvider;
 use \app\models\AR\Movie;
 use \app\models\AR\Game;
-use \app\components\DataProvider;
+use \app\models\MovieFacade;
+use \app\models\Form;
 
 
 class MovieController extends CrudController
@@ -45,50 +47,52 @@ class MovieController extends CrudController
 
     public function actionCreate($gameId = null)
     {
-        $form = new MovieForm;
+        $movie = new Movie;
+        $movieParams = $this->_createMovieFormParams($movie, $gameId);
 
-        $this->_tryAjaxValidation($form);
+        $this->_tryAjaxValidation($movieParams);
 
         $backUrl = $this->_getBackUrl();
 
-        $game = Game::model()->findByPk($gameId);
-        if ($game) {
-            $form->mainParams->gameTitle = $game->title;
-        }
-
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $form->setAttributesByPost();
+            $movieParams->setAttributesByPost();
 
-            if ($form->save()) {
+            $movieFacade = new MovieFacade($movie);
+            $movieFacade->setAttributes($movieParams->toArray());
+
+            if ($movieFacade->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('create', array(
-            'model' => $form,
+            'movieParams' => $movieParams,
             'backUrl' => $backUrl,
         ));
     }
 
     public function actionEdit($id)
     {
-        $form = new MovieForm($id);
         $movie = $this->_getModelById($id, array('game'));
+        $movieParams = $this->_createMovieFormParams($movie);
 
-        $this->_tryAjaxValidation($form);
+        $this->_tryAjaxValidation($movieParams);
 
         $backUrl = $this->_getBackUrl();
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $form->setAttributesByPost();
+            $movieParams->setAttributesByPost();
 
-            if ($form->save()) {
+            $movieFacade = new MovieFacade($movie);
+            $movieFacade->setAttributes($movieParams->toArray());
+
+            if ($movieFacade->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'model' => $form,
+            'movieParams' => $movieParams,
             'movie' => $movie,
             'backUrl' => $backUrl,
         ));
@@ -96,11 +100,35 @@ class MovieController extends CrudController
 
     public function actionDelete($id)
     {
-        $form = new MovieForm($id);
-        $form->delete();
+        $movie = $this->_getModelById($id);
+        $movieFacade = new MovieFacade($movie);
+        $movieFacade->delete();
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
+
+    private function _createMovieFormParams($movie, $gameId = null)
+    {
+        $mainParams = new Form\Movie\MainParams($movie);
+        if ($gameId) {
+            $game = Game::model()->findByPk($gameId);
+            if ($game) {
+                $mainParams->setAttributes(array('gameTitle' => $game->title));
+            }
+        }
+        $fileParams = new Form\Movie\FileParams($movie);
+        $videoParams = new Form\Movie\VideoParams($movie);
+        $audioParams = new Form\Movie\AudioParams($movie);
+
+        $params = new FormCollection();
+        $params->add('mainParams', $mainParams);
+        $params->add('fileParams', $fileParams);
+        $params->add('videoParams', $videoParams);
+        $params->add('audioParams', $audioParams);
+
+        return $params;
+    }
+
 
     private function _getModelById($id, $with = array())
     {

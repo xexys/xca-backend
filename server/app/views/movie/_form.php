@@ -1,9 +1,9 @@
 <?php
 
-$mainParams = $model->mainParams;
-$fileParams = $model->fileParams;
-$videoParams = $model->videoParams;
-$audioParamsArray = array_values($model->audioParamsCollection->toArray());
+$mainParams = $movieParams->itemAt('mainParams');
+$fileParams = $movieParams->itemAt('fileParams');
+$videoParams = $movieParams->itemAt('videoParams');
+$audioParams = $movieParams->itemAt('audioParams');
 
 ?>
 
@@ -11,15 +11,15 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
     <div class="col-md-6">
         <div class="movie-card_section">
             <?php
-            foreach ($model->getMainParamsKeys() as $key) {
-                $cssClass = 'movie-card_main-param_' . $model->fixCssName($key);
+            foreach ($mainParams->getFormKeys() as $key) {
+                $cssClass = 'movie-card_main-param_' . $mainParams->fixCssName($key);
                 $options = array('widgetOptions' => array(
                     'htmlOptions'=>array(
                         'autocomplete' => 'off',
                         'class' => $cssClass
                     )
                 ));
-                echo $form->textFieldGroup($mainParams, $key, $options);
+                echo $formWidget->textFieldGroup($mainParams, $key, $options);
             }
             ?>
         </div>
@@ -28,8 +28,8 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
             <h4 class="movie-card_title">Параметры файла</h4>
             <div>
                 <?php
-                foreach ($model->getFileParamsKeys() as $key) {
-                    $cssClass = 'movie-card_file-param_' . $model->fixCssName($key);
+                foreach ($fileParams->getFormKeys() as $key) {
+                    $cssClass = 'movie-card_file-param_' . $fileParams->fixCssName($key);
 
                     if ($key == 'formatId') {
                         $options = array('widgetOptions' => array(
@@ -38,7 +38,7 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
                                 'class' => $cssClass
                             )
                         ));
-                        echo $form->dropDownListGroup($fileParams, $key, $options);
+                        echo $formWidget->dropDownListGroup($fileParams, $key, $options);
                     } else {
                         $options = array('widgetOptions' => array(
                             'htmlOptions'=>array(
@@ -46,7 +46,7 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
                                 'class' => $cssClass
                             )
                         ));
-                        echo $form->textFieldGroup($fileParams, $key, $options);
+                        echo $formWidget->textFieldGroup($fileParams, $key, $options);
                     }
                 }
                 ?>
@@ -57,8 +57,8 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
             <h4 class="movie-card_title">Параметры видео</h4>
             <div class="">
                 <?php
-                foreach ($model->getVideoParamsKeys() as $key) {
-                    $cssClass = 'movie-card_video-param_' . $model->fixCssName($key);
+                foreach ($videoParams->getFormKeys() as $key) {
+                    $cssClass = 'movie-card_video-param_' . $videoParams->fixCssName($key);
 
                     if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
                         $options = array('widgetOptions' => array(
@@ -67,7 +67,7 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
                                 'class' => $cssClass
                             )
                         ));
-                        echo $form->dropDownListGroup($videoParams, $key, $options);
+                        echo $formWidget->dropDownListGroup($videoParams, $key, $options);
                     } else {
                         $options = array('widgetOptions' => array(
                             'htmlOptions'=>array(
@@ -75,7 +75,7 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
                                 'class' => $cssClass
                             )
                         ));
-                        echo $form->textFieldGroup($videoParams, $key, $options);
+                        echo $formWidget->textFieldGroup($videoParams, $key, $options);
                     }
                 }
                 ?>
@@ -86,18 +86,18 @@ $audioParamsArray = array_values($model->audioParamsCollection->toArray());
             <h4 class="movie-card_title">Параметры аудио</h4>
             <div class="">
                 <?php
-                    $audioParamsKeys = $model->getAudioParamsKeys();
+                    $audioParamsKeys = $audioParams->getFormKeys();
                     // Важно сбросить ключи, чтобы номера начинались с 0
-                    $audioParamsArray = array_values($model->audioParamsCollection->toArray());
-                    $audioParamsArrayCount = count($audioParamsArray);
+                    $audioParamsItems = array_values($audioParams->items->toArray());
+                    $audioParamsItemsCount = count($audioParamsItems);
 
-                    foreach ($audioParamsArray as $n => $audioParams) {
-                        $this->renderPartial('_audio-params', array(
-                            'form' => $form,
-                            'params' => $audioParams,
+                    foreach ($audioParamsItems as $n => $audioParamsItem) {
+                        $this->renderPartial('_form/audio-params', array(
+                            'formWidget' => $formWidget,
+                            'params' => $audioParamsItem,
                             'paramsKeys' => $audioParamsKeys,
                             'paramsItemIndex' => $n,
-                            'isHideRemoveBtn' => $audioParamsArrayCount === 1,
+                            'isHideRemoveBtn' => $audioParamsItemsCount === 1,
                         ));
                     }
                 ?>

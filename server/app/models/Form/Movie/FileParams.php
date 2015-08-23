@@ -11,7 +11,7 @@ namespace app\models\Form\Movie;
 use \app\models\AR\Dictionary;
 
 
-class FileParams extends \app\components\FormModel
+class FileParams extends Params
 {
     public $name;
     public $size;
@@ -45,4 +45,10 @@ class FileParams extends \app\components\FormModel
         }
         return self::$_formatDictionary;
     }
+
+    protected function _setAttributesByMovieModel()
+    {
+        $this->setAttributes($this->_movieModel->file->getAttributes());
+    }
+
 } 
