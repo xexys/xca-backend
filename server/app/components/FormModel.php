@@ -11,6 +11,8 @@ namespace app\components;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
+use \CActiveRecord;
+use \CValidator;
 use \app\components\interfaces\FormMethods;
 use \app\components\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
@@ -36,7 +38,7 @@ class FormModel extends BaseModel implements FormMethods, Collectible
     }
 
     /**
-     * Для использования этого валидатора необходимо задать значение атрибута 'id' для сценария 'update'
+     * Для использования этого валидатора необходимо задать значение атрибута 'idAttributeName' для сценария 'update'
      *
      * Пример:
      *   array('textId', 'validateUniqueInDatabase', 'className' => '\app\models\AR\Game', 'attributeName' => 'text_id'),
@@ -51,13 +53,13 @@ class FormModel extends BaseModel implements FormMethods, Collectible
         if ($this->getScenario() === self::SCENARIO_UPDATE) {
             $idAttributeName = isset($params['idAttributeName']) ? $params['idAttributeName'] : 'id';
             $findKey = isset($params['attributeName']) ? $params['attributeName'] : $attribute;
-            $current = \CActiveRecord::model($params['className'])->findByPk($this->$idAttributeName);
+            $current = CActiveRecord::model($params['className'])->findByPk($this->$idAttributeName);
             if (strtolower($current->$findKey) === strtolower($this->$attribute)) {
                 return;
             }
         }
 
-        $validator = \CValidator::createValidator('unique', $this, $attribute, $params);
+        $validator = CValidator::createValidator('unique', $this, $attribute, $params);
         $validator->validate($this);
     }
 
