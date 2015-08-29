@@ -109,18 +109,14 @@ class MovieController extends CrudController
 
     private function _createMovieFormParams($movie, $gameId = null)
     {
-        $mainParams = $this->_createMovieMainParams($movie, $gameId);
-        $fileParams = $this->_createMovieFileParams($movie);
-        $videoParams = $this->_createMovieVideoParams($movie);
-        $audioParams = $this->_createMovieAudioParams($movie);
+        $params = array(
+            'mainParams' => $this->_createMovieMainParams($movie, $gameId),
+            'fileParams' => $this->_createMovieFileParams($movie),
+            'videoParams' => $this->_createMovieVideoParams($movie),
+            'audioParams' => $this->_createMovieAudioParams($movie),
+        );
 
-        $params = new FormFacadeCollection();
-        $params->add('mainParams', $mainParams);
-        $params->add('fileParams', $fileParams);
-        $params->add('videoParams', $videoParams);
-        $params->add('audioParams', $audioParams);
-
-        return $params;
+        return new FormFacadeCollection($params);
     }
 
     private function _createMovieMainParams($movie, $gameId = null)
