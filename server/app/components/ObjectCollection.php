@@ -14,17 +14,6 @@ use \app\components\interfaces\Collectible;
 
 class ObjectCollection extends CMap
 {
-    public function __construct($data = null, $readOnly = false)
-    {
-        parent::__construct($data, $readOnly);
-        $this->attachBehaviors($this->behaviors());
-    }
-
-    public function behaviors()
-    {
-        return array();
-    }
-
     public function add($key, $item)
     {
         $this->_checkItemInstanceof($item);

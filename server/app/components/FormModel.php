@@ -12,14 +12,18 @@ use \Yii;
 use \CHtml;
 use \CActiveForm;
 use \CActiveRecord;
+use \CFormModel;
 use \CValidator;
 use \app\components\interfaces\FormMethods;
 use \app\components\interfaces\Collectible;
 use \app\helpers\Data as DataHelper;
 
 
-class FormModel extends BaseModel implements FormMethods, Collectible
+class FormModel extends CFormModel implements FormMethods, Collectible
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     private $_collection;
 
     public function fixCssName($name)

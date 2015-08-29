@@ -14,6 +14,17 @@ use \app\components\interfaces\FormMethods;
 
 class FormCollection extends ObjectCollection implements FormMethods
 {
+    public function __construct($data = null, $readOnly = false)
+    {
+        parent::__construct($data, $readOnly);
+        $this->attachBehaviors($this->behaviors());
+    }
+
+    public function behaviors()
+    {
+        return array();
+    }
+
     public function validate($attributes = null, $clearErrors = true)
     {
         $isValid = true;
@@ -45,6 +56,4 @@ class FormCollection extends ObjectCollection implements FormMethods
             throw new \CException('Item must be instanceof FormModel');
         }
     }
-
-
 }
