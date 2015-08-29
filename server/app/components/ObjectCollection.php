@@ -14,15 +14,10 @@ use \app\components\interfaces\Collectible;
 
 class ObjectCollection extends CMap
 {
-    public function __construct()
+    public function __construct($data = null, $readOnly = false)
     {
-        $this->init();
+        parent::__construct($data, $readOnly);
         $this->attachBehaviors($this->behaviors());
-    }
-
-    public function init()
-    {
-
     }
 
     public function behaviors()

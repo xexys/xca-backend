@@ -8,10 +8,11 @@
 
 namespace app\models\Form\Game;
 
-use \app\components\FormModel;
+use \CException;
+use \app\components\FormFacadeModel;
 
 
-abstract class Params extends FormModel
+abstract class Params extends FormFacadeModel
 {
     protected $_gameModel;
 
@@ -36,6 +37,13 @@ abstract class Params extends FormModel
     public function getFormKeys()
     {
         return $this->getSafeAttributeNames();
+    }
+
+    protected function _checkGameIsNewRecord()
+    {
+        if ($this->_gameModel->getIsNewRecord()) {
+            throw new CException('The game must not be a new.');
+        }
     }
 
     abstract protected function _setAttributesByGameModel();

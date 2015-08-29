@@ -33,4 +33,23 @@ class MainParams extends Params
         // safeOnly = false - чтобы установить значение id
         $this->setAttributes($this->_gameModel->getAttributes(), false);
     }
+
+    protected function _create()
+    {
+        $this->_gameModel->setAttributes($this->getAttributes());
+
+        if (!$this->_gameModel->save()) {
+            throw new CException($this->_gameModel->getFirstErrorMessage());
+        }
+    }
+
+    protected function _update()
+    {
+        $this->_create();
+    }
+
+    protected function _delete()
+    {
+        $this->_gameModel->delete();
+    }
 }

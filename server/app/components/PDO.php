@@ -26,15 +26,18 @@ class PDO extends \PDO
         parent::__construct($dsn, $username, $password, $options);
 
         // Database drivers that support SAVEPOINTs.
-        $supportSavepointsDirvers = array('pgsql', 'mysql');
-        $this->_isSupportSavepoints = in_array($this->getAttribute(PDO::ATTR_DRIVER_NAME), $supportSavepointsDirvers);
+//        $supportSavepointsDirvers = array('pgsql', 'mysql');
+//        $this->_isSupportSavepoints = in_array($this->getAttribute(PDO::ATTR_DRIVER_NAME), $supportSavepointsDirvers);
+
+        // Какая-то проблема с mysql, отключаем SAVEPOINTs
+        $this->_isSupportSavepoints = false;
     }
 
     public function beginTransaction()
     {
-        if ($this->_transLevel == 0 || !$this->_isSupportSavepoints) {
+        if ($this->_transLevel == 0) {
             parent::beginTransaction();
-        } else {
+        } elseif ($this->_isSupportSavepoints) {
             $this->exec('SAVEPOINT LEVEL_' . $this->_transLevel);
         }
 
@@ -45,9 +48,9 @@ class PDO extends \PDO
     {
         $this->_transLevel--;
 
-        if ($this->_transLevel == 0 || !$this->_isSupportSavepoints) {
+        if ($this->_transLevel == 0) {
             parent::commit();
-        } else {
+        } elseif ($this->_isSupportSavepoints) {
             $this->exec('RELEASE SAVEPOINT LEVEL_' . $this->_transLevel);
         }
     }
@@ -56,9 +59,9 @@ class PDO extends \PDO
     {
         $this->_transLevel--;
 
-        if ($this->_transLevel == 0 || !$this->_isSupportSavepoints) {
+        if ($this->_transLevel == 0) {
             parent::rollBack();
-        } else {
+        } elseif ($this->_isSupportSavepoints) {
             $this->exec('ROLLBACK TO SAVEPOINT LEVEL_ ' . $this->_transLevel);
         }
     }

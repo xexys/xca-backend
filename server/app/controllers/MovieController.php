@@ -10,11 +10,10 @@ namespace app\controllers;
 
 use \Yii;
 use \app\components\CrudController;
-use \app\components\FormCollection;
 use \app\components\DataProvider;
+use \app\components\FormFacadeCollection;
 use \app\models\AR\Movie;
 use \app\models\AR\Game;
-use \app\models\MovieFacade;
 use \app\models\Form;
 
 
@@ -57,10 +56,7 @@ class MovieController extends CrudController
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $movieParams->setAttributesByPost();
 
-            $movieFacade = new MovieFacade($movie);
-            $movieFacade->setAttributes($movieParams->toArray());
-
-            if ($movieFacade->save()) {
+            if ($movieParams->save()) {
                 $this->redirect($backUrl);
             }
         }
@@ -83,10 +79,7 @@ class MovieController extends CrudController
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $movieParams->setAttributesByPost();
 
-            $movieFacade = new MovieFacade($movie);
-            $movieFacade->setAttributes($movieParams->toArray());
-
-            if ($movieFacade->save()) {
+            if ($movieParams->save()) {
                 $this->redirect($backUrl);
             }
         }
@@ -101,26 +94,27 @@ class MovieController extends CrudController
     public function actionDelete($id)
     {
         $movie = $this->_getModelById($id);
-        $movieFacade = new MovieFacade($movie);
-        $movieFacade->delete();
+
+        $movieParams = new FormFacadeCollection(array(
+            $this->_createMovieAudioParams($movie),
+            $this->_createMovieVideoParams($movie),
+            $this->_createMovieFileParams($movie),
+            $this->_createMovieMainParams($movie),
+        ));
+        $movieParams->delete();
+
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
     private function _createMovieFormParams($movie, $gameId = null)
     {
-        $mainParams = new Form\Movie\MainParams($movie);
-        if ($gameId) {
-            $game = Game::model()->findByPk($gameId);
-            if ($game) {
-                $mainParams->setAttributes(array('gameTitle' => $game->title));
-            }
-        }
-        $fileParams = new Form\Movie\FileParams($movie);
-        $videoParams = new Form\Movie\VideoParams($movie);
-        $audioParams = new Form\Movie\AudioParams($movie);
+        $mainParams = $this->_createMovieMainParams($movie, $gameId);
+        $fileParams = $this->_createMovieFileParams($movie);
+        $videoParams = $this->_createMovieVideoParams($movie);
+        $audioParams = $this->_createMovieAudioParams($movie);
 
-        $params = new FormCollection();
+        $params = new FormFacadeCollection();
         $params->add('mainParams', $mainParams);
         $params->add('fileParams', $fileParams);
         $params->add('videoParams', $videoParams);
@@ -129,6 +123,32 @@ class MovieController extends CrudController
         return $params;
     }
 
+    private function _createMovieMainParams($movie, $gameId = null)
+    {
+        $mainParams = new Form\Movie\MainParams($movie);
+        if ($gameId) {
+            $game = Game::model()->findByPk($gameId);
+            if ($game) {
+                $mainParams->setAttributes(array('gameTitle' => $game->title));
+            }
+        }
+        return $mainParams;
+    }
+
+    private function _createMovieFileParams($movie)
+    {
+        return new Form\Movie\FileParams($movie);
+    }
+
+    private function _createMovieVideoParams($movie)
+    {
+        return new Form\Movie\VideoParams($movie);
+    }
+
+    private function _createMovieAudioParams($movie)
+    {
+        return new Form\Movie\AudioParams($movie);
+    }
 
     private function _getModelById($id, $with = array())
     {

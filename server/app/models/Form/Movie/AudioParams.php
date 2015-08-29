@@ -13,6 +13,7 @@ use \CHtml;
 use \CActiveForm;
 use \app\components\FormCollection;
 use \app\models\AR\Game;
+use \app\models\AR\Movie;
 use \app\helpers\Data as DataHelper;
 
 
@@ -81,5 +82,31 @@ class AudioParams extends Params
                 $this->items[] = $item;
             }
         }
+    }
+
+    protected function _create()
+    {
+        $this->_checkMovieIsNewRecord();
+
+        foreach ($this->items as $audioParams) {
+            $attrs = $audioParams->getAttributes();
+            $attrs['movieId'] = $this->_movieModel->id;
+            $movieAudio = new Movie\Audio;
+            $movieAudio->setAttributes($attrs);
+            if (!$movieAudio->save()) {
+                throw new CException($movieAudio->getFirstErrorMessage());
+            }
+        }
+    }
+
+    protected function _update()
+    {
+        $this->_delete();
+        $this->_create();
+    }
+
+    protected function _delete()
+    {
+        Movie\Audio::model()->deleteAllByAttributes(array('movie_id' => $this->_movieModel->id));
     }
 }

@@ -41,8 +41,6 @@ class FormCollection extends ObjectCollection implements FormMethods
 
     protected function _checkItemInstanceof($item)
     {
-        parent::_checkItemInstanceof($item);
-
         if (!$item instanceof FormModel) {
             throw new \CException('Item must be instanceof FormModel');
         }

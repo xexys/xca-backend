@@ -11,9 +11,8 @@ namespace app\controllers;
 use \Yii;
 use \app\components\CrudController;
 use \app\components\DataProvider;
-use \app\components\FormCollection;
+use \app\components\FormFacadeCollection;
 use \app\models\AR\Game;
-use \app\models\GameFacade;
 use \app\models\Form;
 
 
@@ -61,10 +60,7 @@ class GameController extends CrudController
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $gameFacade = new GameFacade($game);
-            $gameFacade->setAttributes($gameParams->toArray());
-
-            if ($gameFacade->save()) {
+            if ($gameParams->save()) {
                 $this->redirect('index');
             }
         }
@@ -87,10 +83,7 @@ class GameController extends CrudController
         if ($this->_getRequest()->getIsPostRequest()) {
             $gameParams->setAttributesByPost();
 
-            $gameFacade = new GameFacade($game);
-            $gameFacade->setAttributes($gameParams->toArray());
-
-            if ($gameFacade->save()) {
+            if ($gameParams->save()) {
                 $this->redirect($backUrl);
             }
         }
@@ -105,22 +98,35 @@ class GameController extends CrudController
     public function actionDelete($id)
     {
         $game = $this->_getModelById($id);
-        $gameFacade = new GameFacade($game);
-        $gameFacade->delete();
+
+        $gameParams = new FormFacadeCollection(array(
+            $this->_createGamePlatformsInfo($game),
+            $this->_createGameMainParams($game)
+        ));
+        $gameParams->delete();
+
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
     private function _createGameFormParams($game)
     {
-        $mainParams = new Form\Game\MainParams($game);
-        $platformsInfoParams = new Form\Game\PlatformsInfoParams($game);
+        $mainParams = $this->_createGameMainParams($game);
+        $platformsInfoParams = $this->_createGamePlatformsInfo($game);
 
-        $params = new FormCollection();
+        $params = new FormFacadeCollection();
         $params->add('mainParams', $mainParams);
         $params->add('platformsInfoParams', $platformsInfoParams);
 
         return $params;
+    }
+
+    private function _createGameMainParams($game) {
+        return new Form\Game\MainParams($game);
+    }
+
+    private function _createGamePlatformsInfo($game) {
+        return new Form\Game\PlatformsInfoParams($game);
     }
 
     private function _getModelById($id, $with = array())

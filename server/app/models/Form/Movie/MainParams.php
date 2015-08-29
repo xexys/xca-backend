@@ -8,6 +8,8 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\AR\Game;
+
 
 class MainParams extends Params
 {
@@ -42,4 +44,31 @@ class MainParams extends Params
 
     }
 
+    protected function _create()
+    {
+        $game = Game::model()->findByAttributes(array('title' => $this->gameTitle));
+
+        $attrs = $this->getAttributes();
+        $attrs['gameId'] = $game->id;
+        $movie = $this->_movieModel;
+        $movie->setAttributes($attrs);
+
+        if (!$movie->save()) {
+            throw new CException($movie->getFirstErrorMessage());
+        }
+    }
+
+    protected function _update()
+    {
+        $this->_movieModel->setAttributes($this->getAttributes());
+
+        if (!$this->_movieModel->save()) {
+            throw new CException($this->_movieModel->getFirstErrorMessage());
+        }
+    }
+
+    protected function _delete()
+    {
+        $this->_movieModel->delete();
+    }
 }

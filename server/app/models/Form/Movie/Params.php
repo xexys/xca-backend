@@ -8,10 +8,10 @@
 
 namespace app\models\Form\Movie;
 
-use \app\components\FormModel;
+use app\components\FormFacadeModel;
 
 
-abstract class Params extends FormModel
+abstract class Params extends FormFacadeModel
 {
     protected $_movieModel;
 
@@ -36,6 +36,13 @@ abstract class Params extends FormModel
     public function getFormKeys()
     {
         return $this->getSafeAttributeNames();
+    }
+
+    protected function _checkMovieIsNewRecord()
+    {
+        if ($this->_movieModel->getIsNewRecord()) {
+            throw new CException('The movie must not be a new.');
+        }
     }
 
     abstract protected function _setAttributesByMovieModel();

@@ -8,6 +8,7 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\AR\Movie;
 use \app\models\AR\Dictionary;
 
 
@@ -51,4 +52,33 @@ class FileParams extends Params
         $this->setAttributes($this->_movieModel->file->getAttributes());
     }
 
-} 
+    protected function _create()
+    {
+        $this->_checkMovieIsNewRecord();
+
+        $attrs = $this->getAttributes();
+        $attrs['movieId'] = $this->_movieModel->id;
+        $movieFile = new Movie\File;
+        $movieFile->setAttributes($attrs);
+
+        if (!$movieFile->save()) {
+            throw new CException($movieFile->getFirstErrorMessage());
+        }
+    }
+
+    protected function _update()
+    {
+        $attrs = $this->getAttributes();
+        $movieFile = $this->_movieModel->file;
+        $movieFile->setAttributes($attrs);
+
+        if (!$movieFile->save()) {
+            throw new CException($movieFile->getFirstErrorMessage());
+        }
+    }
+
+    protected function _delete()
+    {
+        Movie\File::model()->deleteAllByAttributes(array('movie_id' => $this->_movieModel->id));
+    }
+}

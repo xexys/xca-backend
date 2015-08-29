@@ -8,6 +8,7 @@
 
 namespace app\models\Form\Movie;
 
+use \app\models\AR\Movie;
 use \app\models\AR\Dictionary;
 
 
@@ -103,5 +104,35 @@ class VideoParams extends Params
     protected function _setAttributesByMovieModel()
     {
         $this->setAttributes($this->_movieModel->video->getAttributes());
+    }
+
+    protected function _create()
+    {
+        $this->_checkMovieIsNewRecord();
+
+        $attrs = $this->getAttributes();
+        $attrs['movieId'] = $this->_movieModel->id;
+        $movieVideo = new Movie\Video;
+        $movieVideo->setAttributes($attrs);
+
+        if (!$movieVideo->save()) {
+            throw new CException($movieVideo->getFirstErrorMessage());
+        }
+    }
+
+    protected function _update()
+    {
+        $attrs = $this->getAttributes();
+        $movieVideo = $this->_movieModel->video;
+        $movieVideo->setAttributes($attrs);
+
+        if (!$movieVideo->save()) {
+            throw new CException($movieVideo->getFirstErrorMessage());
+        }
+    }
+
+    protected function _delete()
+    {
+        Movie\Video::model()->deleteAllByAttributes(array('movie_id' => $this->_movieModel->id));
     }
 }

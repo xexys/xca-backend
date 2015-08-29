@@ -2,18 +2,18 @@
 /**
  * Created by PhpStorm.
  * User: Alex
- * Date: 22.08.15
- * Time: 23:39
+ * Date: 25.07.15
+ * Time: 22:01
  */
 
 namespace app\components;
 
-use \CMap;
-use \Exception;
-use \CException;
+use \Yii;
+use \Cmap;
+use \app\components\interfaces\FormFacadeMethods;
 
 
-abstract class FacadeModel extends BaseModel
+class FormFacadeCollection extends FormCollection implements FormFacadeMethods
 {
     public function behaviors()
     {
@@ -25,12 +25,14 @@ abstract class FacadeModel extends BaseModel
         );
     }
 
-    public function save()
+    public function save($runValidation = true)
     {
-        if ($this->validate()) {
+        if (!$runValidation || $this->validate()) {
             $transaction = $this->getDb()->beginTransaction();
             try {
-                $this->getScenario() === self::SCENARIO_CREATE ? $this->_create() : $this->_update();
+                foreach ($this as $item) {
+                    $item->save(false);
+                }
                 $transaction->commit();
                 return true;
             } catch (Exception $e) {
@@ -46,7 +48,9 @@ abstract class FacadeModel extends BaseModel
     {
         $transaction = $this->getDb()->beginTransaction();
         try {
-            $this->_delete();
+            foreach ($this as $item) {
+                $item->delete();
+            }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
@@ -54,12 +58,10 @@ abstract class FacadeModel extends BaseModel
         }
     }
 
-    abstract protected function _create();
-
-    abstract protected function _update();
-
-    protected function _delete()
+    protected function _checkItemInstanceof($item)
     {
-        throw new CException('You have to implement method _delete for ' . get_class($this) . ' class.');
+        if (!$item instanceof FormFacadeModel) {
+            throw new \CException('Item must be instanceof FormFacadeModel');
+        }
     }
 }
