@@ -48,9 +48,7 @@ abstract class ModelLink extends \app\helpers\view\Base
 
         if ($model) {
             $params = array_merge(array('id' => $model->id), $params);
-            return Yii::app()->createUrl($route, $params);
-        } else {
-            return Yii::app()->createUrl($route, $params);
         }
+        return Yii::app()->createUrl($route, $params);
     }
 }
