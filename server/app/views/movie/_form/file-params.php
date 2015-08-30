@@ -1,6 +1,9 @@
 <?php
+
+$cssHelper = $this->getViewUIHelper('Css');
+
 foreach ($fileParams->getFormKeys() as $key) {
-    $cssClass = 'movie-card_file-param_' . $fileParams->fixCssName($key);
+    $cssClass = 'movie-card_file-param_' . $cssHelper->fixCssName($key);
 
     if ($key == 'formatId') {
         $options = array('widgetOptions' => array(

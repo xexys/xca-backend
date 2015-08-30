@@ -26,11 +26,6 @@ class FormModel extends CFormModel implements FormMethods, Collectible
 
     private $_collection;
 
-    public function fixCssName($name)
-    {
-        return strtr(DataHelper::camelToSnake($name), '_', '-');
-    }
-
     public function getCollection()
     {
         return $this->_collection;

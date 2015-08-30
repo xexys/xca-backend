@@ -34,6 +34,4 @@ class UI extends \app\helpers\view\Base
     {
         return $this->_controller->getViewHelper('UI\Link');
     }
-
-
-} 
+}

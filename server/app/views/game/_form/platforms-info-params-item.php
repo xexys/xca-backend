@@ -1,10 +1,17 @@
+<?php
+
+$cssHelper = $this->getViewUIHelper('Css');
+$linkHelper = $this->getViewUIHelper('Link');
+
+?>
+
 <div class="game-card_platform-info">
     <?php if ($paramsItemIndex !== 0): ?>
         <hr>
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
-        $cssClass = 'game-card_platform-info-param_' . $params->fixCssName($key);
+        $cssClass = 'game-card_platform-info-param_' . $cssHelper->fixCssName($key);
         $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
@@ -33,17 +40,11 @@
 
     <div class="game-card_platform-info-btn-panel">
         <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $isHideRemoveBtn ? 'game-card_platform-info-btn_hidden' : '' ?>">
-            <span class="link link_crud-remove">
-                <i class="fa fa-minus-circle"></i>
-                <span class="link_text">Удалить</span>
-            </span>
+            <?= $linkHelper->crudRemoveLink(array('label' => 'Удалить')); ?>
         </span>
 
         <span class="game-card_platform-info-btn game-card_platform-info-btn_add">
-            <span class="link link_crud-add">
-                <i class="fa fa-plus-circle"></i>
-                <span class="link_text">Добавить</span>
-            </span>
+            <?= $linkHelper->crudAddLink(array('label' => 'Добавить')); ?>
         </span>
     </div>
 </div>

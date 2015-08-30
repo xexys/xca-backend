@@ -1,10 +1,16 @@
+<?php
+
+$cssHelper = $this->getViewUIHelper('Css');
+
+?>
+
 <div class="movie-card_audio">
     <?php if ($paramsItemIndex !== 0): ?>
         <hr>
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
-        $cssClass = 'movie-card_audio-param_' . $params->fixCssName($key);
+        $cssClass = 'movie-card_audio-param_' . $cssHelper->fixCssName($key);
         $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
