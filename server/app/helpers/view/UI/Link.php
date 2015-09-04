@@ -15,12 +15,19 @@ class Link extends \app\helpers\view\Base
 {
     const CRUD_ACTION_ADD = 'add';
     const CRUD_ACTION_REMOVE = 'remove';
+    const CRUD_ACTION_EDIT = 'edit';
 
     private $_iconHelper;
 
     public function crudAddLink($params)
     {
         $params['action'] = self::CRUD_ACTION_ADD;
+        return $this->crudLink($params);
+    }
+
+    public function crudEditLink($params)
+    {
+        $params['action'] = self::CRUD_ACTION_EDIT;
         return $this->crudLink($params);
     }
 
@@ -35,8 +42,19 @@ class Link extends \app\helpers\view\Base
         $action = $params['action'];
         unset($params['action']);
 
-        $params['fa-icon'] = ($action === self::CRUD_ACTION_ADD ? 'plus-circle' : 'minus-circle');
-        $params['class'] = ($action === self::CRUD_ACTION_ADD ? 'link_crud-add' : 'link_crud-remove');
+        switch ($action) {
+            case self::CRUD_ACTION_ADD:
+                $params['fa-icon'] = 'plus-circle';
+                break;
+            case self::CRUD_ACTION_REMOVE:
+                $params['fa-icon'] = 'minus-circle';
+                break;
+            case self::CRUD_ACTION_EDIT:
+                $params['gl-icon'] = 'pencil';
+                break;
+       }
+
+        $params['class'] = 'link_crud-' . $action;
 
         return $this->link($params);
     }

@@ -1,6 +1,8 @@
-<div class="game-card_movies">
-    <h4 class="game-card_header">Ролики</h4>
-    <div class="game-card_content">
+<div class="section game-card_movies">
+
+    <h4 class="section_header">Ролики</h4>
+
+    <div class="section_content">
         <?php
         $this->widget(
             '\app\components\grid\BaseView',
@@ -25,8 +27,10 @@
             )
         );
         ?>
+
         <div class="game-card_movies-buttons">
             <?= $linkHelper->crudAddLink(array('label' => 'Добавить ролик', 'url' => $createMovieUrl)); ?>
         </div>
     </div>
 </div>
+

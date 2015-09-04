@@ -11,7 +11,9 @@ $gameLinkHelper = $this->getViewModelLinkHelper('Game');
 $movieLinkHelper = $this->getViewModelLinkHelper('Movie');
 
 $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
+
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
+
 $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
 
 $deleteConfirmMessage = 'Вы уверены что хотите удалить игру?';
@@ -19,33 +21,32 @@ $deleteConfirmMessage = 'Вы уверены что хотите удалить 
 ?>
 
 <div class="game-card game-card_view">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="game-card_section">
-                    <?php require '_view/main-info.php'; ?>
-                </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?php require '_view/main-info.php'; ?>
+            <?php require '_view/platforms-info.php'; ?>
+        </div>
 
-                <div class="game-card_section">
-                    <?php require '_view/platforms-info.php'; ?>
-                </div>
-            </div>
+        <div class="col-md-6">
+            <?php require '_view/pictures.php'; ?>
+        </div>
+    </div>
 
-            <div class="col-md-6">
-                <?php require '_view/pictures.php'; ?>
+    <div class="row">
+        <div class="col-md-12">
+            <?php require '_view/movies.php'; ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section game-card_buttons-panel">
+                <hr>
+                <?= $btnHelper->linkButton(array('label' => 'Редактировать', 'gl-icon' => 'pencil', 'context' => 'primary', 'url' => $editGameUrl)); ?>
+                <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl, 'confirm'=> $deleteConfirmMessage)); ?>
             </div>
         </div>
     </div>
 
-    <div class="game-card_section">
-        <?php require '_view/movies.php'; ?>
-    </div>
-
-    <div class="game-card_section">
-        <div class="game-card_buttons">
-            <hr>
-            <?= $btnHelper->linkButton(array('label' => 'Редактировать', 'gl-icon' => 'pencil', 'context' => 'primary', 'url' => $editGameUrl)); ?>
-            <?= $btnHelper->linkButton(array('label' => 'Удалить', 'gl-icon' => 'trash', 'context' => 'danger', 'url' => $deleteGameUrl, 'confirm'=> $deleteConfirmMessage)); ?>
-        </div>
-    </div>
 </div>
 

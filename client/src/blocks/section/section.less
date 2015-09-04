@@ -1,0 +1,38 @@
+.section {
+
+  margin-bottom: 30px;
+  position: relative;
+
+  &_content {
+    margin: 0 20px;
+  }
+
+  &_header {
+
+  }
+
+  &_edit-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 18px;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+
+    .btn .glyphicon {
+      margin: 0;
+    }
+  }
+
+}
+
+.section:hover {
+
+  .section_edit-btn {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}

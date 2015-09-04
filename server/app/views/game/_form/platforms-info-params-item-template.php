@@ -1,7 +1,5 @@
 <?php
 
-$platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
-
 $item = $platformsInfoParams->createItem();
 $formKeys = $platformsInfoParams->getFormKeys();
 $itemIndex = md5(__FILE__);

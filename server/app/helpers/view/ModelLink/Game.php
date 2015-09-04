@@ -13,4 +13,16 @@ class Game extends \app\helpers\view\ModelLink
 {
     protected $_modelControllerId = 'game';
 
+    public function getEditMainInfoUrl($model, $params = array())
+    {
+        $params['paramsKeys'] = 'mainInfo';
+        return $this->getEditUrl($model, $params);
+    }
+
+    public function getEditPlatformsInfoUrl($model, $params = array())
+    {
+        $params['paramsKeys'] = 'platformsInfo';
+        return $this->getEditUrl($model, $params);
+    }
+
 }

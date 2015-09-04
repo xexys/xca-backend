@@ -71,10 +71,10 @@ class GameController extends CrudController
         ));
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id, $paramsKeys = null)
     {
-        $game = $this->_getModelById($id, array('platformsInfo'));
-        $gameParams = $this->_createGameFormParams($game);
+        $game = $this->_getModelById($id);
+        $gameParams = $this->_createGameFormParams($game, $paramsKeys);
 
         $this->_tryAjaxValidation($gameParams);
 
@@ -109,14 +109,22 @@ class GameController extends CrudController
         $this->redirect($url);
     }
 
-    private function _createGameFormParams($game)
+    private function _createGameFormParams($game, $paramsKeys = null)
     {
-        $mainParams = $this->_createGameMainParams($game);
-        $platformsInfoParams = $this->_createGamePlatformsInfo($game);
+        if (is_string($paramsKeys)) {
+            $paramsKeys = explode(',', $paramsKeys);
+        }
+
+        $paramsKeys = $paramsKeys ?: array('mainInfo', 'platformsInfo');
 
         $params = new FormFacadeCollection();
-        $params->add('mainParams', $mainParams);
-        $params->add('platformsInfoParams', $platformsInfoParams);
+
+        if (in_array('mainInfo', $paramsKeys)) {
+            $params['mainParams'] = $this->_createGameMainParams($game);
+        }
+        if (in_array('platformsInfo', $paramsKeys)) {
+            $params['platformsInfoParams'] = $this->_createGamePlatformsInfo($game);
+        }
 
         return $params;
     }

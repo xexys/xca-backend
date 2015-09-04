@@ -5,7 +5,7 @@ $clientScript = Yii::app()->getClientScript();
 
 $controllerId = strtolower($this->id);
 $actionId = strtolower($this->action->id);
-$pageId = implode('-', array('page', $controllerId, $actionId));
+$pageId = implode('_', array('page', $controllerId, $actionId));
 
 $scriptBasePath = Yii::getPathOfAlias('client.build.' . (PROD_MODE ? 'prod' : 'dev') . '.bundles');
 

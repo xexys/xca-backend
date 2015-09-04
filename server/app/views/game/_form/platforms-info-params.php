@@ -15,3 +15,8 @@ foreach ($platformsInfoParamsItems as $n => $platformsInfoParamsItem) {
         'isHideRemoveBtn' => $platformsInfoParamsItemsCount === 1,
     ));
 }
+
+$this->renderPartial('_form/platforms-info-params-item-template', array(
+    'formWidget' => $formWidget,
+    'platformsInfoParams' => $platformsInfoParams,
+));

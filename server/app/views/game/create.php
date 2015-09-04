@@ -25,9 +25,14 @@ echo CHtml::hiddenField('backUrl', $backUrl);
         ));
     ?>
 
-    <div class="game-card_section">
-        <?= $btnHelper->submitButton(array('label' => 'Добавить', 'gl-icon' => 'plus', 'context' => 'success')); ?>
-        <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => $backUrl)); ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section game-card_buttons-panel">
+                <hr>
+                <?= $btnHelper->submitButton(array('label' => 'Добавить', 'gl-icon' => 'plus', 'context' => 'success')); ?>
+                <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => $backUrl)); ?>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -35,8 +40,3 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 <?php
 
 $this->endWidget();
-
-$this->renderPartial('_form/platforms-info-params-item-template', array(
-    'formWidget' => $formWidget,
-    'gameParams' => $gameParams,
-));
