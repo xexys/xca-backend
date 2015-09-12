@@ -13,7 +13,6 @@ $movieLinkHelper = $this->getViewModelLinkHelper('Movie');
 $createMovieUrl = $movieLinkHelper->getBelongsToGameCreateUrl($game);
 
 $editGameUrl = $gameLinkHelper->getEditUrl($game);
-
 $deleteGameUrl = $gameLinkHelper->getDeleteUrl($game);
 
 $deleteConfirmMessage = 'Вы уверены что хотите удалить игру?';
