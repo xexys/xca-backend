@@ -35,7 +35,7 @@ class GameController extends CrudController
 
     public function actionView($id)
     {
-        $game = $this->_getModelById($id);
+        $game = $this->_getModelById($id, array('platformsInfo.platform'));
         $gameMovieDataProvider = new DataProvider\Movie(array(
             'criteria' => array(
                 'condition' => 'game_id = ' . $game->id

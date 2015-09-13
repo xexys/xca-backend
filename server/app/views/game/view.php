@@ -23,7 +23,10 @@ $deleteConfirmMessage = 'Вы уверены что хотите удалить 
     <div class="row">
         <div class="col-md-6">
             <?php require '_view/main-info.php'; ?>
-            <?php require '_view/platforms-info.php'; ?>
+            <?php $this->renderPartial('_view/platforms-info', array(
+                'game' => $game
+            ));
+            ?>
         </div>
 
         <div class="col-md-6">

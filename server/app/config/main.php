@@ -2,7 +2,6 @@
 // Выставляем кодировку для многобайтовых строк
 //ini_set('mbstring.internal_encoding', 'utf-8');
 
-
 // Ускоренный набор
 //Yii::import('common.helpers.reduce_typing', true);
 
@@ -16,10 +15,9 @@ $config = array(
     'name'=>'Xexys Cinematic Archive',
 
     // Языковые настройки
-    'sourceLanguage'=>"en_US",
-    'language'=>"ru",
-    'charset'=>"utf-8",
-
+    'sourceLanguage'=>'en_US',
+    'language'=>'ru_RU', // 'ru'
+    'charset'=>'utf-8',
 
     // Путь к папке временных файлов
     'runtimePath'=>__DIR__ . '/../../runtime',
@@ -100,7 +98,7 @@ $config = array(
 
         // Расширение для работы с файловой системой
         'file'=>array(
-            'class'=>"ext.CFile"
+            'class'=>'ext.CFile'
         ),
 
         'session'=>array(

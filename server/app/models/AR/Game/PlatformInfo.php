@@ -8,6 +8,7 @@
 
 namespace app\models\AR\Game;
 
+use \Yii;
 use \app\components\ActiveRecord;
 
 
@@ -28,6 +29,7 @@ class PlatformInfo extends ActiveRecord
         return array(
             array('game_id, platform_id', 'required'),
             array('game_id, platform_id, issue_status_id', 'numerical', 'integerOnly' => true),
+            array('issue_date', 'date', 'format' => APP_VALIDATION_DATE_FORMAT, 'allowEmpty' => true),
             array('comment', 'length', 'max' => 500),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -44,8 +46,8 @@ class PlatformInfo extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'game' => array(self::BELONGS_TO, '\app\models\AR\Game', 'game_id'),
-            'info' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Platform', 'platform_id'),
-            //            'gamesPlatformsMoviesSearches' => array(self::HAS_MANY, 'GamesPlatformsMoviesSearch', 'game_platform_id'),
+            'platform' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Platform', 'platform_id', 'order'=>'platform.id ASC'),
+            'issueStatus' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\GameIssueStatus', 'issue_status_id'),
         );
     }
 

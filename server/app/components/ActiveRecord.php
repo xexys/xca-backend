@@ -9,6 +9,8 @@
 
 namespace app\components;
 
+use \Yii;
+use \CException;
 use \app\helpers\Data as DataHelper;
 
 
@@ -51,8 +53,42 @@ class ActiveRecord extends \CActiveRecord
         parent::setAttribute(DataHelper::camelToSnake($name), $value);
     }
 
+    private function _prepareDateAttributes($formatFrom, $formatTo)
+    {
+        $columns = $this->getMetaData()->columns;
+
+        foreach ($columns as $attribute => $column) {
+            if ($column->dbType === 'timestamp') {
+
+                if ($this->$attribute) {
+                    $date = date_create_from_format($formatFrom, $this->$attribute);
+                    if (empty($date)) {
+                        throw new CException('Can\'t create date from format: '. $formatFrom . ' value: ' . $this->$attribute);
+                    }
+                    $this->$attribute = $date->format($formatTo);
+                } else {
+                    $this->$attribute = null;
+                }
+            }
+        }
+    }
+
+    protected function beforeSave()
+    {
+        $this->_prepareDateAttributes(APP_DATE_FORMAT, APP_DB_TIMESTAMP_FORMAT);
+        return parent::beforeSave();
+    }
+
+    protected function afterSave()
+    {
+        $this->_prepareDateAttributes(APP_DB_TIMESTAMP_FORMAT, APP_DATE_FORMAT);
+        parent::afterSave();
+    }
+
     protected function afterFind()
     {
+        $this->_prepareDateAttributes(APP_DB_TIMESTAMP_FORMAT, APP_DATE_FORMAT);
+
         foreach($this->_getCastAttributeTypes() as $key => $type) {
             $value = $this->getAttribute($key);
             settype($value, $type);

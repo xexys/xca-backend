@@ -24,6 +24,17 @@ $linkHelper = $this->getViewUIHelper('Link');
                 )
             ));
             echo $formWidget->dropDownListGroup($params, $name, $options);
+        } elseif ($key === 'issueDate') {
+            $options = array('widgetOptions' => array(
+                'options' => array(
+                    'format' => APP_DATEPICKER_DATE_FORMAT
+                ),
+                'htmlOptions'=>array(
+                    'placeholder' => $placeholder,
+                    'class' => $cssClass,
+                )
+            ));
+            echo $formWidget->datePickerGroup($params, $name, $options);
         } else {
             $options = array('widgetOptions' => array(
                 'htmlOptions'=>array(

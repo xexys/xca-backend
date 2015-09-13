@@ -8,6 +8,7 @@
 
 namespace app\models\Form\Game;
 
+use \Yii;
 use \app\components\FormModel;
 use \app\models\AR\Dictionary;
 
@@ -16,6 +17,7 @@ class PlatformsInfoParamsItem extends FormModel
 {
     public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
     public $issueStatusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;
+    public $issueDate;
     public $comment;
 
     private static $_platformDictionary;
@@ -25,10 +27,11 @@ class PlatformsInfoParamsItem extends FormModel
     {
         return array(
             array('platformId, issueStatusId', 'required'),
-            array('comment', 'length', 'max' => 500),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
             array('platformId', 'validateUniqueInCollection'),
             array('issueStatusId', 'in', 'range' => array_keys($this->getGameIssueStatusDictionary())),
+            array('issueDate', 'date', 'format' => APP_VALIDATION_DATE_FORMAT, 'allowEmpty' => true),
+            array('comment', 'length', 'max' => 500),
         );
     }
 

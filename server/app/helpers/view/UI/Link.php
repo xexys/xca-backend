@@ -52,7 +52,7 @@ class Link extends \app\helpers\view\Base
             case self::CRUD_ACTION_EDIT:
                 $params['gl-icon'] = 'pencil';
                 break;
-       }
+        }
 
         $params['class'] = 'link_crud-' . $action;
 
@@ -68,7 +68,7 @@ class Link extends \app\helpers\view\Base
             $icon = 'fa fa-' . $params['fa-icon'];
         } elseif (isset($params['gl-icon'])) {
             $icon = 'glyphicon glyphicon-' . $params['gl-icon'];
-        } elseif (isset($params['icon']))  {
+        } elseif (isset($params['icon'])) {
             $icon = $params['icon'];
         }
         $iconClass = 'link_icon ' . $icon;
@@ -78,7 +78,7 @@ class Link extends \app\helpers\view\Base
             $linkClass .= ' ' . $params['class'];
         }
 
-        $tag = $url ? 'a': 'span';
+        $tag = $url ? 'a' : 'span';
 
         $htmlOptions = array(
             'class' => $linkClass,
@@ -87,9 +87,13 @@ class Link extends \app\helpers\view\Base
 
         $content = '';
         if ($iconClass) {
-            $content .= $this->_getIconHelper()->icon($iconClass);
+            $content .= $this->_getIconHelper()->icon(array(
+                'htmlOptions' => array(
+                    'class' => $iconClass
+                )
+            ));
         }
-        $content .= CHtml::tag('span', array('class'=>'link_text'), $label);
+        $content .= CHtml::tag('span', array('class' => 'link_text'), $label);
 
         return CHtml::tag($tag, $htmlOptions, $content);
     }

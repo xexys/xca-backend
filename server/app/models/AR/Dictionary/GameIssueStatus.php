@@ -7,7 +7,11 @@ use \app\components\ActiveRecord;
 
 class GameIssueStatus extends ActiveRecord
 {
+    const STATUS_ID_UNKNOWN = 1;
     const STATUS_ID_RELEASED = 2;
+    const STATUS_ID_AWAIT = 3;
+    const STATUS_ID_FROZEN = 4;
+    const STATUS_ID_CLOSED = 5;
 
     public function tableName()
     {

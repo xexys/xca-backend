@@ -1,18 +1,23 @@
 <?php
 
-//// Форматы для отображения даты в представлениях (view)
-//defined('APP_DATETIME_FORMAT') or define('APP_DATETIME_FORMAT', 'd.m.Y H:i:s');
-//defined('APP_DATE_FORMAT') or define('APP_DATE_FORMAT', 'd.m.Y');
-//defined('APP_TIME_FORMAT') or define('APP_TIME_FORMAT', 'H:i:s');
-//// Формат для записи временных данных в БД
-//defined('APP_TIMESTAMP_FORMAT') or define('APP_TIMESTAMP_FORMAT', 'Y-m-d H:i:s');
+// Формат отображения дат, используемый в приложении
+define('APP_DATE_FORMAT', 'd.m.Y');
+//define('APP_HUMAN_DATE_FORMAT', 'j F Y');
+//define('APP_HUMAN_SHORT_DATE_FORMAT', 'j M Y');
+
+/**
+ * Формат для валидации дат через объекты FormModel и ActiveRecord
+ * @link http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Format_Patterns
+ */
+define('APP_VALIDATION_DATE_FORMAT', 'dd.MM.yyyy');
+define('APP_VALIDATION_DATETIME_FORMAT', 'dd.MM.yyyy hh:mm:ss');
+
+// Формат для ввода даты через datepicker
+define('APP_DATEPICKER_DATE_FORMAT', 'dd.mm.yyyy');
+
+// Формат для записи даты в БД
+define('APP_DB_TIMESTAMP_FORMAT', 'Y-m-d H:i:s');
 
 return array(
-    'autoLoginDuration'=>3600*24*30, // Автовход пользователя втечение 30 дней
-
-//    // Форматы используемые при валидации дат
-//    'dateValidationFormats'=>array(
-//        'dd.MM.yyyy hh:mm:ss',
-//        'dd.MM.yyyy'
-//    )
+    'autoLoginDuration' => 3600 * 24 * 30, // Автовход пользователя втечение 30 дней
 );

@@ -9,6 +9,7 @@
 namespace app\models\Form\Game;
 
 use \Yii;
+use \CException;
 use \CHtml;
 use \CActiveForm;
 use \app\components\FormCollection;
