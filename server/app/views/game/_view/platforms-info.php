@@ -3,6 +3,7 @@
 $uiHelper = $this->getViewHelper('UI');
 $btnHelper = $uiHelper->getButtonHelper();
 $iconHelper = $uiHelper->getIconHelper();
+$linkHelper = $uiHelper->getLinkHelper();
 
 $gameLinkHelper = $this->getViewModelLinkHelper('Game');
 

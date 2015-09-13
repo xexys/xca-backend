@@ -6,7 +6,7 @@ $platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
 ?>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <?php if ($mainParams): ?>
             <div class="section">
                 <h4 class="section_header">Информация об игре</h4>
@@ -36,7 +36,7 @@ $platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
         <?php endif; ?>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="section_content">
             <?= CHtml::image('?=' . PHP_EGG_LOGO_GUID); ?>
         </div>

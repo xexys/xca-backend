@@ -21,7 +21,7 @@ $deleteConfirmMessage = 'Вы уверены что хотите удалить 
 
 <div class="game-card game-card_view">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <?php require '_view/main-info.php'; ?>
             <?php $this->renderPartial('_view/platforms-info', array(
                 'game' => $game
@@ -29,7 +29,7 @@ $deleteConfirmMessage = 'Вы уверены что хотите удалить 
             ?>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-5">
             <?php require '_view/pictures.php'; ?>
         </div>
     </div>

@@ -5,9 +5,15 @@ $this->beginContent('/layouts/base');
     <h3 class="page_title">
         <?= $this->pageTitle; ?>
 
-        <?php if ($this->pageTitleIconClass): ?>
-            <?= $this->getViewHelper('UI\Icon')->icon($this->pageTitleIconClass); ?>
-        <?php endif; ?>
+        <?php
+            if ($this->pageTitleIconClass) {
+                echo $this->getViewHelper('UI\Icon')->icon(array(
+                    'htmlOptions' => array(
+                        'class' => $this->pageTitleIconClass
+                    )
+                ));
+            }
+        ?>
 
     </h3>
     <hr>
