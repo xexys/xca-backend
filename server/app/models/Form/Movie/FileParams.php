@@ -24,8 +24,8 @@ class FileParams extends Params
     public function rules()
     {
         return array(
-            array('duration, formatId', 'required'),
-            array('size, duration', 'numerical', 'integerOnly' => true),
+            array('duration, size, formatId', 'required'),
+            array('duration, size', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 50),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
         );

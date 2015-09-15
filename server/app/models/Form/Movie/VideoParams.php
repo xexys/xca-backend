@@ -66,7 +66,7 @@ class VideoParams extends Params
         return array_combine($frameRates, $frameRates);
     }
 
-    public function getFrameRateModeDictionary()
+    public static function getFrameRateModeDictionary()
     {
         return array(
             self::FRAME_RATE_MODE_CONSTANT => 'CFR',
@@ -74,7 +74,7 @@ class VideoParams extends Params
         );
     }
 
-    public function getFormatDictionary()
+    public static function getFormatDictionary()
     {
         if (self::$_formatDictionary === null) {
             self::$_formatDictionary = array();

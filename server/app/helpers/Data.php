@@ -57,5 +57,4 @@ class Data
         }
         return $arrayOut;
     }
-
 }
