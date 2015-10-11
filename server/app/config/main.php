@@ -16,7 +16,7 @@ $config = array(
 
     // Языковые настройки
     'sourceLanguage'=>'en_US',
-    'language'=>'ru_RU', // 'ru'
+    'language'=>'ru', // 'ru'
     'charset'=>'utf-8',
 
     // Путь к папке временных файлов

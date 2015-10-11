@@ -34,7 +34,7 @@
         </div>
 
         <div class="movie-card_section">
-            <h4 class="movie-card_title">Параметры аудио</h4>
+            <h4 class="movie-card_title">Параметры звука</h4>
             <div class="">
                 <?php
                     $audioParams = $movieParams->itemAt('audioParams');

@@ -33,6 +33,13 @@ $deleteConfirmMessage = 'Вы уверены что хотите удалить 
             ));
             ?>
         </div>
+        <div class="col-md-12">
+            <?php $this->renderPartial('_view/audio', array(
+                'audio' => $movie->audio,
+                'viewDataHelper' => $viewDataHelper
+            ));
+            ?>
+        </div>
     </div>
 
     <div class="row">
