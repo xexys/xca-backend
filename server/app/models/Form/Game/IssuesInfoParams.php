@@ -17,7 +17,7 @@ use \app\models\AR\Game;
 use \app\helpers\Data as DataHelper;
 
 
-class PlatformsInfoParams extends Params
+class IssuesInfoParams extends Params
 {
     public $items;
     
@@ -63,7 +63,7 @@ class PlatformsInfoParams extends Params
 
     public function createItem()
     {
-        return new PlatformsInfoParamsItem($this->getScenario());
+        return new IssuesInfoParamsItem($this->getScenario());
     }
 
     private function _getPostKey()
@@ -73,12 +73,12 @@ class PlatformsInfoParams extends Params
 
     protected function _setAttributesByGameModel()
     {
-        $platformsInfo = $this->_gameModel->platformsInfo;
-        if ($platformsInfo) {
+        $issuesInfo = $this->_gameModel->issuesInfo;
+        if ($issuesInfo) {
             $this->items->clear();
-            foreach ($platformsInfo as $platformInfo) {
+            foreach ($issuesInfo as $issueInfo) {
                 $item = $this->createItem();
-                $item->setAttributes($platformInfo->getAttributes());
+                $item->setAttributes($issueInfo->getAttributes());
                 $this->items[] = $item;
             }
         }
@@ -91,10 +91,10 @@ class PlatformsInfoParams extends Params
         foreach ($this->items as $item) {
             $attrs = $item->getAttributes();
             $attrs['gameId'] = $this->_gameModel->id;
-            $platformInfo = new Game\PlatformInfo;
-            $platformInfo->setAttributes($attrs);
-            if (!$platformInfo->save()) {
-                throw new CException($platformInfo->getFirstErrorMessage());
+            $issueInfo = new Game\IssueInfo;
+            $issueInfo->setAttributes($attrs);
+            if (!$issueInfo->save()) {
+                throw new CException($issueInfo->getFirstErrorMessage());
             }
         }
     }
@@ -106,7 +106,7 @@ class PlatformsInfoParams extends Params
         // create + update
         $updateIds = array();
 
-        $platformInfoModels = Game\PlatformInfo::model()->findAll(array(
+        $issueInfoModels = Game\IssueInfo::model()->findAll(array(
             'index' => 'platform_id',
             'condition' => 'game_id = :game_id',
             'params' => array(':game_id' => $game->id),
@@ -114,34 +114,34 @@ class PlatformsInfoParams extends Params
 
         foreach ($this->items as $item) {
             $attrs = $item->getAttributes();
-            if (isset($platformInfoModels[$item->platformId])) {
-                $platformInfo = $platformInfoModels[$item->platformId];
-                $updateIds[] = $platformInfo->id;
+            if (isset($issueInfoModels[$item->platformId])) {
+                $issueInfo = $issueInfoModels[$item->platformId];
+                $updateIds[] = $issueInfo->id;
             } else {
-                $platformInfo = new Game\PlatformInfo;
+                $issueInfo = new Game\IssueInfo;
                 $attrs['gameId'] = $game->id;
             }
-            $platformInfo->setAttributes($attrs);
-            if (!$platformInfo->save()) {
-                throw new CException($platformInfo->getFirstErrorMessage());
+            $issueInfo->setAttributes($attrs);
+            if (!$issueInfo->save()) {
+                throw new CException($issueInfo->getFirstErrorMessage());
             }
         }
 
         // delete
         $deleteIds = array();
-        foreach ($platformInfoModels as $platformInfo) {
-            if (!in_array($platformInfo->id, $updateIds)) {
-                $deleteIds[] = $platformInfo->id;
+        foreach ($issueInfoModels as $issueInfo) {
+            if (!in_array($issueInfo->id, $updateIds)) {
+                $deleteIds[] = $issueInfo->id;
             }
         }
 
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('id', $deleteIds);
-        Game\PlatformInfo::model()->deleteAll($criteria);
+        Game\IssueInfo::model()->deleteAll($criteria);
     }
 
     protected function _delete()
     {
-        Game\PlatformInfo::model()->deleteAllByAttributes(array('game_id' => $this->_gameModel->id));
+        Game\IssueInfo::model()->deleteAllByAttributes(array('game_id' => $this->_gameModel->id));
     }
 }

@@ -5,7 +5,7 @@ namespace app\models\AR\Dictionary;
 use \app\components\ActiveRecord;
 
 
-class Platform extends ActiveRecord
+class GamePlatform extends ActiveRecord
 {
     const PLATFORM_ID_PC = 3;
 
@@ -14,7 +14,7 @@ class Platform extends ActiveRecord
      */
     public function tableName()
     {
-        return '{{dic_platforms}}';
+        return '{{dic_games_platforms}}';
     }
 
     /**
@@ -25,13 +25,13 @@ class Platform extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('id, full_name, short_name', 'required'),
+            array('id, name, short_name', 'required'),
             array('id', 'numerical', 'integerOnly' => true),
             array('short_name', 'length', 'max' => 20),
-            array('full_name', 'length', 'max' => 50),
+            array('name', 'length', 'max' => 50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, full_name, short_name', 'safe', 'on' => 'search'),
+            array('id, name, short_name', 'safe', 'on' => 'search'),
         );
     }
 
@@ -54,7 +54,7 @@ class Platform extends ActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('full_name', $this->full_name, true);
+        $criteria->compare('name', $this->name, true);
         $criteria->compare('short_name', $this->short_name, true);
 
         return new CActiveDataProvider($this, array(

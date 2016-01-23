@@ -1,7 +1,7 @@
 <?php
 
 $mainParams = $gameParams->itemAt('mainParams');
-$platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
+$issuesInfoParams = $gameParams->itemAt('issuesInfoParams');
 
 ?>
 
@@ -21,14 +21,14 @@ $platformsInfoParams = $gameParams->itemAt('platformsInfoParams');
             </div>
         <?php endif; ?>
 
-        <?php if ($platformsInfoParams): ?>
-            <div class="section game-card_platforms-info">
+        <?php if ($issuesInfoParams): ?>
+            <div class="section game-card_issues-info">
                 <h4 class="section_header">Выход на платформах</h4>
                 <div class="section_content">
                     <?php
-                    $this->renderPartial('_form/platforms-info-params', array(
+                    $this->renderPartial('_form/issues-info-params', array(
                         'formWidget' => $formWidget,
-                        'platformsInfoParams' => $platformsInfoParams,
+                        'issuesInfoParams' => $issuesInfoParams,
                     ));
                     ?>
                 </div>

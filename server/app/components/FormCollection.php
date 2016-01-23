@@ -17,6 +17,7 @@ class FormCollection extends ObjectCollection implements FormMethods
     public function __construct($data = null, $readOnly = false)
     {
         parent::__construct($data, $readOnly);
+
         $this->attachBehaviors($this->behaviors());
     }
 
@@ -28,9 +29,11 @@ class FormCollection extends ObjectCollection implements FormMethods
     public function validate($attributes = null, $clearErrors = true)
     {
         $isValid = true;
+
         foreach ($this as $item) {
-            $isValid = $item->validate($attributes, $clearErrors) && $isValid;
+            $isValid = $isValid && $item->validate($attributes, $clearErrors);
         }
+
         return $isValid;
     }
 
@@ -44,9 +47,11 @@ class FormCollection extends ObjectCollection implements FormMethods
     public function getAjaxValidationResponseContent()
     {
         $data = array();
+
         foreach($this as $item) {
             $data[] = json_decode($item->getAjaxValidationResponseContent(), true);
         }
+
         return json_encode(call_user_func_array('array_merge', $data));
     }
 

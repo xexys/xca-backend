@@ -17,22 +17,27 @@ class ObjectCollection extends CMap
     public function add($key, $item)
     {
         $this->_checkItemInstanceof($item);
+
         parent::add($key, $item);
+
         $item->setCollection($this);
     }
 
     public function remove($key)
     {
         $item = parent::remove($key);
+
         if ($item) {
             $item->setCollection(null);
         }
+
         return $item;
     }
 
     public function mergeWith($data, $recursive = true)
     {
         parent::mergeWith($data, $recursive);
+
         if ($recursive) {
             foreach ($this as $item) {
                 $this->_checkItemInstanceof($item);

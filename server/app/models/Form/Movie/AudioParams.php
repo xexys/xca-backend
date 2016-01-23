@@ -42,6 +42,7 @@ class AudioParams extends Params
 
         if ($postData) {
             $this->items->clear();
+
             foreach ($postData as $n => $data) {
                 $item = $this->createItem();
                 $item->setAttributes(DataHelper::trimRecursive($data));

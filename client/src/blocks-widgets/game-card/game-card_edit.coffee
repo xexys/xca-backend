@@ -4,8 +4,8 @@ class GameCardEditWidget extends GameCardWidget
 
 
   events:
-    'click .game-card_platform-info-btn_add': '_addPlatformInfo'
-    'click .game-card_platform-info-btn_remove': '_removePlatformInfo'
+    'click .game-card_issue-info-btn_add': '_addPlatformInfo'
+    'click .game-card_issue-info-btn_remove': '_removePlatformInfo'
 
 
   _addPlatformInfo: (e) ->
@@ -29,14 +29,14 @@ class GameCardEditWidget extends GameCardWidget
 
 
   _toggleRemoveBtn: ->
-    $buttons = @$('.game-card_platform-info-btn_remove')
+    $buttons = @$('.game-card_issue-info-btn_remove')
     isHidden = $buttons.length == 1
-    $buttons.toggleClass('game-card_platform-info-btn_hidden', isHidden)
+    $buttons.toggleClass('game-card_issue-info-btn_hidden', isHidden)
 
 
   _getPlatformInfoTemplate: ->
     @_num = @_num || @_getAllPlatformInfo().length
-    $template = $('#game-card_platform-info-template')
+    $template = $('#game-card_issue-info-template')
     indexPlaceholder = $template.data('indexPlaceholder')
     return $template.html().replace(new RegExp(indexPlaceholder, 'g'), @_num++)
 

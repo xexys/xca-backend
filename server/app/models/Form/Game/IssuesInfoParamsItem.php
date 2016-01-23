@@ -13,11 +13,11 @@ use \app\components\FormModel;
 use \app\models\AR\Dictionary;
 
 
-class PlatformsInfoParamsItem extends FormModel
+class IssuesInfoParamsItem extends FormModel
 {
-    public $platformId = Dictionary\Platform::PLATFORM_ID_PC;
-    public $issueStatusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;
-    public $issueDate;
+    public $platformId = Dictionary\GamePlatform::PLATFORM_ID_PC;
+    public $statusId = Dictionary\GameIssueStatus::STATUS_ID_RELEASED;
+    public $statusDate;
     public $comment;
 
     private static $_platformDictionary;
@@ -26,11 +26,11 @@ class PlatformsInfoParamsItem extends FormModel
     public function rules()
     {
         return array(
-            array('platformId, issueStatusId', 'required'),
+            array('platformId, statusId', 'required'),
             array('platformId', 'in', 'range' => array_keys($this->getPlatformDictionary())),
             array('platformId', 'validateUniqueInCollection'),
-            array('issueStatusId', 'in', 'range' => array_keys($this->getGameIssueStatusDictionary())),
-            array('issueDate', 'date', 'format' => APP_VALIDATION_DATE_FORMAT, 'allowEmpty' => true),
+            array('statusId', 'in', 'range' => array_keys($this->getGameIssueStatusDictionary())),
+            array('statusDate', 'date', 'format' => APP_VALIDATION_DATE_FORMAT, 'allowEmpty' => true),
             array('comment', 'length', 'max' => 500),
         );
     }
@@ -43,7 +43,7 @@ class PlatformsInfoParamsItem extends FormModel
             case 'platformId':
                 $data = $this->getPlatformDictionary();
                 break;
-            case 'issueStatusId':
+            case 'statusId':
                 $data = $this->getGameIssueStatusDictionary();
                 break;
         }
@@ -56,12 +56,12 @@ class PlatformsInfoParamsItem extends FormModel
         if (self::$_platformDictionary === null) {
             self::$_platformDictionary = array();
 
-            $data = Dictionary\Platform::model()->findAll(array(
-                'order'=>'full_name ASC'
+            $data = Dictionary\GamePlatform::model()->findAll(array(
+                'order'=>'name ASC'
             ));
 
             foreach ($data as $item) {
-                self::$_platformDictionary[$item->id] = $item->full_name;
+                self::$_platformDictionary[$item->id] = $item->name;
             }
         }
         return self::$_platformDictionary;

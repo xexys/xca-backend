@@ -15,7 +15,7 @@ class GameIssueStatus extends ActiveRecord
 
     public function tableName()
     {
-        return '{{dic_game_issue_status}}';
+        return '{{dic_games_issue_status}}';
     }
 
     /**

@@ -11,11 +11,11 @@ $linkHelper = $this->getViewUIHelper('Link');
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
-        $cssClass = 'game-card_platform-info-param_' . $cssHelper->fixCssName($key);
+        $cssClass = 'game-card_issue-info-param_' . $cssHelper->fixCssName($key);
         $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
-        if (in_array($key, array('platformId', 'issueStatusId'))) {
+        if (in_array($key, array('platformId', 'statusId'))) {
             $options = array('widgetOptions' => array(
                 'data'=> $params->getDictionary($key),
                 'htmlOptions'=>array(
@@ -24,7 +24,7 @@ $linkHelper = $this->getViewUIHelper('Link');
                 )
             ));
             echo $formWidget->dropDownListGroup($params, $name, $options);
-        } elseif ($key === 'issueDate') {
+        } elseif ($key === 'statusDate') {
             $options = array('widgetOptions' => array(
                 'options' => array(
                     'format' => APP_DATEPICKER_DATE_FORMAT
@@ -49,12 +49,12 @@ $linkHelper = $this->getViewUIHelper('Link');
     }
     ?>
 
-    <div class="game-card_platform-info-btn-panel">
-        <span class="game-card_platform-info-btn game-card_platform-info-btn_remove <?= $isHideRemoveBtn ? 'game-card_platform-info-btn_hidden' : '' ?>">
+    <div class="game-card_issue-info-btn-panel">
+        <span class="game-card_issue-info-btn game-card_issue-info-btn_remove <?= $isHideRemoveBtn ? 'game-card_issue-info-btn_hidden' : '' ?>">
             <?= $linkHelper->crudRemoveLink(array('label' => 'Удалить')); ?>
         </span>
 
-        <span class="game-card_platform-info-btn game-card_platform-info-btn_add">
+        <span class="game-card_issue-info-btn game-card_issue-info-btn_add">
             <?= $linkHelper->crudAddLink(array('label' => 'Добавить')); ?>
         </span>
     </div>

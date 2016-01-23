@@ -1,12 +1,12 @@
 <?php
 
-$item = $platformsInfoParams->createItem();
-$formKeys = $platformsInfoParams->getFormKeys();
+$item = $issuesInfoParams->createItem();
+$formKeys = $issuesInfoParams->getFormKeys();
 $itemIndex = md5(__FILE__);
 
 //$formCssId = $form->htmlOptions['id'];
 
-$content = $this->renderPartial('_form/platforms-info-params-item', array(
+$content = $this->renderPartial('_form/issues-info-params-item', array(
     'formWidget' => $formWidget,
     'params' => $item,
     'paramsKeys' => $formKeys,
@@ -16,7 +16,7 @@ $content = $this->renderPartial('_form/platforms-info-params-item', array(
 
 
 echo CHtml::tag('script', array(
-    'id' => 'game-card_platform-info-template',
+    'id' => 'game-card_issue-info-template',
     'type' => 'text/x-template',
     'data-index-placeholder' => $itemIndex,
 ), $content);

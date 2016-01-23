@@ -35,7 +35,7 @@ class GameController extends CrudController
 
     public function actionView($id)
     {
-        $game = $this->_getModelById($id, array('platformsInfo.platform'));
+        $game = $this->_getModelById($id, array('issuesInfo.platform'));
         $gameMovieDataProvider = new DataProvider\Movie(array(
             'criteria' => array(
                 'condition' => 'game_id = ' . $game->id
@@ -100,7 +100,7 @@ class GameController extends CrudController
         $game = $this->_getModelById($id);
 
         $gameParams = new FormFacadeCollection(array(
-            $this->_createGamePlatformsInfo($game),
+            $this->_createGameIssuesInfo($game),
             $this->_createGameMainParams($game)
         ));
         $gameParams->delete();
@@ -115,15 +115,15 @@ class GameController extends CrudController
             $paramsKeys = explode(',', $paramsKeys);
         }
 
-        $paramsKeys = $paramsKeys ?: array('mainInfo', 'platformsInfo');
+        $paramsKeys = $paramsKeys ?: array('mainInfo', 'issuesInfo');
 
         $params = new FormFacadeCollection();
 
         if (in_array('mainInfo', $paramsKeys)) {
             $params['mainParams'] = $this->_createGameMainParams($game);
         }
-        if (in_array('platformsInfo', $paramsKeys)) {
-            $params['platformsInfoParams'] = $this->_createGamePlatformsInfo($game);
+        if (in_array('issuesInfo', $paramsKeys)) {
+            $params['issuesInfoParams'] = $this->_createGameIssuesInfo($game);
         }
 
         return $params;
@@ -133,8 +133,8 @@ class GameController extends CrudController
         return new Form\Game\MainParams($game);
     }
 
-    private function _createGamePlatformsInfo($game) {
-        return new Form\Game\PlatformsInfoParams($game);
+    private function _createGameIssuesInfo($game) {
+        return new Form\Game\IssuesInfoParams($game);
     }
 
     private function _getModelById($id, $with = array())

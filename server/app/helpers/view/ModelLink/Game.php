@@ -19,9 +19,9 @@ class Game extends \app\helpers\view\ModelLink
         return $this->getEditUrl($model, $params);
     }
 
-    public function getEditPlatformsInfoUrl($model, $params = array())
+    public function getEditIssuesInfoUrl($model, $params = array())
     {
-        $params['paramsKeys'] = 'platformsInfo';
+        $params['paramsKeys'] = 'issuesInfo';
         return $this->getEditUrl($model, $params);
     }
 
