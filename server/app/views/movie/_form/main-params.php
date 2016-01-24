@@ -2,13 +2,35 @@
 
 $cssHelper = $this->getViewUIHelper('Css');
 
-foreach ($mainParams->getFormKeys() as $key) {
+foreach ($movieForm->getFormKeys() as $key) {
     $cssClass = 'movie-card_main-param_' . $cssHelper->fixCssName($key);
-    $options = array('widgetOptions' => array(
-        'htmlOptions'=>array(
-            'autocomplete' => 'off',
-            'class' => $cssClass
-        )
-    ));
-    echo $formWidget->textFieldGroup($mainParams, $key, $options);
+    $placeholder = $movieForm->getAttributeLabel($key);
+    $htmlOptions = array(
+        'autocomplete' => 'off',
+        'placeholder' => $placeholder,
+        'class' => $cssClass,
+    );
+
+    if ($key === 'issueYear') {
+        $options = array(
+            'widgetOptions' => array(
+                'options' => array(
+                    'minViewMode' => 'years',
+                    'format' => APP_DATEPICKER_YEAR_FORMAT
+
+                ),
+                'htmlOptions' => $htmlOptions
+            )
+        );
+
+        echo $formWidget->datePickerGroup($movieForm, $key, $options);
+
+    } else {
+        $options = array('widgetOptions' => array(
+            'htmlOptions' => $htmlOptions
+        ));
+
+        echo $formWidget->textFieldGroup($movieForm, $key, $options);
+    }
+
 }

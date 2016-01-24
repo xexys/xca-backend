@@ -11,12 +11,13 @@ namespace app\controllers;
 use \Yii;
 use \app\components\CrudController;
 use \app\components\DataProvider;
+use \app\components\FormFacadeCollection;
 use \app\models\AR\Movie;
 use \app\models\AR\Game;
 use \app\models\Form;
 
 
-class MovieController extends CrudController
+class MovieFileController extends CrudController
 {
     const INDEX_PAGE_SIZE = 15;
 
@@ -38,7 +39,7 @@ class MovieController extends CrudController
 
     public function actionView($id)
     {
-        $movie = $this->_getModelById($id, array('game'));
+        $movie = $this->_getModelById($id, array('game', 'file.mainParams', 'file.videoParams', 'file.audioParams'));
 
         $this->render('view', array(
             'movie' => $movie
@@ -49,46 +50,45 @@ class MovieController extends CrudController
     public function actionCreate($gameId = null)
     {
         $movie = new Movie;
-        $movieForm = $this->_createMovieForm(self::SCENARIO_CREATE, $movie, $gameId);
+        $movieParams = $this->_createMovieFormParams($movie, $gameId);
 
-        $this->_tryAjaxValidation($movieForm);
+        $this->_tryAjaxValidation($movieParams);
 
         $backUrl = $this->_getBackUrl();
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $movieForm->setAttributesByPost();
+            $movieParams->setAttributesByPost();
 
-            if ($movieForm->save()) {
+            if ($movieParams->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('create', array(
-            'movieForm' => $movieForm,
+            'movieParams' => $movieParams,
             'backUrl' => $backUrl,
         ));
     }
 
     public function actionEdit($id)
     {
-        $movie = $this->_getModelById($id, array('game'));
+        $movie = $this->_getModelById($id, array('game', 'file', 'video', 'audio'));
+        $movieParams = $this->_createMovieFormParams($movie);
 
-        $movieForm = $this->_createMovieForm(self::SCENARIO_UPDATE, $movie);
-
-        $this->_tryAjaxValidation($movieForm);
+        $this->_tryAjaxValidation($movieParams);
 
         $backUrl = $this->_getBackUrl();
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $movieForm->setAttributesByPost();
+            $movieParams->setAttributesByPost();
 
-            if ($movieForm->save()) {
+            if ($movieParams->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'movieForm' => $movieForm,
+            'movieParams' => $movieParams,
             'movie' => $movie,
             'backUrl' => $backUrl,
         ));
@@ -98,24 +98,55 @@ class MovieController extends CrudController
     {
         $movie = $this->_getModelById($id);
 
-        $movie->delete();
+        $movieParams = new FormFacadeCollection(array(
+            $this->_createMovieAudioParams($movie),
+            $this->_createMovieVideoParams($movie),
+            $this->_createMovieFileParams($movie),
+            $this->_createMovieMainParams($movie),
+        ));
+        $movieParams->delete();
 
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
-    private function _createMovieForm($scenario, $movie, $gameId = null)
+    private function _createMovieFormParams($movie, $gameId = null)
     {
-        $mainParams = new Form\Movie\MainParams($scenario, $movie);
-        
+        $params = array(
+            'mainParams' => $this->_createMovieMainParams($movie, $gameId),
+            'fileParams' => $this->_createMovieFileParams($movie),
+            'videoParams' => $this->_createMovieVideoParams($movie),
+            'audioParams' => $this->_createMovieAudioParams($movie),
+        );
+
+        return new FormFacadeCollection($params);
+    }
+
+    private function _createMovieMainParams($movie, $gameId = null)
+    {
+        $mainParams = new Form\Movie\MainParams($movie);
         if ($gameId) {
             $game = Game::model()->findByPk($gameId);
-            
             if ($game) {
                 $mainParams->setAttributes(array('gameTitle' => $game->title));
             }
         }
         return $mainParams;
+    }
+
+    private function _createMovieFileParams($movie)
+    {
+        return new Form\Movie\FileParams($movie);
+    }
+
+    private function _createMovieVideoParams($movie)
+    {
+        return new Form\Movie\VideoParams($movie);
+    }
+
+    private function _createMovieAudioParams($movie)
+    {
+        return new Form\Movie\AudioParams($movie);
     }
 
     private function _getModelById($id, $with = array())

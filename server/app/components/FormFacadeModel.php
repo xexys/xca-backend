@@ -10,9 +10,10 @@ namespace app\components;
 
 use \CMap;
 use \Exception;
+use \app\components\interfaces\FormFacadeMethods;
 
 
-abstract class FormFacadeModel extends FormModel
+abstract class FormFacadeModel extends FormModel implements FormFacadeMethods
 {
     public function behaviors()
     {
@@ -57,5 +58,5 @@ abstract class FormFacadeModel extends FormModel
 
     abstract protected function _update();
 
-    abstract protected function _delete();
+//    abstract protected function _delete();
 }

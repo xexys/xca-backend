@@ -10,5 +10,6 @@ foreach ($mainParams->getFormKeys() as $key) {
             'class' => $cssClass
         )
     ));
+
     echo $formWidget->textFieldGroup($mainParams, $key, $options);
 }

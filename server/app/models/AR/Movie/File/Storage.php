@@ -1,17 +1,17 @@
 <?php
 
-namespace app\models\AR\Movie;
+namespace app\models\AR\Movie\File;
 use \app\components\ActiveRecord;
 
 
-class Video extends ActiveRecord
+class Storage extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_video_params}}';
+		return '{{movies_files_storage}}';
 	}
 
 	/**
@@ -22,12 +22,11 @@ class Video extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode', 'required'),
-			array('movie_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
-			array('frame_rate, frame_quality', 'numerical'),
+			array('movie_id', 'numerical', 'integerOnly'=>true),
+			array('yandex_disk_link, dropbox_link, google_disk_link', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode, frame_quality', 'safe', 'on'=>'search'),
+			array('id, movie_id, yandex_disk_link, dropbox_link, google_disk_link', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -39,16 +38,23 @@ class Video extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'format' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\VideoFormat', 'format_id'),
 			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
 		);
 	}
 
-    public function beforeSave()
-    {
-        $this->_setFrameQuality();
-        return parent::beforeSave();
-    }
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'movie_id' => 'Movie',
+			'yandex_disk_link' => 'Yandex Disk Link',
+			'dropbox_link' => 'Dropbox Link',
+			'google_disk_link' => 'Google Disk Link',
+		);
+	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -70,30 +76,23 @@ class Video extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('movie_id',$this->movie_id);
-		$criteria->compare('format_id',$this->format_id);
-		$criteria->compare('width',$this->width);
-		$criteria->compare('height',$this->height);
-		$criteria->compare('bit_rate',$this->bit_rate);
-		$criteria->compare('frame_rate',$this->frame_rate);
-		$criteria->compare('frame_rate_mode',$this->frame_rate_mode);
-		$criteria->compare('frame_quality',$this->frame_quality);
+		$criteria->compare('yandex_disk_link',$this->yandex_disk_link,true);
+		$criteria->compare('dropbox_link',$this->dropbox_link,true);
+		$criteria->compare('google_disk_link',$this->google_disk_link,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
 
-    protected function _getCastAttributeTypes()
-    {
-        return array(
-            'frame_rate' => 'float'
-        );
-    }
-
-    private function _setFrameQuality()
-    {
-        $frameQuality = ($this->bit_rate * 1000) / ($this->width * $this->height * $this->frame_rate);
-        $frameQuality = round($frameQuality, 3);
-        $this->frame_quality  = $frameQuality;
-    }
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return Storage the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }

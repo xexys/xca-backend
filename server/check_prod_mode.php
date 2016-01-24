@@ -17,7 +17,5 @@
  * 3. Run your web server in environment where the environment variable named "PRODUCTION_MODE" is set and have a true-ish value
  */
 return (bool)(
-    file_exists(ROOT_DIR . '/PRODUCTION_MODE') or
-    (bool)@$_ENV['PRODUCTION_MODE'] or
-        (bool)@$_SERVER['PRODUCTION_MODE']
+    file_exists(ROOT_DIR . '/PRODUCTION_MODE') or @$_ENV['PRODUCTION_MODE'] or @$_SERVER['PRODUCTION_MODE']
 );

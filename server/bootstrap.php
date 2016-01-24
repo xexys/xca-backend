@@ -9,10 +9,11 @@ define('ROOT_DIR', realpath(__DIR__ . '/..'));
 
 # Определяем режим работы - разработка/продакшн
 define('PROD_MODE', require(__DIR__ . '/check_prod_mode.php'));
-if (!PROD_MODE) {
+define('DEV_MODE', !PROD_MODE);
+
+if (DEV_MODE) {
     require(__DIR__ . '/dev_mode.php');
 }
-
 
 // Читаем переменные сессии (обязательно закрываем сессию)
 //session_start();

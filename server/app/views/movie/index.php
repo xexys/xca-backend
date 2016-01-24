@@ -24,6 +24,9 @@ $this->widget(
                 'name'=>'game.title',
             ),
             array(
+                'name' => 'issue_year',
+            ),
+            array(
                 'class' => '\app\components\grid\ButtonColumn',
             )
         ),

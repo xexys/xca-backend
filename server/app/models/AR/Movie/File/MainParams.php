@@ -1,33 +1,31 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Alex
+ * Date: 07.08.15
+ * Time: 12:52
+ */
 
-namespace app\models\AR\Movie;
+namespace app\models\AR\Movie\File;
 use \app\components\ActiveRecord;
 
 
-class File extends ActiveRecord
+class MainParams extends ActiveRecord
 {
-    /**
-     * @return string the associated database table name
-     */
     public function tableName()
     {
-        return '{{movies_files}}';
+        return '{{movies_files_main_params}}';
     }
 
-    /**
-     * @return array validation rules for model attributes.
-     */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
-            array('movie_id, type', 'numerical', 'integerOnly'=>true),
-            array('description', 'length', 'max'=>500),
-            array('md5', 'length', 'max'=>32),
+            array('movie_id, format_id', 'required'),
+            array('movie_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>50),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, movie_id, type, description, md5', 'safe', 'on'=>'search'),
+            array('id, movie_id, name, size, duration, format_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -39,13 +37,8 @@ class File extends ActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
-            'audioParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\AudioParams', 'movie_file_id'),
-            'mainParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\MainParams', 'movie_file_id'),
-            'mediaInfo' => array(self::HAS_MANY, '\app\models\AR\Movie\File\MediaInfo', 'movie_file_id'),
-            'sourcesInfo' => array(self::HAS_MANY, '\app\models\AR\Movie\File\SourceInfo', 'movie_file_id'),
-            'storages' => array(self::HAS_MANY, '\app\models\AR\Movie\File\Storage', 'movie_file_id'),
-            'videoParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\VideoParams', 'movie_file_id'),
+            'file' => array(self::BELONGS_TO, 'app\models\AR\Movie\File', 'movie_file_id'),
+            'format' => array(self::BELONGS_TO, 'app\models\AR\Dictionary\FileFormat', 'format_id'),
         );
     }
 
@@ -57,9 +50,10 @@ class File extends ActiveRecord
         return array(
             'id' => 'ID',
             'movie_id' => 'Movie',
-            'type' => 'Type',
-            'description' => 'Description',
-            'md5' => 'Md5',
+            'name' => 'Name',
+            'size' => 'Size',
+            'duration' => 'Duration',
+            'format_id' => 'Format',
         );
     }
 
@@ -83,12 +77,14 @@ class File extends ActiveRecord
 
         $criteria->compare('id',$this->id);
         $criteria->compare('movie_id',$this->movie_id);
-        $criteria->compare('type',$this->type);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('md5',$this->md5,true);
+        $criteria->compare('name',$this->name,true);
+        $criteria->compare('size',$this->size);
+        $criteria->compare('duration',$this->duration);
+        $criteria->compare('format_id',$this->format_id);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
     }
+
 }

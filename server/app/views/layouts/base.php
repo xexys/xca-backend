@@ -16,7 +16,7 @@ $clientScript->registerPackage('select2-bootstrap-css');
 //$clientScript->registerPackage('bootstrap-select');
 
 // Публикация статики всех страниц
-Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, !PROD_MODE);
+Yii::app()->getAssetManager()->publish($scriptBasePath, false, -1, DEV_MODE);
 
 // Добавление стилей
 $cssUrl = $this->getPageScriptUrl($scriptBasePath, 'style.css');

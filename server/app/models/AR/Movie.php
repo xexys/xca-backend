@@ -25,6 +25,7 @@ class Movie extends ActiveRecord
             array('game_id, title', 'required'),
             array('game_id', 'numerical', 'integerOnly' => true),
             array('title', 'length', 'max' => 100),
+            array('issue_year', 'date', 'format' => APP_VALIDATION_YEAR_FORMAT, 'allowEmpty' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, game_id', 'safe', 'on' => 'search'),
@@ -40,11 +41,7 @@ class Movie extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'game' => array(self::BELONGS_TO, '\app\models\AR\Game', 'game_id'),
-            'file' => array(self::HAS_ONE, '\app\models\AR\Movie\File', 'movie_id'),
-            'video' => array(self::HAS_ONE, '\app\models\AR\Movie\Video', 'movie_id'),
-            'audio' => array(self::HAS_MANY, '\app\models\AR\Movie\Audio', 'movie_id'),
-            'mediaInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\MediaInfo', 'movie_id'),
-            'storage' => array(self::HAS_ONE, '\app\models\AR\Movie\Storage', 'movie_id'),
+            'files' => array(self::HAS_MANY, '\app\models\AR\Movie\File', 'movie_id'),
             'images' => array(self::HAS_MANY, '\app\models\AR\Movie\Image', 'movie_id'),
         );
     }

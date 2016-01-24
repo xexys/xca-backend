@@ -21,7 +21,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     <?php
     $this->renderPartial('_form', array(
         'formWidget' => $formWidget,
-        'movieParams' => $movieParams,
+        'movieForm' => $movieForm,
     ));
     ?>
 
@@ -33,8 +33,3 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 <?php
 $this->endWidget();
-
-$this->renderPartial('_form/audio-params-template', array(
-    'formWidget' => $formWidget,
-    'movieParams' => $movieParams,
-));

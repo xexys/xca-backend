@@ -1,17 +1,17 @@
 <?php
 
-namespace app\models\AR\Movie;
+namespace app\models\AR\Movie\File;
 use \app\components\ActiveRecord;
 
 
-class Audio extends ActiveRecord
+class MediaInfo extends ActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return '{{movies_audio_params}}';
+		return '{{movies_files_media_info}}';
 	}
 
 	/**
@@ -22,26 +22,12 @@ class Audio extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'required'),
-			array('movie_id, format_id, bit_rate, bit_rate_mode, language_id, sample_rate, track_number', 'numerical', 'integerOnly'=>true),
-			array('channels', 'numerical'),
+			array('id', 'required'),
+			array('id, movie_id', 'numerical', 'integerOnly'=>true),
+			array('data', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
-		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
-			'format' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\AudioFormat', 'format_id'),
-			'lang' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Language', 'language_id'),
+			array('id, movie_id, data', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,13 +39,7 @@ class Audio extends ActiveRecord
 		return array(
 			'id' => 'ID',
 			'movie_id' => 'Movie',
-			'format_id' => 'Format',
-			'bit_rate' => 'Bit Rate',
-			'bit_rate_mode' => 'Bit Rate Mode',
-			'channels' => 'Channels',
-			'language_id' => 'Language',
-			'sample_rate' => 'Sample Rate',
-			'track_number' => 'Track Number',
+			'data' => 'Data',
 		);
 	}
 
@@ -83,13 +63,7 @@ class Audio extends ActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('movie_id',$this->movie_id);
-		$criteria->compare('format_id',$this->format_id);
-		$criteria->compare('bit_rate',$this->bit_rate);
-		$criteria->compare('bit_rate_mode',$this->bit_rate_mode);
-		$criteria->compare('channels',$this->channels);
-		$criteria->compare('language_id',$this->language_id);
-		$criteria->compare('sample_rate',$this->sample_rate);
-		$criteria->compare('track_number',$this->track_number);
+		$criteria->compare('data',$this->data,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -100,7 +74,7 @@ class Audio extends ActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return AudioParams the static model class
+	 * @return MediaInfo the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

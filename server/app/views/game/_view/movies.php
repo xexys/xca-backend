@@ -19,11 +19,12 @@
                         'value' => '$this->title($data)',
                     ),
                     array(
+                        'name' => 'issue_year',
+                    ),
+                    array(
                         'class' => '\app\components\grid\ButtonColumn',
                     )
-
-                ),
-
+                )
             )
         );
         ?>

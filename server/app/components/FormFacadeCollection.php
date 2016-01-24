@@ -44,19 +44,19 @@ class FormFacadeCollection extends FormCollection implements FormFacadeMethods
         }
     }
 
-    public function delete()
-    {
-        $transaction = $this->getDb()->beginTransaction();
-        try {
-            foreach ($this as $item) {
-                $item->delete();
-            }
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
-        }
-    }
+//    public function delete()
+//    {
+//        $transaction = $this->getDb()->beginTransaction();
+//        try {
+//            foreach ($this as $item) {
+//                $item->delete();
+//            }
+//            $transaction->commit();
+//        } catch (Exception $e) {
+//            $transaction->rollback();
+//            throw $e;
+//        }
+//    }
 
     protected function _checkItemInstanceof($item)
     {

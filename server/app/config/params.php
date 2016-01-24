@@ -11,9 +11,11 @@ define('APP_DATE_FORMAT', 'd.m.Y');
  */
 define('APP_VALIDATION_DATE_FORMAT', 'dd.MM.yyyy');
 define('APP_VALIDATION_DATETIME_FORMAT', 'dd.MM.yyyy hh:mm:ss');
+define('APP_VALIDATION_YEAR_FORMAT', 'yyyy');
 
 // Формат для ввода даты через datepicker
 define('APP_DATEPICKER_DATE_FORMAT', 'dd.mm.yyyy');
+define('APP_DATEPICKER_YEAR_FORMAT', 'yyyy');
 
 // Формат для записи даты в БД
 define('APP_DB_TIMESTAMP_FORMAT', 'Y-m-d H:i:s');

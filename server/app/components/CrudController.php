@@ -14,6 +14,9 @@ use \CHtml;
 
 abstract class CrudController extends HtmlController
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     public function init()
     {
         // Инициализация конвертера префикса используемого в формах для редактирования и создания модели

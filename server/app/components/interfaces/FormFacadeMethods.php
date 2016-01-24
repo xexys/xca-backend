@@ -13,5 +13,5 @@ interface FormFacadeMethods
 {
     public function save($runValidation = true);
 
-    public function delete();
+//    public function delete();
 }
