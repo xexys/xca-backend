@@ -42,17 +42,17 @@ abstract class FormFacadeModel extends FormModel implements FormFacadeMethods
         }
     }
 
-    public function delete()
-    {
-        $transaction = $this->getDb()->beginTransaction();
-        try {
-            $this->_delete();
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            throw $e;
-        }
-    }
+//    public function delete()
+//    {
+//        $transaction = $this->getDb()->beginTransaction();
+//        try {
+//            $this->_delete();
+//            $transaction->commit();
+//        } catch (Exception $e) {
+//            $transaction->rollback();
+//            throw $e;
+//        }
+//    }
 
     abstract protected function _create();
 

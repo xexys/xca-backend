@@ -1,11 +1,11 @@
 <?php
 
-$this->pageTitle = 'Ролики';
+$this->pageTitle = 'Файлы';
 
 $this->widget(
     '\app\components\grid\BaseView',
     array(
-        'dataProvider' => $movieDataProvider,
+        'dataProvider' => $movieFileDataProvider,
         'templateWidget'=>array(
             'params'=> array(
                 'createItemButton'=>true,
@@ -15,16 +15,22 @@ $this->widget(
             array(
                 'name'=>'id',
             ),
+//            array(
+//                'class'=> 'app\components\grid\DataColumn\Movie',
+//                'name'=>'title',
+//                'value'=> '$this->title($data)',
+//            ),
             array(
-                'class'=> 'app\components\grid\DataColumn\Movie',
-                'name'=>'title',
-                'value'=> '$this->title($data)',
+                'name'=>'mainParams.name',
             ),
             array(
-                'name'=>'game.title',
+                'name'=>'type',
             ),
             array(
-                'name' => 'issue_year',
+                'name'=>'movie.game.title',
+            ),
+            array(
+                'name'=>'movie.title',
             ),
             array(
                 'class' => '\app\components\grid\CrudButtonColumn',

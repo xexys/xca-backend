@@ -12,7 +12,7 @@ $issuesInfoParams = $gameParams->itemAt('issuesInfoParams');
                 <h4 class="section_header">Информация об игре</h4>
                 <div class="section_content">
                     <?php
-                    $this->renderPartial('_form/main-params', array(
+                    $this->renderPartial('_form/main', array(
                         'formWidget' => $formWidget,
                         'mainParams' => $mainParams,
                     ));

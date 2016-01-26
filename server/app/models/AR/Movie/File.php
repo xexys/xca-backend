@@ -6,6 +6,9 @@ use \app\components\ActiveRecord;
 
 class File extends ActiveRecord
 {
+    const TYPE_MAIN = 1;
+    const TYPE_SOURCE = 2;
+
     /**
      * @return string the associated database table name
      */
@@ -40,12 +43,12 @@ class File extends ActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
+            'mainParams' => array(self::HAS_ONE, '\app\models\AR\Movie\File\MainParams', 'movie_file_id'),
+            'videoParams' => array(self::HAS_ONE, '\app\models\AR\Movie\File\VideoParams', 'movie_file_id'),
             'audioParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\AudioParams', 'movie_file_id'),
-            'mainParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\MainParams', 'movie_file_id'),
-            'mediaInfo' => array(self::HAS_MANY, '\app\models\AR\Movie\File\MediaInfo', 'movie_file_id'),
-            'sourcesInfo' => array(self::HAS_MANY, '\app\models\AR\Movie\File\SourceInfo', 'movie_file_id'),
+            'mediaInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\File\MediaInfo', 'movie_file_id'),
+            'sourceInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\File\SourceInfo', 'movie_file_id'),
             'storages' => array(self::HAS_MANY, '\app\models\AR\Movie\File\Storage', 'movie_file_id'),
-            'videoParams' => array(self::HAS_MANY, '\app\models\AR\Movie\File\VideoParams', 'movie_file_id'),
         );
     }
 

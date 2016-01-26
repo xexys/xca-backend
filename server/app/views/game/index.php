@@ -28,7 +28,7 @@ $this->widget(
                 'name' => 'text_id',
             ),
             array(
-                'class' => '\app\components\grid\ButtonColumn',
+                'class' => '\app\components\grid\CrudButtonColumn',
             )
         ),
     )

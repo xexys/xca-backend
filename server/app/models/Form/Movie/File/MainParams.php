@@ -12,7 +12,7 @@ use \app\models\AR\Movie;
 use \app\models\AR\Dictionary;
 
 
-class FileParams extends Params
+class MainParams extends Params
 {
     public $name;
     public $size;

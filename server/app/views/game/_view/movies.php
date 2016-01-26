@@ -22,7 +22,7 @@
                         'name' => 'issue_year',
                     ),
                     array(
-                        'class' => '\app\components\grid\ButtonColumn',
+                        'class' => '\app\components\grid\CrudButtonColumn',
                     )
                 )
             )

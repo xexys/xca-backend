@@ -13,7 +13,7 @@ use \Yii;
 Yii::import('booster.widgets.TbButtonColumn');
 
 
-class ButtonColumn extends \TbButtonColumn
+class CrudButtonColumn extends \TbButtonColumn
 {
     const BUTTON_VIEW_LABEL = 'Просмотреть';
 
@@ -70,7 +70,8 @@ class ButtonColumn extends \TbButtonColumn
 
     private function _getModelClassShortName()
     {
-        return (new \ReflectionClass($this->grid->dataProvider->modelClass))->getShortName();
+        $className = (new \ReflectionClass($this->grid->dataProvider->modelClass))->getName();
+        return str_replace('app\\models\\AR\\', '', $className);
     }
 
 

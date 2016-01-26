@@ -6,23 +6,23 @@
  * Time: 12:39
  */
 
-namespace app\models\Form\Movie;
+namespace app\models\Form;
 
 use \app\models\AR\Game;
 use app\components\FormFacadeModel;
 
 
-class MainParams extends FormFacadeModel
+class Movie extends FormFacadeModel
 {
     public $gameTitle;
     public $title;
     public $issueYear;
 
-    protected $_movie;
+    protected $_movieModel;
 
-    public function __construct($scenario, $movie)
+    public function __construct($scenario, $movieModel)
     {
-        $this->_movie = $movie;
+        $this->_movieModel = $movieModel;
 
         parent::__construct($scenario);
     }
@@ -31,9 +31,7 @@ class MainParams extends FormFacadeModel
     {
         parent::init();
 
-        if ($this->getScenario() === self::SCENARIO_UPDATE) {
-            $this->_setAttributesByMovieModel();
-        }
+        $this->_setAttributesByMovieModel();
     }
 
     public function rules()
@@ -53,10 +51,9 @@ class MainParams extends FormFacadeModel
         $gameTitle = $this->gameTitle;
         $game = Game::model()->findByAttributes(array('title' => $gameTitle));
 
-        if ($game && strtolower($game->title) == strtolower($gameTitle)) {
-            return;
+        if (!$game) {
+            $this->addError($key, 'Игры с таким названием не существует в базе данных.');
         }
-        $this->addError($key, 'Игры с таким названием не существует в базе данных.');
     }
 
     public function getFormKeys()
@@ -66,7 +63,7 @@ class MainParams extends FormFacadeModel
 
     protected function _setAttributesByMovieModel()
     {
-        $this->setAttributes($this->_movie->getAttributes());
+        $this->setAttributes($this->_movieModel->getAttributes());
     }
 
     protected function _create()
@@ -75,7 +72,8 @@ class MainParams extends FormFacadeModel
 
         $attrs = $this->getAttributes();
         $attrs['gameId'] = $game->id;
-        $movie = $this->_movie;
+
+        $movie = $this->_movieModel;
         $movie->setAttributes($attrs);
 
         if (!$movie->save()) {
@@ -85,22 +83,10 @@ class MainParams extends FormFacadeModel
 
     protected function _update()
     {
-        $this->_movie->setAttributes($this->getAttributes());
+        $this->_movieModel->setAttributes($this->getAttributes());
 
-        if (!$this->_movie->save()) {
-            throw new CException($this->_movie->getFirstErrorMessage());
+        if (!$this->_movieModel->save()) {
+            throw new CException($this->_movieModel->getFirstErrorMessage());
         }
-    }
-
-    protected function _checkMovieIsNewRecord()
-    {
-        if ($this->_movie->getIsNewRecord()) {
-            throw new CException('The movie must not be a new.');
-        }
-    }
-
-    protected function _delete()
-    {
-        $this->_movie->delete();
     }
 }

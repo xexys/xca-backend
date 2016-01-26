@@ -106,16 +106,16 @@ class MovieController extends CrudController
 
     private function _createMovieForm($scenario, $movie, $gameId = null)
     {
-        $mainParams = new Form\Movie\MainParams($scenario, $movie);
+        $movieForm = new Form\Movie($scenario, $movie);
         
         if ($gameId) {
             $game = Game::model()->findByPk($gameId);
             
             if ($game) {
-                $mainParams->setAttributes(array('gameTitle' => $game->title));
+                $movieForm->setAttributes(array('gameTitle' => $game->title));
             }
         }
-        return $mainParams;
+        return $movieForm;
     }
 
     private function _getModelById($id, $with = array())

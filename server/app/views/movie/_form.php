@@ -2,7 +2,7 @@
     <div class="col-md-6">
         <div class="movie-card_section">
             <?php
-            $this->renderPartial('_form/main-params', array(
+            $this->renderPartial('_form/main', array(
                 'formWidget' => $formWidget,
                 'movieForm' => $movieForm,
             ));
