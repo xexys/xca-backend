@@ -1,7 +1,7 @@
 var Backbone = require('blocks-modules/backbone');
 var Marionette = require('backbone.marionette');
 
-Marionette.Backbone = Backbone
+Marionette.Backbone = Backbone;
 
 module.exports = Marionette;
 
