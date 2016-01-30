@@ -46,21 +46,21 @@ class MovieFileCardEditWidget extends MovieFileCardWidget
     @ui.movieId.val(null)
 
 
-  _addAudio: (e) ->
-    e.preventDefault()
+  _addAudio: (event) ->
+    event.preventDefault()
 
     template = @_getAudioTemplate()
 
-    $audio = @_getClosestAudio(e.target)
+    $audio = @_getClosestAudio(event.target)
     $audio.after($(template))
 
     @_toggleRemoveBtn()
 
 
-  _removeAudio: (e) ->
-    e.preventDefault()
+  _removeAudio: (event) ->
+    event.preventDefault()
 
-    $audio = @_getClosestAudio(e.target)
+    $audio = @_getClosestAudio(event.target)
     $audio.remove()
 
     @_toggleRemoveBtn()
