@@ -2,17 +2,17 @@
 
 $cssHelper = $this->getViewUIHelper('Css');
 
-foreach ($fileParams->getFormKeys() as $key) {
-    $cssClass = 'movie-card_file-param_' . $cssHelper->fixCssName($key);
+foreach ($mainParams->getFormKeys() as $key) {
+    $cssClass = 'movie-file-card_main-param_' . $cssHelper->fixCssName($key);
 
     if ($key == 'formatId') {
         $options = array('widgetOptions' => array(
-            'data'=> $fileParams->getFormatDictionary(),
+            'data'=> $mainParams->getFormatDictionary(),
             'htmlOptions'=>array(
                 'class' => $cssClass
             )
         ));
-        echo $formWidget->dropDownListGroup($fileParams, $key, $options);
+        echo $formWidget->dropDownListGroup($mainParams, $key, $options);
     } else {
         $options = array('widgetOptions' => array(
             'htmlOptions'=>array(
@@ -20,6 +20,6 @@ foreach ($fileParams->getFormKeys() as $key) {
                 'class' => $cssClass
             )
         ));
-        echo $formWidget->textFieldGroup($fileParams, $key, $options);
+        echo $formWidget->textFieldGroup($mainParams, $key, $options);
     }
 }

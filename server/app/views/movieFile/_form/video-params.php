@@ -3,7 +3,7 @@
 $cssHelper = $this->getViewUIHelper('Css');
 
 foreach ($videoParams->getFormKeys() as $key) {
-    $cssClass = 'movie-card_video-param_' . $cssHelper->fixCssName($key);
+    $cssClass = 'movie-file-card_video-param_' . $cssHelper->fixCssName($key);
 
     if (in_array($key, array('formatId', 'frameRate', 'frameRateMode'))) {
         $options = array('widgetOptions' => array(

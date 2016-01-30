@@ -1,12 +1,8 @@
-Marionette = require('blocks-modules/marionette');
+NoTemplateLayout = require('views/layouts/noTemplate');
 
+class BasePageView extends NoTemplateLayout
 
-class BasePageView extends Marionette.LayoutView
-
-  el: '.page'
-
-
-  initialize: ->
+  onShow: ->
     @$('select').select2(
       minimumResultsForSearch: 10
     )

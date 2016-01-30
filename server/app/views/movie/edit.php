@@ -26,7 +26,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     ));
     ?>
 
-    <div class="movie-card_section">
+    <div class="section">
         <?= $btnHelper->submitButton(array('label' => 'Сохранить', 'fa-icon' => 'save', 'context' => 'success')); ?>
         <?= $btnHelper->linkButton(array('label' => 'Отмена', 'gl-icon' => 'ban-circle', 'context' => 'primary', 'url' => $backUrl)); ?>
     </div>

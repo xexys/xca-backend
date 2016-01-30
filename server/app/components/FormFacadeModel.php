@@ -15,6 +15,13 @@ use \app\components\interfaces\FormFacadeMethods;
 
 abstract class FormFacadeModel extends FormModel implements FormFacadeMethods
 {
+    public function __construct($scenario, array $params)
+    {
+        parent::__construct($scenario);
+
+        $this->_initByParams($params);
+    }
+
     public function behaviors()
     {
         return CMap::mergeArray(
@@ -41,6 +48,8 @@ abstract class FormFacadeModel extends FormModel implements FormFacadeMethods
             return false;
         }
     }
+
+    abstract protected function _initByParams($params);
 
 //    public function delete()
 //    {

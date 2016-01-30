@@ -1,6 +1,7 @@
-Marionette = require('blocks-modules/marionette')
+NoTemplateLayout = require('views/layouts/noTemplate');
 
-class GameCardWidget extends Marionette.LayoutView
+
+class GameCardWidget extends NoTemplateLayout
 
 
 module.exports = GameCardWidget

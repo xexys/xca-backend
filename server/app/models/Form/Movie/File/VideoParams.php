@@ -6,7 +6,7 @@
  * Time: 15:56
  */
 
-namespace app\models\Form\Movie;
+namespace app\models\Form\Movie\File;
 
 use \app\models\AR\Movie;
 use \app\models\AR\Dictionary;

@@ -33,10 +33,13 @@ class FormFacadeCollection extends FormCollection implements FormFacadeMethods
                 foreach ($this as $item) {
                     $item->save(false);
                 }
+
                 $transaction->commit();
+
                 return true;
             } catch (Exception $e) {
                 $transaction->rollback();
+
                 throw $e;
             }
         } else {

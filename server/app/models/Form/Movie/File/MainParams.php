@@ -6,7 +6,7 @@
  * Time: 15:56
  */
 
-namespace app\models\Form\Movie;
+namespace app\models\Form\Movie\File;
 
 use \app\models\AR\Movie;
 use \app\models\AR\Dictionary;
@@ -18,6 +18,7 @@ class MainParams extends Params
     public $size;
     public $duration;
     public $formatId = Dictionary\FileFormat::FORMAT_ID_AVI;
+    public $md5;
 
     private static $_formatDictionary;
 
@@ -26,8 +27,9 @@ class MainParams extends Params
         return array(
             array('duration, size, formatId', 'required'),
             array('duration, size', 'numerical', 'integerOnly' => true),
-            array('name', 'length', 'max' => 50),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
+            array('name', 'length', 'max' => 50),
+            array('md5', 'length', 'min' => 32, 'max' => 32),
         );
     }
 

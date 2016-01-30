@@ -1,5 +1,5 @@
 <?php
-$audioParams = $movieParams->itemAt('audioParams');
+$audioParams = $movieFileForm->itemAt('audioParams');
 $audioParamsKeys = $audioParams->getFormKeys();
 $paramsItemIndex = md5(__FILE__);
 
@@ -14,7 +14,7 @@ $content = $this->renderPartial('_form/audio-params', array(
 ), true);
 
 echo CHtml::tag('script', array(
-    'id' => 'movie-card_audio-template',
+    'id' => 'movie-file-card_audio-template',
     'type' => 'text/x-template',
     'data-index-placeholder' => $paramsItemIndex,
 ), $content);

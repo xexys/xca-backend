@@ -6,7 +6,7 @@
  * Time: 19:02
  */
 
-namespace app\models\Form\Movie;
+namespace app\models\Form\Movie\File;
 
 use \Yii;
 use \CHtml;

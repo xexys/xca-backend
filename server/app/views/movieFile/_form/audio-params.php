@@ -4,13 +4,13 @@ $cssHelper = $this->getViewUIHelper('Css');
 
 ?>
 
-<div class="movie-card_audio">
+<div class="movie-file-card_audio">
     <?php if ($paramsItemIndex !== 0): ?>
         <hr>
     <?php endif; ?>
 
     <?php foreach ($paramsKeys as $key) {
-        $cssClass = 'movie-card_audio-param_' . $cssHelper->fixCssName($key);
+        $cssClass = 'movie-file-card_audio-param_' . $cssHelper->fixCssName($key);
         $name = '[' . $paramsItemIndex . ']' . $key;
         $placeholder = $params->getAttributeLabel($key);
 
@@ -35,15 +35,15 @@ $cssHelper = $this->getViewUIHelper('Css');
         }
     }
     ?>
-    <div class="movie-card_audio-btn-panel">
-        <span class="movie-card_audio-btn movie-card_audio-btn_remove <?= $isHideRemoveBtn ? 'movie-card_audio-btn_hidden' : '' ?>">
+    <div class="movie-file-card_audio-btn-panel">
+        <span class="movie-file-card_audio-btn movie-file-card_audio-btn_remove <?= $isHideRemoveBtn ? 'movie-file-card_audio-btn_hidden' : '' ?>">
             <span class="link link_crud-remove">
                 <i class="fa fa-minus-circle"></i>
                 <span class="link_text">Удалить</span>
             </span>
         </span>
 
-        <span class="movie-card_audio-btn movie-card_audio-btn_add">
+        <span class="movie-file-card_audio-btn movie-file-card_audio-btn_add">
             <span class="link link_crud-add">
                 <i class="fa fa-plus-circle"></i>
                 <span class="link_text">Добавить</span>

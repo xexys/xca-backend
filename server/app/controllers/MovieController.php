@@ -49,7 +49,12 @@ class MovieController extends CrudController
     public function actionCreate($gameId = null)
     {
         $movie = new Movie;
-        $movieForm = $this->_createMovieForm(self::SCENARIO_CREATE, $movie, $gameId);
+        $game = Game::model()->findByPk($gameId) ?: new Game();
+
+        $movieForm = new Form\Movie(self::SCENARIO_CREATE, array(
+            'movie' => $movie,
+            'game' => $game
+        ));
 
         $this->_tryAjaxValidation($movieForm);
 
@@ -73,7 +78,10 @@ class MovieController extends CrudController
     {
         $movie = $this->_getModelById($id, array('game'));
 
-        $movieForm = $this->_createMovieForm(self::SCENARIO_UPDATE, $movie);
+        $movieForm = new Form\Movie(self::SCENARIO_UPDATE, array(
+            'movie' => $movie,
+            'game' => $movie->game
+        ));
 
         $this->_tryAjaxValidation($movieForm);
 
@@ -104,18 +112,9 @@ class MovieController extends CrudController
         $this->redirect($url);
     }
 
-    private function _createMovieForm($scenario, $movie, $gameId = null)
+    private function _createMovieForm($scenario, $movie, $game)
     {
-        $movieForm = new Form\Movie($scenario, $movie);
-        
-        if ($gameId) {
-            $game = Game::model()->findByPk($gameId);
-            
-            if ($game) {
-                $movieForm->setAttributes(array('gameTitle' => $game->title));
-            }
-        }
-        return $movieForm;
+        return new Form\Movie($scenario, $movie, $game);
     }
 
     private function _getModelById($id, $with = array())

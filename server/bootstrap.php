@@ -9,6 +9,7 @@ define('ROOT_DIR', realpath(__DIR__ . '/..'));
 
 # Определяем режим работы - разработка/продакшн
 define('PROD_MODE', require(__DIR__ . '/check_prod_mode.php'));
+//define('PROD_MODE', true);
 define('DEV_MODE', !PROD_MODE);
 
 if (DEV_MODE) {

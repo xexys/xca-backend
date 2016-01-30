@@ -31,7 +31,7 @@ class FormCollection extends ObjectCollection implements FormMethods
         $isValid = true;
 
         foreach ($this as $item) {
-            $isValid = $isValid && $item->validate($attributes, $clearErrors);
+            $isValid = $item->validate($attributes, $clearErrors) && $isValid;
         }
 
         return $isValid;

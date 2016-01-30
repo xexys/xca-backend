@@ -3,10 +3,12 @@ GameCardEditWidget = require('blocks-widgets/game-card_edit');
 
 class GameCreatePage extends GamePage
 
-  initialize: ->
+  onShow: ->
     super
-    new GameCardEditWidget(el: '.game-card_edit')
 
+    @gameCard.show(new GameCardEditWidget(
+      el: '.game-card_edit'
+    ))
 
 
 module.exports = GameCreatePage

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="movie-card_section">
+        <div class="section">
             <?php
             $this->renderPartial('_form/main', array(
                 'formWidget' => $formWidget,

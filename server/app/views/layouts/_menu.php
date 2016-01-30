@@ -7,5 +7,8 @@
     <li>
         <?= CHtml::link('Ролики', Yii::app()->createUrl('movie')); ?>
     </li>
+    <li>
+        <?= CHtml::link('Файлы', Yii::app()->createUrl('movieFile')); ?>
+    </li>
 </ul>
 

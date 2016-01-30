@@ -25,7 +25,7 @@ return array(
 
         'urlManager'=>array(
             'rules'=>array(
-                '<route:.*>'=>"<route>", // Показывает GET параметры
+                '<route:.*>' => '<route>', // Показывает GET параметры
             )
         ),
 
@@ -44,10 +44,19 @@ return array(
                     'ipFilters' => array('127.0.0.1', '192.168.*'),
                 ),
 
-                // Направляем вывод ошибок в файл если не включен режим отладки
                 array(
                     'class'       => 'CFileLogRoute',
-                    'levels'      => 'error, warning',
+                    'levels'      => 'error',
+                    'logFile'     => 'errors.log',
+                    'enabled'     => true,
+                    'maxFileSize' => 1024, // Значение в кб
+                    'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов
+                ),
+
+                array(
+                    'class'       => 'CFileLogRoute',
+                    'levels'      => 'warning',
+                    'logFile'     => 'warnings.log',
                     'enabled'     => true,
                     'maxFileSize' => 1024, // Значение в кб
                     'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов
@@ -56,7 +65,7 @@ return array(
                 array(
                     'class'       => 'CFileLogRoute',
                     'levels'      => 'profile',
-                    'logFile'     => 'profile.log',
+                    'logFile'     => 'profiles.log',
                     'enabled'     => true,
                     'maxFileSize' => 1024, // Значение в кб
                     'maxLogFiles' => 10, // Будем хранить не более 10 лог файлов

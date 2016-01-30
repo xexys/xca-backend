@@ -1,8 +1,8 @@
-<div class="page_movie-card">
+<div class="page_movie-file-card">
 
 <?php
 
-$this->pageTitle = 'Новый ролик';
+$this->pageTitle = 'Новый файл для ролика';
 
 $btnHelper = $this->getViewHelper('UI\Button');
 
@@ -19,11 +19,11 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 ?>
 
-<div class="movie-card movie-card_edit">
+<div class="movie-file-card movie-file-card_edit">
     <?php
     $this->renderPartial('_form', array(
         'formWidget' => $formWidget,
-        'movieForm' => $movieForm,
+        'movieFileForm' => $movieFileForm,
     ));
     ?>
 
@@ -35,6 +35,11 @@ echo CHtml::hiddenField('backUrl', $backUrl);
 
 <?php
 $this->endWidget();
+
+$this->renderPartial('_form/audio-params-template', array(
+    'formWidget' => $formWidget,
+    'movieFileForm' => $movieFileForm,
+));
 
 ?>
 

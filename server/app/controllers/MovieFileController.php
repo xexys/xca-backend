@@ -39,42 +39,43 @@ class MovieFileController extends CrudController
 
     public function actionView($id)
     {
-        $movie = $this->_getModelById($id, array('game', 'file.mainParams', 'file.videoParams', 'file.audioParams'));
+        $movieFile = $this->_getModelById($id, array('movie', 'movie.game',  'mainParams', 'videoParams', 'audioParams'));
 
-        $this->render('view', array(
-            'movie' => $movie
-        ));
+        $this->render('/dummy');
+
+//        $this->render('view', array(
+//            'movie' => $movie
+//        ));
     }
 
-
-    public function actionCreate($movieId = null, $type = null)
+    public function actionCreate($movieId = null, $movieFileType = null)
     {
-        $movie = Movie::model()->findByPk($movieId) ?: new Movie();
+        $movie = Movie::model()->with('game')->findByPk($movieId) ?: new Movie();
         $movieFile = new Movie\File;
-        $movieFileFormParams = $this->_createParamsForm(self::SCENARIO_CREATE, $movie, $movieFile, $type);
 
-        $this->_tryAjaxValidation($movieFileFormParams);
+        $movieFileForm = $this->_createParamsForm(self::SCENARIO_CREATE, $movie, $movieFile, $movieFileType);
+
+        $this->_tryAjaxValidation($movieFileForm);
 
         $backUrl = $this->_getBackUrl();
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $movieFileFormParams->setAttributesByPost();
+            $movieFileForm->setAttributesByPost();
 
-            if ($movieFileFormParams->save()) {
+            if ($movieFileForm->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('create', array(
-            'movieFile' => $movieFile,
-            'movieFileFormParams' => $movieFileFormParams,
+            'movieFileForm' => $movieFileForm,
             'backUrl' => $backUrl,
         ));
     }
 
     public function actionEdit($id)
     {
-        $movie = $this->_getModelById($id, array('game', 'file', 'video', 'audio'));
+        $movie = $this->_getModelById($id, array('game', 'movieFile', 'video', 'audio'));
         $movieParams = $this->_createMovieFormParams($movie);
 
         $this->_tryAjaxValidation($movieParams);
@@ -98,74 +99,65 @@ class MovieFileController extends CrudController
 
     public function actionDelete($id)
     {
-        $movie = $this->_getModelById($id);
+        $movieFile = $this->_getModelById($id);
 
-        $movieParams = new FormFacadeCollection(array(
-            $this->_createAudioParamsForm($movie),
-            $this->_createVideoParamsForm($movie),
-            $this->_createMovieFileParams($movie),
-            $this->_createMainParamsForm($movie),
-        ));
-        $movieParams->delete();
+        $movieFile->delete();
 
         $url = $this->createUrl('index');
         $this->redirect($url);
     }
 
-    private function _createMovieFileForm() {
-
-    }
-
-    private function _createParamsForm($scenario, $file, $type = null)
+    private function _createParamsForm($scenario, $movie, $movieFile, $movieFileType = null)
     {
         $formParams = array(
-            'description' =>  $this->_createDescriptionForm($scenario, $file, $type),
-            'mainParams' => $this->_createMainParamsForm($scenario, $file),
-            'videoParams' => $this->_createVideoParamsForm($scenario, $file),
-            'audioParams' => $this->_createAudioParamsForm($scenario, $file),
+            'infoParams' =>  $this->_createInfoParamsForm($scenario, $movie, $movieFile, $movieFileType),
+            'mainParams' => $this->_createMainParamsForm($scenario, $movieFile),
+            'videoParams' => $this->_createVideoParamsForm($scenario, $movieFile),
+            'audioParams' => $this->_createAudioParamsForm($scenario, $movieFile),
         );
 
         return new FormFacadeCollection($formParams);
     }
 
-    private function _createDescriptionForm($scenario, $file, $type = null)
+    private function _createInfoParamsForm($scenario, $movie, $movieFile, $movieFileType = null)
     {
-        return new Form\File\Description($scenario, $file, type);
-
+        return new Form\Movie\File\InfoParams($scenario, array(
+            'movie' => $movie,
+            'movieFile' => $movieFile,
+            'movieFileType' => $movieFileType
+        ));
     }
 
-    private function _createMainParamsForm($file)
+    private function _createMainParamsForm($scenario, $file)
     {
-        $formMainParams = new Form\Movie\File\MainParams($movie);
-        $mainParams = $file->mainParams ?: new Movie\File\MainParams();
+        $mainParams = new Form\Movie\File\MainParams($scenario, array(
+            'movieFile' => $file
+        ));
 
-        if ($gameId) {
-            $game = Game::model()->findByPk($gameId);
-            if ($game) {
-                $mainParams->setAttributes(array('gameTitle' => $game->title));
-            }
-        }
         return $mainParams;
     }
 
-    private function _createMovieFileParams($movie)
+    private function _createVideoParamsForm($scenario, $file)
     {
-        return new Form\Movie\FileParams($movie);
+        $videoParams = new Form\Movie\File\VideoParams($scenario, array(
+            'movieFile' => $file
+        ));
+
+        return $videoParams;
     }
 
-    private function _createVideoParamsForm($movie)
+    private function _createAudioParamsForm($scenario, $file)
     {
-        return new Form\Movie\VideoParams($movie);
-    }
+        $audioParams = new Form\Movie\File\AudioParams($scenario, array(
+            'movieFile' => $file
+        ));
 
-    private function _createAudioParamsForm($movie)
-    {
-        return new Form\Movie\AudioParams($movie);
+        return $audioParams;
     }
 
     private function _getModelById($id, $with = array())
     {
-        $model = Movie::model()->with($with)->findByPk($id);
+        $model = Movie\File::model()->with($with)->findByPk($id);
         if (!$model) {
             // TODO: Сделать нормальное исключение
             throw new \CHttpException(404, 'Модель не найдена');
