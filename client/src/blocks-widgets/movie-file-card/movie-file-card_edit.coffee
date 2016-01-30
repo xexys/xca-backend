@@ -15,7 +15,6 @@ class MovieFileCardEditWidget extends MovieFileCardWidget
 
 
   onShow: ->
-    super
     @_initGameTitleAutocomplete()
 
 

@@ -4,8 +4,6 @@ MovieCardEditWidget = require('blocks-widgets/movie-card_edit');
 class MovieCreatePage extends MoviePage
 
   onShow: ->
-    super
-
     @movieCard.show(new MovieCardEditWidget(
       el: '.movie-card_edit'
     ))

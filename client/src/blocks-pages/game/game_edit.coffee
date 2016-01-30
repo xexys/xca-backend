@@ -4,8 +4,6 @@ GameCardEditWidget = require('blocks-widgets/game-card_edit');
 class GameEditPage extends GamePage
 
   onShow: ->
-    super
-
     @gameCard.show(new GameCardEditWidget(
       el: '.game-card_edit'
     ))
