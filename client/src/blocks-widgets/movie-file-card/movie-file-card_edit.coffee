@@ -41,7 +41,7 @@ class MovieFileCardEditWidget extends MovieFileCardWidget
         @ui.movieId.val(item.id)
     )
 
-  _clearMovieId: () ->
+  _clearMovieId: ->
     @ui.movieId.val(null)
 
 
