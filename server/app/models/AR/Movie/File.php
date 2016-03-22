@@ -25,12 +25,10 @@ class File extends ActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('movie_id, type', 'required'),
             array('movie_id, type', 'numerical', 'integerOnly'=>true),
-            array('description', 'length', 'max'=>500),
-            array('md5', 'length', 'max'=>32),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, movie_id, type, description, md5', 'safe', 'on'=>'search'),
+            array('comment', 'length', 'max'=>500),
+            array('name', 'length', 'max'=>50),
         );
     }
 
@@ -49,20 +47,6 @@ class File extends ActiveRecord
             'mediaInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\File\MediaInfo', 'movie_file_id'),
             'sourceInfo' => array(self::HAS_ONE, '\app\models\AR\Movie\File\SourceInfo', 'movie_file_id'),
             'storages' => array(self::HAS_MANY, '\app\models\AR\Movie\File\Storage', 'movie_file_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'movie_id' => 'Movie',
-            'type' => 'Type',
-            'description' => 'Description',
-            'md5' => 'Md5',
         );
     }
 

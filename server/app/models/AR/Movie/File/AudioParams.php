@@ -22,12 +22,12 @@ class AudioParams extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'required'),
-			array('movie_id, format_id, bit_rate, bit_rate_mode, language_id, sample_rate, track_number', 'numerical', 'integerOnly'=>true),
+			array('movie_file_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'required'),
+			array('movie_file_id, format_id, bit_rate, bit_rate_mode, language_id, sample_rate, track_number', 'numerical', 'integerOnly'=>true),
 			array('channels', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
+			array('id, movie_file_id, format_id, bit_rate, bit_rate_mode, channels, language_id, sample_rate, track_number', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -39,7 +39,7 @@ class AudioParams extends ActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
+			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_file_id'),
 			'format' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\AudioFormat', 'format_id'),
 			'lang' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\Language', 'language_id'),
 		);
@@ -52,7 +52,7 @@ class AudioParams extends ActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'movie_id' => 'Movie',
+			'movie_file_id' => 'Movie',
 			'format_id' => 'Format',
 			'bit_rate' => 'Bit Rate',
 			'bit_rate_mode' => 'Bit Rate Mode',
@@ -82,7 +82,7 @@ class AudioParams extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('movie_id',$this->movie_id);
+		$criteria->compare('movie_file_id',$this->movie_file_id);
 		$criteria->compare('format_id',$this->format_id);
 		$criteria->compare('bit_rate',$this->bit_rate);
 		$criteria->compare('bit_rate_mode',$this->bit_rate_mode);

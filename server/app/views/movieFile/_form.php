@@ -37,18 +37,17 @@
 
             <?php
             $audioParams = $movieFileForm->itemAt('audioParams');
-            $audioParamsKeys = $audioParams->getFormKeys();
 
             // Важно сбросить ключи, чтобы номера начинались с 0
             $audioParamsItems = array_values($audioParams->items->toArray());
             $audioParamsItemsCount = count($audioParamsItems);
+
             foreach ($audioParamsItems as $n => $audioParamsItem) {
                 $this->renderPartial('_form/audio-params', array(
                     'formWidget' => $formWidget,
-                    'params' => $audioParamsItem,
-                    'paramsKeys' => $audioParamsKeys,
+                    'paramsItem' => $audioParamsItem,
                     'paramsItemIndex' => $n,
-                    'isHideRemoveBtn' => $audioParamsItemsCount === 1,
+                    'hideRemoveBtn' => $audioParamsItemsCount === 1,
                 ));
             }
             ?>

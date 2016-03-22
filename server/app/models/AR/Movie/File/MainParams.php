@@ -20,12 +20,12 @@ class MainParams extends ActiveRecord
     public function rules()
     {
         return array(
-            array('movie_id, format_id', 'required'),
-            array('movie_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>50),
+            array('movie_file_id, format_id', 'required'),
+            array('movie_file_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
+            array('md5', 'length', 'min'=>32, 'max'=>32),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, movie_id, name, size, duration, format_id', 'safe', 'on'=>'search'),
+            array('id, movie_file_id, name, size, duration, format_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -39,21 +39,6 @@ class MainParams extends ActiveRecord
         return array(
             'file' => array(self::BELONGS_TO, 'app\models\AR\Movie\File', 'movie_file_id'),
             'format' => array(self::BELONGS_TO, 'app\models\AR\Dictionary\FileFormat', 'format_id'),
-        );
-    }
-
-    /**
-     * @return array customized attribute labels (name=>label)
-     */
-    public function attributeLabels()
-    {
-        return array(
-            'id' => 'ID',
-            'movie_id' => 'Movie',
-            'name' => 'Name',
-            'size' => 'Size',
-            'duration' => 'Duration',
-            'format_id' => 'Format',
         );
     }
 
@@ -76,8 +61,7 @@ class MainParams extends ActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
-        $criteria->compare('movie_id',$this->movie_id);
-        $criteria->compare('name',$this->name,true);
+        $criteria->compare('movie_id',$this->movie_file_id);
         $criteria->compare('size',$this->size);
         $criteria->compare('duration',$this->duration);
         $criteria->compare('format_id',$this->format_id);

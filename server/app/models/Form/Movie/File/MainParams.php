@@ -14,7 +14,6 @@ use \app\models\AR\Dictionary;
 
 class MainParams extends Params
 {
-    public $name;
     public $size;
     public $duration;
     public $formatId = Dictionary\FileFormat::FORMAT_ID_AVI;
@@ -28,7 +27,6 @@ class MainParams extends Params
             array('duration, size, formatId', 'required'),
             array('duration, size', 'numerical', 'integerOnly' => true),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
-            array('name', 'length', 'max' => 50),
             array('md5', 'length', 'min' => 32, 'max' => 32),
         );
     }
@@ -49,38 +47,38 @@ class MainParams extends Params
         return self::$_formatDictionary;
     }
 
-    protected function _setAttributesByMovieModel()
+    protected function _initByParams($params)
     {
-        $this->setAttributes($this->_movieModel->file->getAttributes());
+        parent::_initByParams($params);
+
+        if ($this->_movieFile->mainParams) {
+            $attrs = $this->_movieFile->mainParams->getAttributes();
+            $this->setAttributes($attrs);
+        }
     }
 
     protected function _create()
     {
-        $this->_checkMovieIsNewRecord();
-
         $attrs = $this->getAttributes();
-        $attrs['movieId'] = $this->_movieModel->id;
-        $movieFile = new Movie\File;
-        $movieFile->setAttributes($attrs);
+        $attrs['movieFileId'] = $this->_movieFile->id;
 
-        if (!$movieFile->save()) {
-            throw new CException($movieFile->getFirstErrorMessage());
+        $model = new Movie\File\MainParams;
+        $model->setAttributes($attrs);
+
+        if (!$model->save()) {
+            throw new CException($model->getFirstErrorMessage());
         }
     }
 
     protected function _update()
     {
         $attrs = $this->getAttributes();
-        $movieFile = $this->_movieModel->file;
-        $movieFile->setAttributes($attrs);
 
-        if (!$movieFile->save()) {
-            throw new CException($movieFile->getFirstErrorMessage());
+        $model = $this->_movieFile->mainParams;
+        $model->setAttributes($attrs);
+
+        if (!$model->save()) {
+            throw new CException($model->getFirstErrorMessage());
         }
-    }
-
-    protected function _delete()
-    {
-        Movie\File::model()->deleteAllByAttributes(array('movie_id' => $this->_movieModel->id));
     }
 }

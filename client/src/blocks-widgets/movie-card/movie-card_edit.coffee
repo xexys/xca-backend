@@ -2,7 +2,7 @@ MovieCardWidget = require('blocks-widgets/movie-card')
 
 class MovieCardEditWidget extends MovieCardWidget
 
-  initialize: ->
+  onShow: ->
     @_initGameTitleAutocomplete()
 
 

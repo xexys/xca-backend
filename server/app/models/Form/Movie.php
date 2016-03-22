@@ -43,11 +43,6 @@ class Movie extends FormFacadeModel
         }
     }
 
-    public function getFormKeys()
-    {
-        return $this->getSafeAttributeNames();
-    }
-
     public function setAttributesByPost($postData = array())
     {
         parent::setAttributesByPost($postData);

@@ -48,6 +48,12 @@ class MovieFileController extends CrudController
 //        ));
     }
 
+    /**
+     * @param null $movieId
+     * @param null $movieFileType - позваляет указать какой тип файла мы хотим создать
+     * @throws \Exception
+     * @throws \app\components\Exception
+     */
     public function actionCreate($movieId = null, $movieFileType = null)
     {
         $movie = Movie::model()->with('game')->findByPk($movieId) ?: new Movie();
@@ -128,13 +134,11 @@ class MovieFileController extends CrudController
         ));
     }
 
-    private function _createMainParamsForm($scenario, $file)
+    private function _createMainParamsForm($scenario, $movieFile)
     {
-        $mainParams = new Form\Movie\File\MainParams($scenario, array(
-            'movieFile' => $file
+        return new Form\Movie\File\MainParams($scenario, array(
+            'movieFile' => $movieFile
         ));
-
-        return $mainParams;
     }
 
     private function _createVideoParamsForm($scenario, $file)

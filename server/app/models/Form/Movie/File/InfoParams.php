@@ -16,6 +16,7 @@ class InfoParams extends Params
     const FILE_TYPE_SOURCE = 2;
     const FILE_TYPE_LOCALIZATION = 3;
 
+    public $name;
     public $movieId;
     public $movieTitle;
     public $type = self::FILE_TYPE_MAIN;
@@ -26,9 +27,10 @@ class InfoParams extends Params
     public function rules()
     {
         return array(
-            array('movieId', 'required'),
+            array('name', 'length', 'max' => 50),
+            array('movieId, type', 'required'),
             array('movieTitle', 'required', 'on' => self::SCENARIO_CREATE),
-            array('movieTitle', 'validateMovieExist'),
+            array('movieId, movieTitle', 'validateMovieExist'),
             array('type', 'in', 'range' => $this->_getTypeDictionaryKeys()),
             array('comment', 'length', 'max' => 500),
         );
@@ -45,27 +47,37 @@ class InfoParams extends Params
 
     protected function _initByParams($params)
     {
-        $movie = $params['movie'];
-        $movieFile = $params['movieFile'];
-        $movieFileType = $params['movieFileType'] ?: $this->type;
+        parent::_initByParams($params);
 
-        $this->_movieFile = $movieFile;
+        $movie = $params['movie'];
+        $movieFileType = $params['movieFileType'] ?: $this->type;
 
         $this->setAttributes(array(
             'movieId' => $movie->id,
             'type' => $movieFileType,
-            'comment' => $movieFile->comment
+            'comment' => $this->_movieFile->comment
         ));
     }
 
     protected function _create()
     {
-        throw new \Exception(__METHOD__);
+        $attrs = array(
+            'name' => $this->name,
+            'movieId' => $this->movieId,
+            'type' => $this->type,
+            'comment' => $this->comment,
+        );
+
+        $this->_movieFile->setAttributes($attrs);
+
+        if (!$this->_movieFile->save()) {
+            throw new CException($this->_movieFile->getFirstErrorMessage());
+        }
     }
 
     protected function _update()
     {
-        throw new \Exception(__METHOD__);
+        $this->_create();
     }
 
     public function getTypeDictionary()

@@ -66,21 +66,34 @@ class FormModel extends CFormModel implements FormMethods, Collectible
     {
         $collection = $this->getCollection();
 
-        if ($collection) {
-            $keys = array();
-            foreach($collection as $model) {
-                $keys[] = $model->$key;
-            }
+        $keys = array();
+        foreach($collection as $model) {
+            $keys[] = $model->$key;
+        }
 
-            $counts = array_count_values($keys);
+        $counts = array_count_values($keys);
 
-            foreach($collection as $model) {
-                if ($counts[$model->$key] > 1) {
-                    $label = $this->getAttributeLabel($key);
-                    $model->addError($key, $label . ' "' . CHtml::encode($model->$key) . '" уже есть в коллекции.');
-                }
+        foreach($collection as $model) {
+            if ($counts[$model->$key] > 1) {
+                $label = $this->getAttributeLabel($key);
+                $model->addError($key, $label . ' "' . CHtml::encode($model->$key) . '" уже есть в коллекции.');
             }
         }
+    }
+
+    public function getFormKeys()
+    {
+        return $this->getSafeAttributeNames();
+    }
+
+    public function getAjaxValidationResponseContent()
+    {
+        return CActiveForm::validate($this, null, false);
+    }
+
+    public function setAttributes($values, $safeOnly = true)
+    {
+        return parent::setAttributes(DataHelper::arrayKeysSnakeToCamel($values), $safeOnly);
     }
 
     public function setAttributesByPost($postData = array())
@@ -96,22 +109,14 @@ class FormModel extends CFormModel implements FormMethods, Collectible
         $this->setAttributes(DataHelper::trimRecursive($data));
     }
 
-    public function getAjaxValidationResponseContent()
-    {
-        return CActiveForm::validate($this, null, false);
-    }
-
-    public function setAttributes($values, $safeOnly = true)
-    {
-        return parent::setAttributes(DataHelper::arrayKeysSnakeToCamel($values), $safeOnly);
-    }
-
-    public function getSafeAttributes($names = null)
+    private function _getSafeAttributes($names = null)
     {
         $safeNames = $this->getSafeAttributeNames();
+
         if ($names) {
             $safeNames = array_intersect($names, $safeNames);
         }
+
         return $this->getAttributes($safeNames);
     }
 

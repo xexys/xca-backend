@@ -22,12 +22,12 @@ class VideoParams extends ActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode', 'required'),
-			array('movie_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
+			array('movie_file_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode', 'required'),
+			array('movie_file_id, format_id, width, height, bit_rate, frame_rate_mode', 'numerical', 'integerOnly'=>true),
 			array('frame_rate, frame_quality', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, movie_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode, frame_quality', 'safe', 'on'=>'search'),
+			array('id, movie_file_id, format_id, width, height, bit_rate, frame_rate, frame_rate_mode, frame_quality', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -40,7 +40,7 @@ class VideoParams extends ActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'format' => array(self::BELONGS_TO, '\app\models\AR\Dictionary\VideoFormat', 'format_id'),
-			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_id'),
+			'movie' => array(self::BELONGS_TO, '\app\models\AR\Movie', 'movie_file_id'),
 		);
 	}
 
@@ -69,7 +69,7 @@ class VideoParams extends ActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('movie_id',$this->movie_id);
+		$criteria->compare('movie_file_id',$this->movie_file_id);
 		$criteria->compare('format_id',$this->format_id);
 		$criteria->compare('width',$this->width);
 		$criteria->compare('height',$this->height);

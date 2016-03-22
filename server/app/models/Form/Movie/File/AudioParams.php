@@ -8,6 +8,7 @@
 
 namespace app\models\Form\Movie\File;
 
+use app\components\FormModel;
 use \Yii;
 use \CHtml;
 use \CActiveForm;
@@ -21,14 +22,6 @@ class AudioParams extends Params
 {
     public $items;
     
-    public function init()
-    {
-        $this->items = new FormCollection;
-        $this->items[] = $this->createItem();
-
-        parent::init();
-    }
-
     public function rules()
     {
         return array(
@@ -52,11 +45,6 @@ class AudioParams extends Params
         }
     }
 
-    public function getFormKeys()
-    {
-        return $this->items->getFirstItem()->getSafeAttributeNames();
-    }
-
     public function getAjaxValidationResponseContent()
     {
         return CActiveForm::validateTabular($this->items->toArray(), null, false);
@@ -67,47 +55,47 @@ class AudioParams extends Params
         return new AudioParamsItem($this->getScenario());
     }
 
-    private function _getPostKey()
+    protected function _getPostKey()
     {
         return CHtml::modelName($this->items->getFirstItem());
     }
 
-    protected function _setAttributesByMovieModel()
+    protected function _initByParams($params)
     {
-        $audioArray = $this->_movieModel->audio;
-        if ($audioArray) {
-            $this->items->clear();
-            foreach ($audioArray as $audio) {
+        parent::_initByParams($params);
+
+        $this->items = new FormCollection;
+
+        if ($this->_movieFile->audioParams) {
+            foreach ($this->_movieFile->audioParams as $paramsItem) {
                 $item = $this->createItem();
-                $item->setAttributes($audio->getAttributes());
+                $item->setAttributes($paramsItem->getAttributes());
                 $this->items[] = $item;
             }
+        } else {
+            $this->items[] = $this->createItem();
         }
     }
 
     protected function _create()
     {
-        $this->_checkMovieIsNewRecord();
-
         foreach ($this->items as $audioParams) {
             $attrs = $audioParams->getAttributes();
-            $attrs['movieId'] = $this->_movieModel->id;
-            $movieAudio = new Movie\Audio;
-            $movieAudio->setAttributes($attrs);
-            if (!$movieAudio->save()) {
-                throw new CException($movieAudio->getFirstErrorMessage());
+            $attrs['movieFileId'] = $this->_movieFile->id;
+
+            $model = new Movie\File\AudioParams;
+            $model->setAttributes($attrs);
+
+            if (!$model->save()) {
+                throw new CException($model->getFirstErrorMessage());
             }
         }
     }
 
     protected function _update()
     {
-        $this->_delete();
-        $this->_create();
-    }
+        Movie\File\AudioParams::model()->deleteAllByAttributes(array('movie_file_id' => $this->_movieFile->id));
 
-    protected function _delete()
-    {
-        Movie\Audio::model()->deleteAllByAttributes(array('movie_id' => $this->_movieModel->id));
+        $this->_create();
     }
 }

@@ -101,33 +101,38 @@ class VideoParams extends Params
         return self::$_formatDictionary;
     }
 
-    protected function _setAttributesByMovieModel()
+    protected function _initByParams($params)
     {
-        $this->setAttributes($this->_movieModel->video->getAttributes());
+        parent::_initByParams($params);
+
+        if ($this->_movieFile->videoParams) {
+            $attrs = $this->_movieFile->videoParams->getAttributes();
+            $this->setAttributes($attrs);
+        }
     }
 
     protected function _create()
     {
-        $this->_checkMovieIsNewRecord();
-
         $attrs = $this->getAttributes();
-        $attrs['movieId'] = $this->_movieModel->id;
-        $movieVideo = new Movie\Video;
-        $movieVideo->setAttributes($attrs);
+        $attrs['movieFileId'] = $this->_movieFile->id;
 
-        if (!$movieVideo->save()) {
-            throw new CException($movieVideo->getFirstErrorMessage());
+        $model = new Movie\File\VideoParams;
+        $model->setAttributes($attrs);
+
+        if (!$model->save()) {
+            throw new CException($model->getFirstErrorMessage());
         }
     }
 
     protected function _update()
     {
         $attrs = $this->getAttributes();
-        $movieVideo = $this->_movieModel->video;
-        $movieVideo->setAttributes($attrs);
 
-        if (!$movieVideo->save()) {
-            throw new CException($movieVideo->getFirstErrorMessage());
+        $model = $this->_movieFile->videoParams;
+        $model->setAttributes($attrs);
+
+        if (!$model->save()) {
+            throw new CException($model->getFirstErrorMessage());
         }
     }
 

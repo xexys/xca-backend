@@ -1,16 +1,14 @@
 <?php
 $audioParams = $movieFileForm->itemAt('audioParams');
-$audioParamsKeys = $audioParams->getFormKeys();
 $paramsItemIndex = md5(__FILE__);
 
 //$formWidgetCssId = $formWidget->htmlOptions['id'];
 
 $content = $this->renderPartial('_form/audio-params', array(
     'formWidget' => $formWidget,
-    'params' => $audioParams->createItem(),
-    'paramsKeys' => $audioParamsKeys,
+    'paramsItem' => $audioParams->createItem(),
     'paramsItemIndex' => $paramsItemIndex,
-    'isHideRemoveBtn' => false
+    'hideRemoveBtn' => false
 ), true);
 
 echo CHtml::tag('script', array(

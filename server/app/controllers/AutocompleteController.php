@@ -46,6 +46,7 @@ class AutocompleteController extends \app\components\JsonController
     {
         $criteria = new CDbCriteria();
 
+        // X-TODO: Сделать разбиение на части на клиенте
         if (strpos($search, '-') !== false) {
             list($gameSearch, $movieSearch) = explode('-', $search);
             $gameSearch = $search = $this->_prepareSearchString($gameSearch);
