@@ -19,7 +19,7 @@ class InfoParams extends Params
     public $name;
     public $movieId;
     public $movieTitle;
-    public $type = self::FILE_TYPE_MAIN;
+    public $type;
     public $comment;
 
     protected $_movieFile;
@@ -50,10 +50,11 @@ class InfoParams extends Params
         parent::_initByParams($params);
 
         $movie = $params['movie'];
-        $movieFileType = $params['movieFileType'] ?: $this->type;
+        $movieFileType = $params['movieFileType'] ?: self::FILE_TYPE_MAIN;
 
         $this->setAttributes(array(
             'movieId' => $movie->id,
+            'name' => $this->_movieFile->name,
             'type' => $movieFileType,
             'comment' => $this->_movieFile->comment
         ));

@@ -49,7 +49,7 @@ class MovieFileController extends CrudController
     }
 
     /**
-     * @param null $movieId
+     * @param null $movieId - позволяет указать для какой игры мо хотим создать ролик
      * @param null $movieFileType - позваляет указать какой тип файла мы хотим создать
      * @throws \Exception
      * @throws \app\components\Exception
@@ -81,24 +81,23 @@ class MovieFileController extends CrudController
 
     public function actionEdit($id)
     {
-        $movie = $this->_getModelById($id, array('game', 'movieFile', 'video', 'audio'));
-        $movieParams = $this->_createMovieFormParams($movie);
+        $movieFile = $this->_getModelById($id, array('movie', 'mainParams', 'videoParams', 'audioParams'));
+        $movieFileForm = $this->_createParamsForm(self::SCENARIO_CREATE, $movieFile->movie, $movieFile, $movieFile->type);
 
-        $this->_tryAjaxValidation($movieParams);
+        $this->_tryAjaxValidation($movieFileForm);
 
         $backUrl = $this->_getBackUrl();
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
-            $movieParams->setAttributesByPost();
+            $movieFileForm->setAttributesByPost();
 
-            if ($movieParams->save()) {
+            if ($movieFileForm->save()) {
                 $this->redirect($backUrl);
             }
         }
 
         $this->render('edit', array(
-            'movieParams' => $movieParams,
-            'movie' => $movie,
+            'movieFileForm' => $movieFileForm,
             'backUrl' => $backUrl,
         ));
     }
