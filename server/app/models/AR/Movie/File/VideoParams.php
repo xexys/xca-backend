@@ -6,6 +6,9 @@ use \app\components\ActiveRecord;
 
 class VideoParams extends ActiveRecord
 {
+	const FRAME_RATE_MODE_CONSTANT = 0;
+	const FRAME_RATE_MODE_VARIABLE = 1;
+
 	/**
 	 * @return string the associated database table name
 	 */

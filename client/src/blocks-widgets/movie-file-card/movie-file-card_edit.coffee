@@ -1,4 +1,5 @@
 MovieFileCardWidget = require('blocks-widgets/movie-file-card')
+cosmetic = require('blocks/cosmetic');
 
 
 class MovieFileCardEditWidget extends MovieFileCardWidget
@@ -48,10 +49,12 @@ class MovieFileCardEditWidget extends MovieFileCardWidget
   _addAudio: (event) ->
     event.preventDefault()
 
-    template = @_getAudioTemplate()
+    $template = $(@_getAudioTemplate())
+
+    cosmetic.setSelect($template)
 
     $audio = @_getClosestAudio(event.target)
-    $audio.after($(template))
+    $audio.after($template)
 
     @_toggleRemoveBtn()
 

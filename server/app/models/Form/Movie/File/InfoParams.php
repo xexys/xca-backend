@@ -12,11 +12,6 @@ use \app\models\AR\Movie;
 
 class InfoParams extends Params
 {
-    const FILE_TYPE_MAIN = 1;
-    const FILE_TYPE_SOURCE = 2;
-    const FILE_TYPE_LOCALIZATION = 3;
-
-    public $name;
     public $movieId;
     public $movieTitle;
     public $type;
@@ -27,9 +22,8 @@ class InfoParams extends Params
     public function rules()
     {
         return array(
-            array('name', 'length', 'max' => 50),
-            array('movieId, type', 'required'),
             array('movieTitle', 'required', 'on' => self::SCENARIO_CREATE),
+            array('movieId, type', 'required'),
             array('movieId, movieTitle', 'validateMovieExist'),
             array('type', 'in', 'range' => $this->_getTypeDictionaryKeys()),
             array('comment', 'length', 'max' => 500),
@@ -50,12 +44,10 @@ class InfoParams extends Params
         parent::_initByParams($params);
 
         $movie = $params['movie'];
-        $movieFileType = $params['movieFileType'] ?: self::FILE_TYPE_MAIN;
 
         $this->setAttributes(array(
             'movieId' => $movie->id,
-            'name' => $this->_movieFile->name,
-            'type' => $movieFileType,
+            'type' => $this->_movieFile->type ?: Movie\File::TYPE_MAIN,
             'comment' => $this->_movieFile->comment
         ));
     }
@@ -63,7 +55,6 @@ class InfoParams extends Params
     protected function _create()
     {
         $attrs = array(
-            'name' => $this->name,
             'movieId' => $this->movieId,
             'type' => $this->type,
             'comment' => $this->comment,
@@ -84,9 +75,9 @@ class InfoParams extends Params
     public function getTypeDictionary()
     {
         return array(
-            self::FILE_TYPE_MAIN => 'Основной',
-            self::FILE_TYPE_SOURCE => 'Исходник',
-            self::FILE_TYPE_LOCALIZATION => 'Локализация'
+            Movie\File::TYPE_MAIN => 'Основной',
+            Movie\File::TYPE_SOURCE => 'Исходник',
+            Movie\File::TYPE_LOCALIZATION=> 'Локализация',
         );
     }
 

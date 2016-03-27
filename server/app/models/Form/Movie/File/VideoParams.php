@@ -14,15 +14,12 @@ use \app\models\AR\Dictionary;
 
 class VideoParams extends Params
 {
-    const FRAME_RATE_MODE_CONSTANT = 0;
-    const FRAME_RATE_MODE_VARIABLE = 1;
-
     public $formatId = Dictionary\VideoFormat::FORMAT_ID_FOURCC_H264;
     public $width;
     public $height;
     public $bitRate;
     public $frameRate;
-    public $frameRateMode = self::FRAME_RATE_MODE_CONSTANT;
+    public $frameRateMode = Movie\File\VideoParams::FRAME_RATE_MODE_CONSTANT;
 
     private static $_formatDictionary;
 
@@ -69,8 +66,8 @@ class VideoParams extends Params
     public static function getFrameRateModeDictionary()
     {
         return array(
-            self::FRAME_RATE_MODE_CONSTANT => 'CFR',
-            self::FRAME_RATE_MODE_VARIABLE => 'VFR',
+            Movie\File\VideoParams::FRAME_RATE_MODE_CONSTANT => 'CFR',
+            Movie\File\VideoParams::FRAME_RATE_MODE_VARIABLE => 'VFR',
         );
     }
 

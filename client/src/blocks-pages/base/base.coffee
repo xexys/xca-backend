@@ -1,4 +1,5 @@
 NoTemplateLayout = require('views/layouts/noTemplate');
+cosmetic = require('blocks/cosmetic');
 
 class BasePageView extends NoTemplateLayout
 
@@ -7,10 +8,7 @@ class BasePageView extends NoTemplateLayout
 
 
   _setSelect: ->
-    @$('select').select2(
-      minimumResultsForSearch: 10
-    )
-
+    cosmetic.setSelect(@$el);
 
 
 module.exports = BasePageView

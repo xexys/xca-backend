@@ -21,7 +21,7 @@ $this->widget(
 //                'value'=> '$this->title($data)',
 //            ),
             array(
-                'name'=>'name',
+                'name'=>'mainParams.name',
             ),
             array(
                 'name'=>'type',

@@ -53,4 +53,18 @@
             ?>
         </div>
     </div>
+
+    <?php if ($movieFile->isSource()): ?>
+        <div class="col-md-6">
+            <h4 class="section_header">Информация об исходнике</h4>
+
+            <?php
+            $this->renderPartial('_form/source-info-params', array(
+                'formWidget' => $formWidget,
+                'sourceInfoParams' => $movieFileForm->itemAt('sourceInfoParams')
+            ));
+            ?>
+        </div>
+    <?php endif; ?>
+
 </div>

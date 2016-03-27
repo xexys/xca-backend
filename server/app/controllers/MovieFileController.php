@@ -57,9 +57,13 @@ class MovieFileController extends CrudController
     public function actionCreate($movieId = null, $movieFileType = null)
     {
         $movie = Movie::model()->with('game')->findByPk($movieId) ?: new Movie();
-        $movieFile = new Movie\File;
 
-        $movieFileForm = $this->_createParamsForm(self::SCENARIO_CREATE, $movie, $movieFile, $movieFileType);
+        $movieFile = new Movie\File;
+        if ($movieFileType) {
+            $movieFile->setAttribute('type', (int)$movieFileType);
+        }
+
+        $movieFileForm = $this->_createParamsForm(self::SCENARIO_CREATE, $movie, $movieFile);
 
         $this->_tryAjaxValidation($movieFileForm);
 
@@ -74,6 +78,7 @@ class MovieFileController extends CrudController
         }
 
         $this->render('create', array(
+            'movieFile' => $movieFile,
             'movieFileForm' => $movieFileForm,
             'backUrl' => $backUrl,
         ));
@@ -112,24 +117,27 @@ class MovieFileController extends CrudController
         $this->redirect($url);
     }
 
-    private function _createParamsForm($scenario, $movie, $movieFile, $movieFileType = null)
+    private function _createParamsForm($scenario, $movie, $movieFile)
     {
         $formParams = array(
-            'infoParams' =>  $this->_createInfoParamsForm($scenario, $movie, $movieFile, $movieFileType),
+            'infoParams' =>  $this->_createInfoParamsForm($scenario, $movie, $movieFile),
             'mainParams' => $this->_createMainParamsForm($scenario, $movieFile),
             'videoParams' => $this->_createVideoParamsForm($scenario, $movieFile),
             'audioParams' => $this->_createAudioParamsForm($scenario, $movieFile),
         );
 
+        if ($movieFile->isSource()) {
+            $formParams['sourceInfoParams'] = $this->_createSourceInfoParamsForm($scenario, $movieFile);
+        }
+
         return new FormFacadeCollection($formParams);
     }
 
-    private function _createInfoParamsForm($scenario, $movie, $movieFile, $movieFileType = null)
+    private function _createInfoParamsForm($scenario, $movie, $movieFile)
     {
         return new Form\Movie\File\InfoParams($scenario, array(
             'movie' => $movie,
-            'movieFile' => $movieFile,
-            'movieFileType' => $movieFileType
+            'movieFile' => $movieFile
         ));
     }
 
@@ -156,6 +164,15 @@ class MovieFileController extends CrudController
         ));
 
         return $audioParams;
+    }
+
+    private function _createSourceInfoParamsForm($scenario, $file)
+    {
+        $sourceInnfoParams = new Form\Movie\File\SourceInfoParams($scenario, array(
+            'movieFile' => $file
+        ));
+
+        return $sourceInnfoParams;
     }
 
     private function _getModelById($id, $with = array())

@@ -14,6 +14,7 @@ use \app\models\AR\Dictionary;
 
 class MainParams extends Params
 {
+    public $name;
     public $size;
     public $duration;
     public $formatId = Dictionary\FileFormat::FORMAT_ID_AVI;
@@ -24,9 +25,10 @@ class MainParams extends Params
     public function rules()
     {
         return array(
-            array('duration, size, formatId', 'required'),
+            array('name, duration, size, formatId', 'required'),
             array('duration, size', 'numerical', 'integerOnly' => true),
             array('formatId', 'in', 'range' => array_keys($this->getFormatDictionary())),
+            array('name', 'length', 'max' => 50),
             array('md5', 'length', 'min' => 32, 'max' => 32),
         );
     }

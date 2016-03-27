@@ -8,6 +8,12 @@ class File extends ActiveRecord
 {
     const TYPE_MAIN = 1;
     const TYPE_SOURCE = 2;
+    const TYPE_LOCALIZATION= 3;
+
+    public function isSource()
+    {
+        return ($this->type === self::TYPE_SOURCE);
+    }
 
     /**
      * @return string the associated database table name
@@ -28,7 +34,6 @@ class File extends ActiveRecord
             array('movie_id, type', 'required'),
             array('movie_id, type', 'numerical', 'integerOnly'=>true),
             array('comment', 'length', 'max'=>500),
-            array('name', 'length', 'max'=>50),
         );
     }
 
@@ -71,7 +76,7 @@ class File extends ActiveRecord
         $criteria->compare('id',$this->id);
         $criteria->compare('movie_id',$this->movie_id);
         $criteria->compare('type',$this->type);
-        $criteria->compare('description',$this->description,true);
+        $criteria->compare('comment',$this->comment,true);
         $criteria->compare('md5',$this->md5,true);
 
         return new CActiveDataProvider($this, array(

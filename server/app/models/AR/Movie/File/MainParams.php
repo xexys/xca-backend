@@ -20,8 +20,9 @@ class MainParams extends ActiveRecord
     public function rules()
     {
         return array(
-            array('movie_file_id, format_id', 'required'),
+            array('movie_file_id, name, format_id', 'required'),
             array('movie_file_id, size, duration, format_id', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>50),
             array('md5', 'length', 'min'=>32, 'max'=>32),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

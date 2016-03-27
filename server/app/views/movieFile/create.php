@@ -23,6 +23,7 @@ echo CHtml::hiddenField('backUrl', $backUrl);
     <?php
     $this->renderPartial('_form', array(
         'formWidget' => $formWidget,
+        'movieFile' => $movieFile,
         'movieFileForm' => $movieFileForm,
     ));
     ?>
