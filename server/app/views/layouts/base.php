@@ -10,6 +10,7 @@ $pageId = implode('_', array('page', $controllerId, $actionId));
 $scriptBasePath = Yii::getPathOfAlias('client.build.' . (PROD_MODE ? 'prod' : 'dev') . '.bundles');
 
 $clientScript->registerPackage('font-awesome-latest');
+$clientScript->registerPackage('bootstrap-switch');
 $clientScript->registerPackage('bootstrap3-typeahead');
 $clientScript->registerPackage('select2-bootstrap-css');
 

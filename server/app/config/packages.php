@@ -3,11 +3,15 @@
 $bowerComponents = 'client.bower_components';
 
 return array(
-
     // jQuery + plugins
-    'jquery' => array(
+    'jquery-base' => array(
         'basePath' => $bowerComponents,
         'js' => array('jquery/jquery.js'),
+    ),
+    'jquery' => array(
+        'basePath' => $bowerComponents,
+        'js' => array('jquery-migrate/index.js'),
+        'depends' => array('jquery-base')
     ),
     'jquery.cookie' => array(
         'basePath' => $bowerComponents,
@@ -46,7 +50,14 @@ return array(
     'font-awesome-latest' => array(
         'basePath' => $bowerComponents,
         'css' => array('components-font-awesome/css/font-awesome.css')
-    )
+    ),
+
+    // Рычаг :)
+    'bootstrap-switch' => array(
+        'basePath' => $bowerComponents,
+        'css' => array('bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css'),
+        'js' => array('bootstrap-switch/dist/js/bootstrap-switch.js')
+    ),
 
     //    // jQuery.UI
     //    'jquery.ui'=>array(

@@ -17,6 +17,10 @@ foreach ($sourceInfoParams->getFormKeys() as $key) {
     } else {
         $options = array('widgetOptions' => array(
             'htmlOptions'=>array(
+                'data-label-width' => 10,
+                'data-on-text' => 'Да',
+                'data-off-text' => 'Нет',
+                'data-size' => 'small',
                 'autocomplete' => 'off',
                 'class' => $cssClass
             )

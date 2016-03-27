@@ -5,7 +5,7 @@ $this->beginContent('/layouts/base');
     <h3 class="page_title">
         <?= $this->pageTitle; ?>
 
-        <!-- X-TODO: Ñäåëàòü ÷åðåç clip c html ðàçìåòêîé-->
+        <!-- X-TODO: Ð¡Ð´ÐµÐ»Ð°Ñ‚ÑŒ Ñ‡ÐµÑ€ÐµÐ· clip c html Ñ€Ð°Ð·Ð¼ÐµÑ‚ÐºÐ¾Ð¹-->
         <?php
             if ($this->pageTitleIconClass) {
                 echo $this->getViewHelper('UI\Icon')->icon(array(

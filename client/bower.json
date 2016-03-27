@@ -1,11 +1,13 @@
 {
   "name"           : "xca",
   "dependencies": {
-    "jquery"                 : "1.8.3",
+    "jquery"                 : "1.9.1",
+    "jquery-migrate"         : "http://code.jquery.com/jquery-migrate-1.4.0.js",
     "jquery.cookie"          : "*",
     "normalize-css"          : "3.0.3",
     "components-font-awesome": "*",
     "bootstrap3-typeahead"   : "3.1.*",
-    "select2-bootstrap-css"  : "1.4.*"
+    "select2-bootstrap-css"  : "1.4.*",
+    "bootstrap-switch"       : "3.3.*"
   }
 }
