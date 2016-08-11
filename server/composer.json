@@ -1,6 +1,6 @@
 {
   "require": {
-    "yiisoft/yii"           : "1.1.16",
+    "yiisoft/yii"           : "1.1.17",
     "clevertech/yii-booster": "4.0.x",
     "twig/twig"             : "1.*"
   }

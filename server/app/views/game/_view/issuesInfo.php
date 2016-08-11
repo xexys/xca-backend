@@ -24,7 +24,7 @@ $statusIcons = array(
 
     <h4 class="section_header">Выход на платформах</h4>
     <div class="section_content">
-        <? foreach ($game->issuesInfo as $issueInfo): ?>
+        <?php foreach ($game->issuesInfo as $issueInfo): ?>
             <div class="row">
                 <div class="col-md-3">
                     <?= $issueInfo->platform->name; ?>
@@ -51,6 +51,6 @@ $statusIcons = array(
                     <?php endif; ?>
                 </div>
             </div>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </div>
 </div>

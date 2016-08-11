@@ -27,8 +27,8 @@ if ($isCreateItemButtonTop || $isCreateItemButtonBottom) {
 </div>
 <div class="grid-view_items">{items}</div>
 <div class="grid-view_panel">
-    <? if ($isCreateItemButtonBottom): ?>
+    <?php if ($isCreateItemButtonBottom): ?>
         <div class="grid-view_panel-col_left"><?= $button; ?></div>
-    <? endif; ?>
+    <?php endif; ?>
     <div class="grid-view_panel-col_right">{pager}</div>
 </div>

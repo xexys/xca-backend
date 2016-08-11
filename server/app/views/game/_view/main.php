@@ -14,7 +14,7 @@ $editGameMainInfoUrl = $gameLinkHelper->getEditMainInfoUrl($game);
     <h4 class="section_header">Информация об игре</h4>
 
     <div class="section_content">
-        <? foreach ($game->attributes as $key => $val): ?>
+        <?php foreach ($game->attributes as $key => $val): ?>
             <div class="row">
                 <div class="col-md-3">
                     <?= $game->getAttributeLabel($key); ?>
@@ -23,7 +23,7 @@ $editGameMainInfoUrl = $gameLinkHelper->getEditMainInfoUrl($game);
                     <?= $val; ?>
                 </div>
             </div>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </div>
 
 </div>

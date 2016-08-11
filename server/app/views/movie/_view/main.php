@@ -3,7 +3,7 @@
     <h4 class="section_header">Информация о ролике</h4>
 
     <div class="section_content">
-        <? foreach ($movie->attributes as $key => $val): ?>
+        <?php foreach ($movie->attributes as $key => $val): ?>
             <div class="row">
                 <div class="col-md-3">
                     <?= $movie->getAttributeLabel($key); ?>
